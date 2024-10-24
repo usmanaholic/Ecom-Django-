@@ -1,0 +1,104 @@
+{% extends 'ecom/customer_base.html' %}
+{% load static %}
+{% block content %}
+
+<style media="screen">
+  body {
+    background-color: #f7f7f7;
+  }
+  .button {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #f4511e;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 28px;
+    padding: 20px;
+    width: 200px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+  }
+
+  .button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+
+  .button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+
+  .button:hover span {
+    padding-right: 25px;
+  }
+
+  .button:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+</style>
+
+<br><br><br>
+<div style="padding-left:300px;" class="container">
+  <div class="col-sm-2 col-md-2">
+    <img src="{% static customer.profile_pic.url %}" alt="profile pic" class="img-rounded img-responsive" />
+  </div>
+  <div class="col-sm-4 col-md-4">
+    <blockquote>
+      <p>Username: {{ request.user }}</p>
+      <small><cite title="Source Title">Address: {{ customer.address }} <i class="glyphicon glyphicon-map-marker"></i></cite></small>
+    </blockquote>
+    <p><i class="glyphicon glyphicon-phone"></i>Contact: {{ customer.mobile }}</p>
+  </div>
+</div>
+
+<br>
+<div style="text-align: center;">
+  <a href="/edit-profile"><button class="btn btn-primary btn-lg"><span>Edit Profile</span></button></a>
+</div>
+
+<!-- Coupon Section -->
+<br><br>
+<div style="text-align: center;" class="container">
+  <h2>Your Active Coupons</h2>
+  <table class="table table-hover table-bordered">
+    <thead>
+      <tr>
+        <th>Coupon Code</th>
+        <th>Discount (%)</th>
+        <th>Valid From</th>
+        <th>Valid To</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if active_coupons %}
+        {% for coupon in active_coupons %}
+          <tr>
+            <td>{{ coupon.code }}</td>
+            <td>{{ coupon.discount }}%</td>
+            <td>{{ coupon.valid_from|date:"Y-m-d" }}</td>
+            <td>{{ coupon.valid_to|date:"Y-m-d" }}</td>
+          </tr>
+        {% endfor %}
+      {% else %}
+        <tr>
+          <td colspan="4" style="text-align: center;">You have no active coupons</td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+
+<br><br><br><br><br><br>
+<!-- developed By : Usman -->
+
+{% endblock content %}

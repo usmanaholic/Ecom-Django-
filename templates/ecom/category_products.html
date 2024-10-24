@@ -1,0 +1,56 @@
+<!-- category_products.html -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ category.name }} - Products</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">  <!-- Link to your CSS file -->
+    <style>
+        /* Add some basic styling for the product grid */
+        .products {
+            display: flex;
+            flex-wrap: wrap;  /* Allow items to wrap to the next line */
+            justify-content: space-between;  /* Space items evenly */
+            margin: 20px 0;  /* Add margin to the top and bottom */
+        }
+        .product-item {
+            width: calc(33.333% - 10px);  /* Three items per row */
+            box-sizing: border-box;  /* Include padding and border in element's total width and height */
+            margin-bottom: 20px;  /* Space between rows */
+            border: 1px solid #ddd;  /* Optional border */
+            border-radius: 5px;  /* Optional rounded corners */
+            padding: 10px;  /* Optional padding */
+            text-align: center;  /* Center align text */
+        }
+        .product-item img {
+            max-width: 100%;  /* Ensure images are responsive */
+            height: auto;  /* Maintain aspect ratio */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Products in {{ category.name }}</h1>
+
+    <div class="products">
+        {% if products %}
+            {% for product in products %}
+                <div class="product-item">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description }}</p>
+                    <p>Price: ${{ product.price }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No products available in this category.</p>
+        {% endif %}
+    </div>
+
+    <a href="{% url 'home' %}">Back to Home</a>
+
+</body>
+</html>

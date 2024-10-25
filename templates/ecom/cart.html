@@ -60,9 +60,6 @@
   </style>
 </head>
 
-<!--
-written By : Usman
--->
 <br><br><br><br>
 
 <div class="container">
@@ -128,11 +125,13 @@ written By : Usman
   <!-- Total Price & Discount Section -->
   <div style="text-align: center;">
     <p>Total Price: ${{ total }}</p>
+    <p>Delivery Fee: ${{ delivery_fee }}</p> <!-- Add delivery fee here -->
+    
     {% if coupon_discount %}
       <p>Coupon Discount: {{ coupon_discount }}%</p>
       <p>Total After Discount: ${{ final_total }}</p>
     {% else %}
-      <p>Final Total: ${{ total }}</p>
+      <p>Final Total: ${{ final_total }}</p> <!-- Updated to final_total -->
     {% endif %}
   </div>
 

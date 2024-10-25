@@ -304,19 +304,25 @@ def cart_view(request):
     # Fetching product details from the database whose ID is present in cookies
     products = None
     total = 0
+    delivery_fee = 0
+
     if 'product_ids' in request.COOKIES:
         product_ids = request.COOKIES['product_ids']
         if product_ids != "":
             product_id_in_cart = product_ids.split('|')
             products = models.Product.objects.filter(id__in=product_id_in_cart)
 
-            # Calculate total price of products in the cart
+            # Calculate total price of products in the cart and add delivery fee for physical products
             for p in products:
                 total += p.price
 
+                # Add delivery fee for non-digital products
+                if not p.is_digital:
+                    delivery_fee += 50  # Set your delivery fee value here
+
     # Coupon application logic
     coupon_discount = 0
-    final_total = total
+    final_total = total + delivery_fee
 
     if request.method == 'POST' and 'coupon_code' in request.POST:
         coupon_code = request.POST['coupon_code']
@@ -338,7 +344,7 @@ def cart_view(request):
             else:
                 # Apply the discount and calculate the final total
                 coupon_discount = coupon.discount
-                final_total = total * (1 - coupon_discount / 100)
+                final_total = (total + delivery_fee) * (1 - coupon_discount / 100)
 
                 # Record the coupon usage
                 CouponUsage.objects.create(user=request.user, coupon=coupon)
@@ -355,6 +361,7 @@ def cart_view(request):
     return render(request, 'ecom/cart.html', {
         'products': products,
         'total': total,
+        'delivery_fee': delivery_fee,
         'final_total': final_total,
         'product_count_in_cart': product_count_in_cart,
         'coupon_discount': coupon_discount,

@@ -343,6 +343,11 @@ def cart_view(request):
                 messages.error(request, "You have already used this coupon.")
             else:
                 # Apply the discount and calculate the final total
+                #____________________________________________________________
+                #____if you want to remove percentage from coupon___________
+                #___________________________________________________________
+
+
                 coupon_discount = coupon.discount
                 final_total = (total + delivery_fee) * (1 - coupon_discount / 100)
 

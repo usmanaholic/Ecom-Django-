@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib import messages
 from django.conf import settings
-from .models import Category, Order, Product, Coupon, CouponUsage
+from .models import Category, Product, Coupon, CouponUsage
 from django.utils import timezone
 from .forms import CouponApplyForm
 from decimal import Decimal
@@ -345,7 +345,6 @@ def cart_view(request):
                 # Apply the discount and calculate the final total
                 #____________________________________________________________
                 #____if you want to remove percentage from coupon___________
-                #___________________________________________________________
 
 
                 coupon_discount = coupon.discount
@@ -658,12 +657,6 @@ def edit_profile_view(request):
             return HttpResponseRedirect('my-profile')
     return render(request,'ecom/edit_profile.html',context=mydict)
 
-
-@login_required(login_url='customerlogin')
-@user_passes_test(is_customer)
-def my_orders(request):
-    orders = Order.objects.filter(customer=request.user)
-    return render(request, 'my_orders.html', {'orders': orders})
 
 
 #---------------------------------------------------------------------------------

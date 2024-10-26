@@ -23,6 +23,7 @@ urlpatterns = [
     path('view-feedback', views.view_feedback_view,name='view-feedback'),
     path('', views.home_view, name='home'),
     path('category/<int:category_id>/', views.category_products_view, name='category-products'),
+    
 
     # Category products page
 

@@ -160,7 +160,13 @@ p {
 
 </style>
 <br>
+
 <div class="container">
+    <ul>
+        {% for order in orders %}
+            <li>Order Number: {{ order.order_number }} - Total: {{ order.total_price }}</li>
+        {% endfor %}
+    </ul>
     <header class="card-header" style="text-align:center; font-size: 21px"> My Orders / Tracking </header>
 
     {% for products,order in data %}

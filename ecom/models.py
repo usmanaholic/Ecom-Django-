@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import uuid
 # Create your models here.
 class Customer(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
@@ -83,4 +84,17 @@ class CouponUsage(models.Model):
 
     def __str__(self):
         return f"{self.user} used {self.coupon.code}"
+
+
+class Order(models.Model):
+    order_number = models.CharField(max_length=100, unique=True, editable=False)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    # other fields
+
+    def save(self, *args, **kwargs):
+        if not self.order_number:
+            self.order_number = str(uuid.uuid4()).replace('-', '').upper()[:10]  # Generate unique order number
+        super(Order, self).save(*args, **kwargs)
+
+
 

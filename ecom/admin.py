@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Customer,Product,Orders,Feedback,Category
+from .models import Customer, Order,Product,Orders,Feedback,Category
 from .models import Coupon
 # Register your models here.
 class CustomerAdmin(admin.ModelAdmin):
@@ -27,3 +27,13 @@ class CouponAdmin(admin.ModelAdmin):
     list_filter = ['active', 'valid_from', 'valid_to']
     search_fields = ['code']
 
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('order_number', 'customer', 'total_price', 'status')
+
+
+
+class OrderAdmin(admin.ModelAdmin):
+    search_fields = ['order_number', 'customer__name']
+
+
+admin.site.register(Order, OrderAdmin)

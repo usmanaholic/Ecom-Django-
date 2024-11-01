@@ -1,168 +1,100 @@
 <!DOCTYPE html>
-{% load widget_tweaks %}
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Simple E-commerce</title>
-    <style media="screen">
-      body {
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-    /* background: linear-gradient(to right, #b92b27, #1565c0) */
-}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Scrollable Page</title>
 
-.box {
-    width: 100%;
-    padding: 40px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    background: #3E454C;
-    text-align: center;
-    transition: 0.25s;
-    margin-top: 100px;
-    border-radius: 50px;
-}
+    {% load widget_tweaks %}
+    
+ 
+    
+</head>
+<body>
+  <style>
+    /* General page styling */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    
+    body, html {
+        font-family: Arial, sans-serif;
+        color: #333;
+        min-height: 100vh;
+        display: block;
+    }
+    
+    /* Main content container */
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: #f8f9fa;
+        min-height: 80vh;
+    }
+    
+    .box1 {
+        width: 100%;
+        max-width: 400px;
+        padding: 20px;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .box1 h2 {
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+        color: #333;
+    }
+    
+    .box1 input[type="text"],
+    .box1 input[type="password"],
+    .box1 input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        font-size: 1rem;
+    }
+    
+    .box1 input[type="submit"] {
+        background: #4CAF50;
+        color: white;
+        cursor: pointer;
+    }
+    
+    .box1 input[type="submit"]:hover {
+        background: #45a049;
+    }
+    
+    /* Footer styling */
+    
+    
+</style>
 
-.box input[type="text"],
-.box input[type="password"] {
-    border: 0;
-    background: none;
-    display: block;
-    margin: 20px auto;
-    text-align: center;
-    border: 2px solid #ffffff;
-    padding: 10px 10px;
-    width: 250px;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s
-}
+  {% include "ecom/navbar.html" %}
 
-.box h1 {
-    color: white;
-    /* text-transform: uppercase; */
-    font-weight: 500
-}
-
-.box input[type="text"]:focus,
-.box input[type="password"]:focus {
-    width: 300px;
-    border-color: #d3d3d3
-}
-
-.box input[type="submit"] {
-    border: 0;
-    background: none;
-    display: block;
-    margin: 20px auto;
-    text-align: center;
-    border: 2px solid #2ecc71;
-    padding: 14px 40px;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-    cursor: pointer
-}
-
-.box input[type="submit"]:hover {
-    background: #2ecc71
-}
-
-.forgot {
-    text-decoration: underline
-}
-
-ul.social-network {
-    list-style: none;
-    display: inline;
-    margin-left: 0 !important;
-    padding: 0
-}
-
-ul.social-network li {
-    display: inline;
-    margin: 0 5px
-}
-
-.social-network a.icoFacebook:hover {
-    background-color: #3B5998
-}
-
-.social-network a.icoTwitter:hover {
-    background-color: #33ccff
-}
-
-.social-network a.icoGoogle:hover {
-    background-color: #BD3518
-}
-
-.social-network a.icoFacebook:hover i,
-.social-network a.icoTwitter:hover i,
-.social-network a.icoGoogle:hover i {
-    color: #fff
-}
-
-a.socialIcon:hover,
-.socialHoverClass {
-    color: #44BCDD
-}
-
-.social-circle li a {
-    display: inline-block;
-    position: relative;
-    margin: 0 auto 0 auto;
-    border-radius: 50%;
-    text-align: center;
-    width: 50px;
-    height: 50px;
-    font-size: 20px
-}
-
-.social-circle li i {
-    margin: 0;
-    line-height: 50px;
-    text-align: center
-}
-
-.social-circle li a:hover i,
-.triggeredHover {
-    transform: rotate(360deg);
-    transition: all 0.2s
-}
-
-.social-circle i {
-    color: #fff;
-    transition: all 0.8s;
-    transition: all 0.8s
-}
-    </style>
-  </head>
-  <body>
-    {% include "ecom/navbar.html" %}
+    <!-- Main content container -->
     <div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <form class="box" method="post">
-                  {% csrf_token %}
-                    <h1>Customer Login</h1>
-                    
-                               {% render_field form.username class="form-control" placeholder="Username" autocomplete="off" %}
-                               {% render_field form.password class="form-control" placeholder="Password" %}
-                     <input type="submit" name="" value="Login" >
-
-                </form>
-            </div>
+        <div class="box1">
+            <h2>Costumer Login</h2>
+            <form action="" method="post">
+                {% csrf_token %}
+                {% render_field form.username class="form-control" placeholder="Username" autocomplete="off" %}
+                     {% render_field form.password class="form-control" placeholder="Password" %}
+                     <input type="submit" name="" value="Login">
+            </form>
         </div>
     </div>
-</div>
-<br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br>
-{% include "ecom/footer.html" %}
-  </body>
+<br><br><br>
+    <!-- Footer -->
+    {% include "ecom/footer.html" %}
+</body>
 </html>

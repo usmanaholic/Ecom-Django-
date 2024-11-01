@@ -6,22 +6,98 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Mama Ecom</title>
-  <style media="screen">
-    .footer{
-      position: fixed;
-    }
-  </style>
+  <style >
+    <style>
+      /* Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #000;
+        color: #fff;
+        line-height: 1.6;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+      }
+      h1, h2 {
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+      h1 {
+        font-size: 2em;
+        color: #fff;
+      }
+      h2 {
+        font-size: 1.4em;
+        color: #ccc;
+      }
+      p {
+        margin: 15px 0;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 15px 0;
+      }
+      ul li {
+        padding: 5px 0;
+      }
+      .social-links a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 10px;
+        font-size: 1.1em;
+      }
+      .social-links a:hover {
+        color: #ccc;
+      }
+    </style>
+ 
 </head>
 
-<body style="background-color:#f7f7f7;">
+<body>
   {%if request.user.is_authenticated%}
     {% include "ecom/customer_navbar.html" %}
   {%else%}
     {% include "ecom/navbar.html" %}
   {%endif%}
   <br><br><br>
-<h3 style="text-align:center;">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." </h3>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+  <section class="about-us">
+    <div class="container">
+      <h1>About Trick Storee</h1>
+      <p>Welcome to Trick Storee, your one-stop shop for all things electronics and digital. We offer a curated selection of quality products, from the latest electronics to educational courses and versatile gift cards, all designed to meet your needs.</p>
+
+      <h2>Our Mission</h2>
+      <p>We believe in making technology and knowledge accessible. Trick Storee aims to connect people with the tools and skills they need for a smarter, more connected life.</p>
+
+      <h2>What We Offer</h2>
+      <ul>
+        <li>🔹 <strong>Electronics:</strong> Discover a range of high-quality gadgets and accessories.</li>
+        <li>🔹 <strong>Digital Courses:</strong> Learn new skills at your own pace with our selection of courses.</li>
+        <li>🔹 <strong>Gift Cards:</strong> Share the Trick Storee experience with flexible gift cards.</li>
+      </ul>
+
+      <h2>Why Choose Us?</h2>
+      <p>At Trick Storee, we prioritize quality and customer satisfaction. With a straightforward, secure shopping experience, we make it easy for you to find what you need and trust what you buy.</p>
+
+      <h2>Stay Connected</h2>
+      <p>Follow us to stay updated on new arrivals, deals, and more:</p>
+      <div class="social-links">
+        <a href="https://www.facebook.com/trickstoree" target="_blank">Facebook</a>
+        <a href="https://www.instagram.com/trick._.storee" target="_blank">Instagram</a>
+        <a href="https://www.youtube.com/trickstoree" target="_blank">YouTube</a>
+      </div>
+    </div>
+  </section>
+  <br><br><br><br>
+
   {% include "ecom/footer.html" %}
 </body>
 <!--

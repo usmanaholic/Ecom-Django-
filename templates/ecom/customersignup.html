@@ -3,7 +3,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Simple E-commerce</title>
+    <title>Customer Sign-Up</title>
 
 
 
@@ -16,165 +16,102 @@
     /* background: linear-gradient(to right, #b92b27, #1565c0) */
 }
 
-.box {
+.container2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 2rem;
+    background-color: #f4f6f9;
+  }
+  
+  /* Row and Column */
+  .row2 {
     width: 100%;
-    padding: 40px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    background: #3E454C;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .col-md-6 {
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  /* Card Styling */
+  .card2 {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Form and Input Styling */
+  .box2 h1 {
     text-align: center;
-    transition: 0.25s;
-    margin-top: 100px;
-    border-radius: 50px;
-}
-
-.box input[type="text"],
-.box input[type="password"] {
-    border: 0;
-    background: none;
-    display: block;
-    margin: 20px auto;
-    text-align: center;
-    border: 2px solid #ffffff;
-    padding: 10px 10px;
-    width: 250px;
-    outline: none;
+    color: #333;
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-control2 {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  input[type="submit"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
     color: white;
-    border-radius: 24px;
-    transition: 0.25s
-}
-
-.box h1 {
-    color: white;
-    /* text-transform: uppercase; */
-    font-weight: 500
-}
-
-.box input[type="text"]:focus,
-.box input[type="password"]:focus {
-    width: 300px;
-    border-color: #d3d3d3
-}
-
-.box input[type="submit"] {
-    border: 0;
-    background: none;
-    display: block;
-    margin: 20px auto;
-    text-align: center;
-    border: 2px solid #2ecc71;
-    padding: 14px 40px;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-    cursor: pointer
-}
-
-.box input[type="submit"]:hover {
-    background: #2ecc71
-}
-
-.forgot {
-    text-decoration: underline
-}
-
-ul.social-network {
-    list-style: none;
-    display: inline;
-    margin-left: 0 !important;
-    padding: 0
-}
-
-ul.social-network li {
-    display: inline;
-    margin: 0 5px
-}
-
-.social-network a.icoFacebook:hover {
-    background-color: #3B5998
-}
-
-.social-network a.icoTwitter:hover {
-    background-color: #33ccff
-}
-
-.social-network a.icoGoogle:hover {
-    background-color: #BD3518
-}
-
-.social-network a.icoFacebook:hover i,
-.social-network a.icoTwitter:hover i,
-.social-network a.icoGoogle:hover i {
-    color: #fff
-}
-
-a.socialIcon:hover,
-.socialHoverClass {
-    color: #44BCDD
-}
-
-.social-circle li a {
-    display: inline-block;
-    position: relative;
-    margin: 0 auto 0 auto;
-    border-radius: 50%;
-    text-align: center;
-    width: 50px;
-    height: 50px;
-    font-size: 20px
-}
-
-.social-circle li i {
-    margin: 0;
-    line-height: 50px;
-    text-align: center
-}
-
-.social-circle li a:hover i,
-.triggeredHover {
-    transform: rotate(360deg);
-    transition: all 0.2s
-}
-
-.social-circle i {
-    color: #fff;
-    transition: all 0.8s;
-    transition: all 0.8s
-}
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  input[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 576px) {
+    .container2 {
+      padding: 1rem;
+    }
+  
+    .card2 {
+      padding: 1.5rem;
+    }
+  }
     </style>
   </head>
   <body>
     {% include "ecom/navbar.html" %}
-    <div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <form class="box" method="post" enctype="multipart/form-data">
-                  {% csrf_token %}
-                    <h1>Customer Sign Up</h1>
-                    
-                      {% render_field userForm.first_name class="form-control" placeholder="First Name" %}
-                        {% render_field userForm.last_name class="form-control" placeholder="Last Name" %}
-                          {% render_field userForm.username class="form-control" placeholder="Username" %}
-                            {% render_field userForm.password class="form-control" placeholder="Password" %}
-                              {% render_field customerForm.address class="form-control" placeholder="Address" %}
-                                {% render_field customerForm.mobile class="form-control" placeholder="Contact" %}
-                                  {% render_field customerForm.profile_pic class="form-control" placeholder="Profile pic" %}
-                  
-                     <input type="submit" name="" value="Create">
-
-                </form>
-            </div>
-        </div>
+    <br><br><br><br>
+<div class="container2">
+  <div class="row2">
+    <div class="col-md-6">
+      <div class="card2">
+        <form class="box2" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <h1>Customer Sign Up</h1>
+          {% render_field userForm.first_name class="form-control2" placeholder="First Name" %}
+          {% render_field userForm.last_name class="form-control2" placeholder="Last Name" %}
+          {% render_field userForm.username class="form-control2" placeholder="Username" %}
+          {% render_field userForm.password class="form-control2" placeholder="Password" %}
+          {% render_field customerForm.address class="form-control2" placeholder="Address" %}
+          {% render_field customerForm.mobile class="form-control2" placeholder="Contact" %}
+          {% render_field customerForm.profile_pic class="form-control2" placeholder="Profile pic" %}
+          <input type="submit" value="Create">
+        </form>
+      </div>
     </div>
+  </div>
 </div>
-<br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br>
 {% include "ecom/footer.html" %}
   </body>
 </html>

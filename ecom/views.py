@@ -735,3 +735,8 @@ def cart_detail(request):
         'total_with_discount': total_with_discount,
         'coupon': coupon,
     })
+
+def privacy_policy(request):
+    return render(request, 'ecom/privacy_policy.html')
+
+

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - Trick Storee</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      color: #fff;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1, h2 {
+      color: #fff;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-size: 1.2em;
+      margin-top: 20px;
+      color: #ccc;
+    }
+    p, ul {
+      margin-bottom: 15px;
+    }
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    ul li {
+      padding-left: 20px;
+      position: relative;
+      text-decoration: none;
+    }
+    ul li:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+    {%if request.user.is_authenticated%}
+    {% include "ecom/customer_navbar.html" %}
+  {%else%}
+    {% include "ecom/navbar.html" %}
+  {%endif%}
+  <br><br><br>
+
+  <div class="container">
+    <h1>Privacy Policy for Trick Storee</h1>
+    <p>At Trick Storee, we value your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, share, and protect your data when you use our website. By using our site, you agree to the terms outlined below.</p>
+
+    <h2>1. Information We Collect</h2>
+    <p>We may collect the following personal information:</p>
+    <ul>
+      <li>Name</li>
+      <li>Email address</li>
+      <li>Phone number</li>
+      <li>Shipping address</li>
+      <li>Payment method information</li>
+    </ul>
+
+    <h2>2. How We Collect Your Information</h2>
+    <p>We collect personal data in the following ways:</p>
+    <ul>
+      <li>When you sign up for an account.</li>
+      <li>When you place an order on our website.</li>
+    </ul>
+
+    <h2>3. Purpose of Data Collection</h2>
+    <p>The information we collect is used solely for:</p>
+    <ul>
+      <li>Order fulfillment (processing and delivering your purchases).</li>
+      <li>Providing customer support and resolving issues related to your orders.</li>
+    </ul>
+
+    <h2>4. Sharing Your Information with Third Parties</h2>
+    <p>We may share some of your personal information (such as your name and address) with the following parties:</p>
+    <ul>
+      <li>Courier services to ensure order delivery.</li>
+      <li>Payment gateway providers for secure payment processing.</li>
+    </ul>
+
+    <h2>5. User Rights</h2>
+    <p>As a user, you have the following rights:</p>
+    <ul>
+      <li>Access and edit your personal information through your account settings.</li>
+      <li>Request the deletion of your data at any time by contacting us at <a href="mailto:support@trickstoree.com" style="color: #ccc;">support@trickstoree.com</a>.</li>
+    </ul>
+
+    <h2>6. Cookies</h2>
+    <p>Our website uses cookies to improve user experience and enable certain features. You can manage your cookie preferences through your browser settings.</p>
+
+    <h2>7. Data Security</h2>
+    <p>Your data is securely protected by our hosting provider, ensuring industry-standard safeguards against unauthorized access or misuse.</p>
+
+    <h2>8. Children’s Privacy</h2>
+    <p>If a child places an order on our website, we may collect their personal information to process the order. By using our platform, parents or guardians acknowledge that they permit the child’s data to be shared as required for order fulfillment.</p>
+
+    <h2>9. Contact Us</h2>
+    <p>For any privacy-related inquiries, concerns, or requests, please contact us at:</p>
+    <ul>
+      <li>Main support: <a href="mailto:support@trickstoree.com" style="color: #ccc;">support@trickstoree.com</a></li>
+      <li>For general inquiries: <a href="mailto:inquiries@trickstoree.com" style="color: #ccc;">inquiries@trickstoree.com</a></li>
+      <li>For business-related matters: <a href="mailto:business@trickstoree.com" style="color: #ccc;">business@trickstoree.com</a></li>
+    </ul>
+
+    <h2>10. Changes to This Privacy Policy</h2>
+    <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page, and your continued use of our website will indicate your acceptance of the updated terms.</p>
+
+    <p>If you have any questions or need further assistance, feel free to reach out to us. Thank you for trusting Trick Storee!</p>
+  </div>
+  <br><br><br><br>
+
+  {% include "ecom/footer.html" %}
+
+</body>
+</html>

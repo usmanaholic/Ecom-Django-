@@ -1,106 +1,100 @@
 <!DOCTYPE html>
-{% load widget_tweaks %}
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Mama Ecom</title>
-    <style media="screen">
-      body {
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-    background: #bdc3c7;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #2c3e50, #bdc3c7);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to bottom, #2c3e50, #bdc3c7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Scrollable Page</title>
 
-}
+    {% load widget_tweaks %}
+    
+ 
+    
+</head>
+<body>
+  <style>
+    /* General page styling */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    
+    body, html {
+        font-family: Arial, sans-serif;
+        color: #333;
+        min-height: 100vh;
+        display: block;
+    }
+    
+    /* Main content container */
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: #f8f9fa;
+        min-height: 80vh;
+    }
+    
+    .box1 {
+        width: 100%;
+        max-width: 400px;
+        padding: 20px;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .box1 h2 {
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+        color: #333;
+    }
+    
+    .box1 input[type="text"],
+    .box1 input[type="password"],
+    .box1 input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        font-size: 1rem;
+    }
+    
+    .box1 input[type="submit"] {
+        background: #4CAF50;
+        color: white;
+        cursor: pointer;
+    }
+    
+    .box1 input[type="submit"]:hover {
+        background: #45a049;
+    }
+    
+    /* Footer styling */
+    
+    
+</style>
 
-.box {
-    width: 100%;
-    padding: 40px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    background: #313131;
-    border-radius: 50px;
-    text-align: center;
-    transition: 0.25s;
-    margin-top: 100px;
-}
+  {% include "ecom/navbar.html" %}
 
-.box input[type="text"],
-.box input[type="password"] {
-    border: 0;
-    background: none;
-    display: block;
-    margin: 20px auto;
-    text-align: center;
-    border: 2px solid #3498db;
-    padding: 10px 10px;
-    width: 250px;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s
-}
-
-.box h1 {
-    color: white;
-    /* text-transform: uppercase; */
-    font-weight: 500
-}
-
-.box input[type="text"]:focus,
-.box input[type="password"]:focus {
-    width: 300px;
-    border-color: #2ecc71
-}
-
-.box input[type="submit"] {
-    border: 0;
-    background: none;
-    display: block;
-    margin: 20px auto;
-    text-align: center;
-    border: 2px solid #2ecc71;
-    padding: 14px 40px;
-    outline: none;
-    color: white;
-    border-radius: 24px;
-    transition: 0.25s;
-    cursor: pointer
-}
-
-.box input[type="submit"]:hover {
-    background: #2ecc71
-}
-
-
-    </style>
-  </head>
-  <body>
-    {% include "ecom/navbar.html" %}
+    <!-- Main content container -->
     <div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <form class="box" method="post">
-                    {% csrf_token %}
-                    <h1>Admin Login</h1>
-                   
-                     {% render_field form.username class="form-control" placeholder="Username" autocomplete="off" %}
+        <div class="box1">
+            <h2>Admin Login</h2>
+            <form action="" method="post">
+                {% csrf_token %}
+                {% render_field form.username class="form-control" placeholder="Username" autocomplete="off" %}
                      {% render_field form.password class="form-control" placeholder="Password" %}
-
                      <input type="submit" name="" value="Login">
-
-                </form>
-            </div>
+            </form>
         </div>
     </div>
-</div>
-<br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br>
-{% include "ecom/footer.html" %}
-  </body>
+
+    <!-- Footer -->
+    {% include "ecom/footer.html" %}
+</body>
 </html>

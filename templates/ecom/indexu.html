@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trick Storee</title>
+
+</head>
+<body>
+    <style>
+        /* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Hero Section */
+.hero-section {
+  background: url('/static/images/background1.jpg') no-repeat center center/cover;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  transition: background 1s ease-in-out; /* Add a transition for smooth sliding */
+}
+
+.hero-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+}
+
+/* Section Headers */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.section-header h2 {
+    font-size: 1.8rem;
+    color: #333;
+}
+
+.see-more {
+    color: #007BFF;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.see-more:hover {
+    text-decoration: underline;
+}
+
+/* Categories Section */
+.categories-section, .products-section {
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.category-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: center;
+    border-radius: 8px;
+    transition: box-shadow 0.3s;
+    font-size: 1rem;
+}
+
+.category-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Products Section */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.product-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: center;
+    border-radius: 8px;
+    transition: box-shadow 0.3s;
+}
+
+.product-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+    background-color: #eee;
+    height: 150px;
+    margin-bottom: 10px;
+    border-radius: 
+}
+
+/* From Uiverse.io by doniaskima */ 
+.btn-12,
+.btn-12 *,
+.btn-12 :after,
+.btn-12 :before,
+.btn-12:after,
+.btn-12:before {
+  border: 0 solid;
+  box-sizing: border-box;
+}
+
+.btn-12 {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: button;
+  background-color: #000;
+  background-image: none;
+  color: #fff;
+  cursor: pointer;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
+    Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  font-size: 100%;
+  font-weight: 900;
+  line-height: 1.5;
+  margin: 0;
+  -webkit-mask-image: -webkit-radial-gradient(#000, #fff);
+  padding: 0;
+  text-transform: uppercase;
+}
+
+.btn-12:disabled {
+  cursor: default;
+}
+
+.btn-12:-moz-focusring {
+  outline: auto;
+}
+
+.btn-12 svg {
+  display: block;
+  vertical-align: middle;
+}
+
+.btn-12 [hidden] {
+  display: none;
+}
+
+.btn-12 {
+  border-radius: 99rem;
+  border-width: 2px;
+  overflow: hidden;
+  padding: 0.8rem 3rem;
+  position: relative;
+}
+
+.btn-12 span {
+  mix-blend-mode: difference;
+}
+
+.btn-12:after,
+.btn-12:before {
+  background: linear-gradient(
+    90deg,
+    #fff 25%,
+    transparent 0,
+    transparent 50%,
+    #fff 0,
+    #fff 75%,
+    transparent 0
+  );
+  content: "";
+  inset: 0;
+  position: absolute;
+  transform: translateY(var(--progress, 100%));
+  transition: transform 0.2s ease;
+}
+
+.btn-12:after {
+  --progress: -100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0,
+    transparent 25%,
+    #fff 0,
+    #fff 50%,
+    transparent 0,
+    transparent 75%,
+    #fff 0
+  );
+  z-index: -1;
+}
+
+.btn-12:hover:after,
+.btn-12:hover:before {
+  --progress: 0;
+}
+
+
+    </style>
+
+    {% include "ecom/navbar.html" %}
+    <br><br>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Discover Your Next Favorite Product</h1>
+            <p>Shop our latest collections and exclusive offers</p>
+            <br>
+            <button class="btn-12"><span>Shop Now</span></button>
+            
+        </div>
+        
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Categories Section -->
+        <section class="categories-section">
+            <div class="section-header">
+                <h2>Featured Categories</h2>
+                <a href="#" class="see-more">See All Categories</a>
+            </div>
+            <div class="categories-grid">
+                <div class="category-item">Electronics</div>
+                <div class="category-item">Fashion</div>
+                <div class="category-item">Home Decor</div>
+                <div class="category-item">Books</div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section class="products-section">
+            <div class="section-header">
+                <h2>Popular Products</h2>
+                <a href="#" class="see-more">See All Products</a>
+            </div>
+            <div class="products-grid">
+                <div class="product-item">
+                    <div class="product-image"></div>
+                    <h3>Product Name</h3>
+                    <p>$49.99</p>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-image"></div>
+                    <h3>Product Name</h3>
+                    <p>$59.99</p>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-image"></div>
+                    <h3>Product Name</h3>
+                    <p>$69.99</p>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-image"></div>
+                    <h3>Product Name</h3>
+                    <p>$79.99</p>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+    </main>
+    <br><br><br><br>
+    {% include "ecom/footer.html" %}
+    <script>
+      const images = [
+          '/static/images/background1.jpg',
+          '/static/images/background2.jpg',
+          '/static/images/background3.jpg'
+      ];
+      let currentIndex = 0;
+  
+      function changeBackground() {
+          currentIndex = (currentIndex + 1) % images.length; // Cycle through the images
+          document.querySelector('.hero-section').style.backgroundImage = `url('${images[currentIndex]}')`;
+      }
+  
+      // Change the background every 5 seconds
+      setInterval(changeBackground, 5000);
+  </script>
+</body>
+</html>

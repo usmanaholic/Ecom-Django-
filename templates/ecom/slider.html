@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        /* Basic styling for the hero slider */
+        .hero-slider {
+            position: relative;
+            width: 100%;
+            height: 60vh;
+            overflow: hidden;
+        }
+        
+        .slides-container {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            transform: translateX(-100%); /* Start from the actual first slide */
+        }
+        
+        .slide {
+            min-width: 100%;
+            height: 60vh;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        /* Navigation Arrows */
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 18px;
+            z-index: 10;
+        }
+        
+        .prev { left: 10px; }
+        .next { right: 10px; }
+        
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        
+    </style>
+    <header class="hero-slider">
+        <div class="slides-container">
+            <!-- Cloned Last Slide for Infinite Loop Effect -->
+            <div class="slide" style="background-image: url('/static/images/background3.jpg');"></div>
+    
+            <!-- Actual Slides -->
+            <div class="slide" style="background-image: url('/static/images/background1.jpg');"></div>
+            <div class="slide" style="background-image: url('/static/images/background2.jpg');"></div>
+            <div class="slide" style="background-image: url('/static/images/background3.jpg');"></div>
+    
+            <!-- Cloned First Slide for Infinite Loop Effect -->
+            <div class="slide" style="background-image: url('/static/images/background1.jpg');"></div>
+        </div>
+        
+        <!-- Navigation Arrows -->
+        <button class="prev" onclick="prevSlide()">&#10094;</button>
+        <button class="next" onclick="nextSlide()">&#10095;</button>
+        
+        <div class="hero-content">
+            <h1>Discover Your Next Favorite Product</h1>
+            <p>Shop our latest collections and exclusive offers</p>
+        </div>
+    </header>
+    
+    <script>
+        let slideIndex = 1; // Start at the first actual slide
+        const slidesContainer = document.querySelector('.slides-container');
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const firstSlideIndex = 1; // After the first clone
+        const lastSlideIndex = totalSlides - 2; // Before the last clone
+        
+        function updateSlidePosition() {
+            slidesContainer.style.transition = 'transform 0.5s ease-in-out';
+            slidesContainer.style.transform = `translateX(-${slideIndex * 100}%)`;
+        }
+        
+        function nextSlide() {
+            slideIndex++;
+            updateSlidePosition();
+            if (slideIndex === totalSlides - 1) {
+                setTimeout(() => {
+                    slidesContainer.style.transition = 'none';
+                    slideIndex = firstSlideIndex;
+                    slidesContainer.style.transform = `translateX(-${slideIndex * 100}%)`;
+                }, 500);
+            }
+        }
+        
+        function prevSlide() {
+            slideIndex--;
+            updateSlidePosition();
+            if (slideIndex === 0) {
+                setTimeout(() => {
+                    slidesContainer.style.transition = 'none';
+                    slideIndex = lastSlideIndex;
+                    slidesContainer.style.transform = `translateX(-${slideIndex * 100}%)`;
+                }, 500);
+            }
+        }
+        
+        // Auto-slide every 5 seconds
+        setInterval(nextSlide, 5000);
+        
+    </script>
+</body>
+</html>

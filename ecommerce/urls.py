@@ -61,6 +61,8 @@ urlpatterns = [
     path('customer-address', views.customer_address_view,name='customer-address'),
     path('payment-success', views.payment_success_view,name='payment-success'),
     path('privacy-policy/', views.privacy_policy, name='privacy_policy'),
+    path('terms&conditions/', views.terms_conditions, name='terms_conditions'),
+    path('return&refund/', views.return_refund, name='return_refund'),
     
 
 

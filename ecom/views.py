@@ -739,4 +739,9 @@ def cart_detail(request):
 def privacy_policy(request):
     return render(request, 'ecom/privacy_policy.html')
 
+def terms_conditions(request):
+    return render(request, 'ecom/terms&conditions.html')
+
+def return_refund(request):
+    return render(request, 'ecom/return&refund.html')
 

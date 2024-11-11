@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View more</title>
+</head>
+<body>
+    <style>
+        /* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Main container styling */
+main {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+    gap: 3rem;
+}
+
+.left, .right {
+    width: 45%;
+}
+
+/* Product image styling */
+.product-img {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.product-img img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.thumbnails {
+    margin-top: 1rem;
+}
+
+.thumbnails-list {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.img-thumbs {
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 8px;
+}
+
+.img-thumbs.active {
+    border-color: #f06c00; /* Highlighted border color for selected thumbnail */
+}
+
+.img-thumbs img {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    transition: transform 0.3s;
+}
+
+.img-thumbs:hover img {
+    transform: scale(1.1);
+}
+
+/* Right section styling */
+.right h3 {
+    color: #f06c00;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-size: 1rem;
+}
+
+.right h1 {
+    margin: 0.5rem 0;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.right p {
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Price section styling */
+.price-description {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.price-description h2 {
+    font-size: 1.5rem;
+    color: #f06c00;
+}
+
+.price-description h4 {
+    color: #f06c00;
+    font-size: 1.1rem;
+    background-color: #ffecd1;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+}
+
+.price-description h5 {
+    color: #888;
+    font-size: 1rem;
+    text-decoration: line-through;
+}
+
+/* Cart functionality styling */
+.cart-function {
+    display: flex;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+
+.numbers {
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 0.5rem;
+    margin-right: 1rem;
+    gap: 0.5rem;
+}
+
+.numbers span {
+    cursor: pointer;
+}
+
+.numbers img {
+    width: 12px;
+    height: 12px;
+}
+
+.cart-number {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+#add-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    background-color: #f06c00;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#add-btn:hover {
+    background-color: #d96000;
+}
+
+/* Showcase modal styling */
+.showcase {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.showcase.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.showcase .left {
+    position: relative;
+    width: 60%;
+    max-width: 800px;
+}
+
+.close-showcase {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.product-img-showcase {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.product-img-showcase img {
+    width: 100%;
+}
+
+.thumbnails-list .img-thumbs-showcase {
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.img-thumbs-showcase.active img {
+    border: 2px solid #f06c00;
+    border-radius: 8px;
+}
+
+.img-thumbs-showcase img {
+    width: 80px;
+    height: 80px;
+    transition: transform 0.3s;
+}
+
+.img-thumbs-showcase:hover img {
+    transform: scale(1.1);
+}
+
+    </style>
+    <main>
+        <div class="left">
+            <div class="product-img">
+                <img src="/e-commerce-product-page/images/image-product-1.jpg" alt="product image" id="product-preview">
+                
+            </div>
+            <div class="thumbnails">
+                <ul class="thumbnails-list">
+                    <li class="img-thumbs active">
+                    <img src="/e-commerce-product-page/images/image-product-2-thumbnail.jpg" alt="">
+                </li>
+                <li class="img-thumbs">
+                    <img src="/e-commerce-product-page/images/image-product-3-thumbnail.jpg" alt="">
+                </li>
+                <li class="img-thumbs">
+                    <img src="/e-commerce-product-page/images/image-product-4-thumbnail.jpg" alt="">
+                </li>
+                <li class="img-thumbs">
+                    <img src="images/image-product-4-thumbnail.jpg" alt="">
+                </li>
+                </ul>
+                
+                
+            </div>
+        </div>
+        
+        <div class="right">
+            <h3>SNEAKER COMPANY</h3>
+            <h1>Fall Limited Edition Sneakers</h1>
+            <p>These low-profile sneakers are your perfect casual wear companion. Featuring a 
+durable rubber outer sole, they’ll withstand everything the weather can offer.</p>
+              <div class="price-description">
+                  <h2>$125.00</h2>
+                  <h4>50%</h4>
+                  <h5><strike>$250.00</strike></h5>
+              </div>
+              
+              <div class="cart-function">
+                  <div class="numbers">
+                      <span class="minus">
+                          <img src="images/icon-minus.svg" alt="">
+                      </span>
+                      <span class="cart-number">
+                          0
+                      </span>
+                      <span class="plus">
+                          <img src="images/icon-plus.svg" alt="">
+                      </span>
+                  </div>
+                  
+                  <button id="add-btn"><img src="images/icon-cart-white.svg" alt="" > Add to Cart</button>
+              </div>
+        </div>
+    </main>
+    
+</section>
+
+<div class="showcase">
+    
+    <div class="left">
+        <div class="close-showcase">
+            <img src="images/icon-close-white.svg" alt="">
+        </div>
+            <div class="product-img">
+                <img src="images/image-product-1.jpg" alt="product image" id="product-preview-showcase">
+                
+            </div>
+            <div class="thumbnails">
+                <ul class="thumbnails-list">
+                    <li class="img-thumbs-showcase active">
+                    <img src="images/image-product-1-thumbnail.jpg" alt="">
+                </li>
+                <li class="img-thumbs-showcase">
+                    <img src="images/image-product-2-thumbnail.jpg" alt="">
+                </li>
+                <li class="img-thumbs-showcase">
+                    <img src="images/image-product-3-thumbnail.jpg" alt="">
+                </li>
+                <li class="img-thumbs-showcase">
+                    <img src="images/image-product-4-thumbnail.jpg" alt="">
+                </li>
+                </ul>
+                
+                
+            </div>
+</div>
+</body>
+</html>

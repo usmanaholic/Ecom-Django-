@@ -10,6 +10,11 @@ from .models import Category, Product, Coupon, CouponUsage
 from django.utils import timezone
 from .forms import CouponApplyForm
 from decimal import Decimal
+from django.contrib.auth import authenticate, login
+from .forms import CustomerLoginForm
+from django.core.paginator import Paginator
+from django.contrib.auth.forms import AuthenticationForm
+
 
 
 def home_view(request):
@@ -49,45 +54,61 @@ def category_products_view(request, category_id):
         'category': category,
         'products': products
     })
-    
-    return render(request, 'ecom/category_products.html', {
-        'category': category,
-        'products': products
-    })
 
-#for showing login button for admin(by sumit)
+#for showing login button for admin(by usman)
 def adminclick_view(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect('afterlogin')
     return HttpResponseRedirect('adminlogin')
 
 
+# Customer Signup View
 def customer_signup_view(request):
-    userForm=forms.CustomerUserForm()
-    customerForm=forms.CustomerForm()
-    mydict={'userForm':userForm,'customerForm':customerForm}
-    if request.method=='POST':
-        userForm=forms.CustomerUserForm(request.POST)
-        customerForm=forms.CustomerForm(request.POST,request.FILES)
+    userForm = forms.CustomerUserForm()
+    customerForm = forms.CustomerForm()
+    mydict = {'userForm': userForm, 'customerForm': customerForm}
+
+    if request.method == 'POST':
+        userForm = forms.CustomerUserForm(request.POST)
+        customerForm = forms.CustomerForm(request.POST, request.FILES)
         if userForm.is_valid() and customerForm.is_valid():
-            user=userForm.save()
+            user = userForm.save()
             user.set_password(user.password)
             user.save()
-            customer=customerForm.save(commit=False)
-            customer.user=user
+            customer = customerForm.save(commit=False)
+            customer.user = user
             customer.save()
-            my_customer_group = Group.objects.get_or_create(name='CUSTOMER')
-            my_customer_group[0].user_set.add(user)
-        return HttpResponseRedirect('customerlogin')
-    return render(request,'ecom/customersignup.html',context=mydict)
+            my_customer_group, created = Group.objects.get_or_create(name='CUSTOMER')
+            my_customer_group.user_set.add(user)
+            return redirect('customerlogin')  # Updated to use `redirect`
+    return render(request, 'ecom/customersignup.html', context=mydict)
 
-#-----------for checking user iscustomer
+# Check if user is a customer
 def is_customer(user):
     return user.groups.filter(name='CUSTOMER').exists()
 
+# Customer Login View
+# Customer Login View
+def customer_login_view(request):
+    form = forms.CustomerLoginForm(request.POST)
+    if request.method == "POST":
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
 
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('afterlogin')
+            else:
+                # Add error message if authentication fails
+                messages.error(request, "Invalid username or password.")
+        else:
+            # Add error message if form is invalid
+            messages.error(request, "Please check your input and try again.")
+    return render(request, 'ecom/customerlogin.html', {"form": form})
 
-#---------AFTER ENTERING CREDENTIALS WE CHECK WHETHER USERNAME AND PASSWORD IS OF ADMIN,CUSTOMER
+# After login view for checking user role
 def afterlogin_view(request):
     if is_customer(request.user):
         return redirect('customer-home')
@@ -744,4 +765,38 @@ def terms_conditions(request):
 
 def return_refund(request):
     return render(request, 'ecom/return&refund.html')
+
+def contactus(request):
+    return render(request, 'ecom/contactus.html')
+
+def aboutus(request):
+    return render(request, 'ecom/aboutus.html')
+
+def shipping(request):
+    return render(request, 'ecom/shiping.html')
+
+def faq(request):
+    return render(request, 'ecom/faq.html')
+
+
+def product_detail(request, id):
+    product = get_object_or_404(Product, id=id)
+    context = {
+        'product': product
+    }
+    return render(request, 'ecom/viewmore.html', context)
+
+def product_list(request):
+    product_list = Product.objects.all()  # Get all products
+    paginator = Paginator(product_list, 3)  # Show 12 products per page
+    
+    # Get the current page number from the query parameters
+    page_number = request.GET.get('page')
+    products = paginator.get_page(page_number)  # Paginated products for the current page
+    
+    context = {
+        'products': products,
+    }
+    return render(request, 'productlisht.html', context)
+
 

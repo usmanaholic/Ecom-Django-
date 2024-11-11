@@ -1,42 +1,104 @@
 <!DOCTYPE html>
-{% load static %}
-<html lang="en" dir="ltr">
-
+<html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <title>Mama Ecom</title>
-
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #000;
+        color: #fff;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      h1, h2 {
+        color: #fff;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      h2 {
+        font-size: 1.2em;
+        margin-top: 20px;
+        color: #ccc;
+      }
+      p, ul {
+        margin-bottom: 15px;
+      }
+      ul {
+        list-style-type: none;
+        padding-left: 0;
+      }
+      ul li {
+        padding-left: 20px;
+        position: relative;
+        text-decoration: none;
+      }
+      ul li:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        color: #fff;
+      }
+      a {
+        color: lightblue;
+      }
+    </style>
 </head>
+<body>
+  {% include "ecom/backarrow.html" %}
+<div class="container">
+    <h1>Contact Us</h1>
+    <p class="contact-info">We’re here to help! If you have any questions, concerns, or need assistance with your order, please feel free to reach out to us through any of the following methods:</p>
 
-<body style="background-color: #B3E5FC;">
+    <!-- Phone Support -->
+    <div class="contact-method">
+        <h2>Phone Support</h2>
+        <p class="contact-info">Call us at +92 335 6333396 for immediate assistance during our business hours.</p>
+    </div>
 
-  {%if request.user.is_authenticated%}
-    {% include "ecom/customer_navbar.html" %}
-  {%else%}
-    {% include "ecom/navbar.html" %}
-  {%endif%}
-
-  <center>
-    <h3 class='alert alert-success'>Send Us Your Valuable Feedback !</h3>
-
-    <form method="POST">
-      <!-- Very Important csrf Token -->
-      {% csrf_token %}
-      <div class="form-group">
-        <p>
-        <h3>{{ form.as_p }}</h3>
+    <!-- Email Support -->
+    <div class="contact-method">
+        <h2>Email Support</h2>
+        <p class="contact-info">
+            For general business inquiries, please email us at <a href="mailto:business@trickstoree.com">business@trickstoree.com</a>.<br>
+            For support-related questions, contact us at <a href="mailto:support@trickstoree.com">support@trickstoree.com</a>.
         </p>
-        <br>
-        <input type="submit" value="Send Message" class='btn btn-primary btn-lg'>
-      </div>
-    </form>
-  </center>
-  {% include "ecom/footer.html" %}
-</body>
-<!--
-developed By : sumit kumar
--->
+    </div>
 
+   
+
+    <!-- Instagram -->
+    <div class="contact-method">
+        <h2>Social Support</h2>
+        <p class="contact-info">Follow and message us on Instagram: <a href="https://instagram.com/trick._.storee" target="_blank">@trick._.storee</a>.</p>
+        <p class="contact-info">Follow and message us on Facebook: <a href="https://www.facebook.com/p/trick-storee-61565180496097/" target="_blank">Trick Storee</a>.</p>
+    </div>
+
+     <!-- WhatsApp Support -->
+     <div class="contact-method">
+      <h2>WhatsApp Support</h2>
+      <p class="contact-info">You can also reach us via WhatsApp at +92 335 6333396 for quick responses.</p>
+  </div>
+
+    <!-- Visit Us -->
+    <div class="contact-method">
+        <h2>Visit Us</h2>
+        <p class="contact-info">
+            Our local office is located at:<br>
+            873B Khanewal Road, Opposite WAPDA MEPCO Offices, Multan
+        </p>
+    </div>
+
+    <p class="contact-info">We look forward to assisting you!</p>
+</div>
+</body>
 </html>

@@ -51,12 +51,8 @@
   </style>
 </head>
 <body>
-    {%if request.user.is_authenticated%}
-    {% include "ecom/customer_navbar.html" %}
-  {%else%}
-    {% include "ecom/navbar.html" %}
-  {%endif%}
-  <br><br><br>
+    
+  {% include "ecom/backarrow.html" %}
 
   <div class="container">
     <h1>Privacy Policy for Trick Storee</h1>
@@ -124,7 +120,7 @@
   </div>
   <br><br><br><br>
 
-  {% include "ecom/footer.html" %}
+ 
 
 </body>
 </html>

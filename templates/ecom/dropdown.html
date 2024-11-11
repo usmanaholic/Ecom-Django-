@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Dropdown</title>
+</head>
+<body>
+    <!-- First Dropdown (Main Category) -->
+    <label for="main-category">Select Category:</label>
+    <select id="main-category" onchange="updateSubCategory()">
+        <option value="">Select</option>
+        <option value="fruits">Fruits</option>
+        <option value="vegetables">Vegetables</option>
+    </select>
+
+    <!-- Second Dropdown (Sub-category) -->
+    <label for="sub-category">Select Sub-Category:</label>
+    <select id="sub-category">
+        <option value="">Select</option>
+    </select>
+
+    <script>
+        // Options for each category
+        const options = {
+            fruits: [
+                { value: 'apple', text: 'Apple' },
+                { value: 'banana', text: 'Banana' },
+                { value: 'cherry', text: 'Cherry' }
+            ],
+            vegetables: [
+                { value: 'carrot', text: 'Carrot' },
+                { value: 'broccoli', text: 'Broccoli' },
+                { value: 'spinach', text: 'Spinach' }
+            ]
+        };
+
+        // Function to update the sub-category dropdown
+        function updateSubCategory() {
+            const mainCategory = document.getElementById("main-category").value;
+            const subCategory = document.getElementById("sub-category");
+
+            // Clear previous options
+            subCategory.innerHTML = '<option value="">Select</option>';
+
+            // Populate sub-category based on main category selection
+            if (mainCategory && options[mainCategory]) {
+                options[mainCategory].forEach(option => {
+                    const newOption = document.createElement("option");
+                    newOption.value = option.value;
+                    newOption.textContent = option.text;
+                    subCategory.appendChild(newOption);
+                });
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,100 +1,152 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - Scrollable Page</title>
+    <title>Customer Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     {% load widget_tweaks %}
+   
+</head> 
+<style>
+        /* General page styling */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body, html {
+            font-family: Arial, sans-serif;
+            color: #333;
+            min-height: 100vh;
+            display: block;
+            background: #f8f9fa;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            min-height: 80vh;
+        }
+        
+        .box1 {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .box1 h2 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #333;
+        }
+        
+        .box1 input[type="text"],
+        .box1 input[type="password"],
+        .box1 input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }
+        
+        .box1 input[type="submit"] {
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .box1 input[type="submit"]:hover {
+            background: #45a049;
+        }
+        
     
- 
-    
-</head>
+        /* Style the specific Login button */
+        .login-btn {
+            padding: 12px 20px;
+            background-color: #44994b;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s ease;
+            width: 100%;
+        }
+
+        /* Hover and focus effects for the Login button */
+        .login-btn:hover {
+            background-color: #4bb35c;
+            transform: scale(1.05);
+        }
+
+        .login-btn:focus {
+            outline: none;
+            background-color: #055e11;
+        }
+
+        .messages {
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: left;
+            padding: 10px;
+        }
+
+        /* Style for each message */
+        .errorlist {
+            list-style-type: none; /* Remove bullets */
+            padding: 0;
+            margin: 0 0 10px 0;
+            color: #f44336; /* Red color for visibility */
+            font-size: 14px;
+        }
+        
+        .errorlist li {
+            background-color: #ffe6e6;
+            border: 1px solid #f44336;
+            border-radius: 4px;
+            padding: 8px;
+            margin-bottom: 5px;
+        }
+        
+       
+    </style>
 <body>
-  <style>
-    /* General page styling */
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-    
-    body, html {
-        font-family: Arial, sans-serif;
-        color: #333;
-        min-height: 100vh;
-        display: block;
-    }
-    
-    /* Main content container */
-    .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        background: #f8f9fa;
-        min-height: 80vh;
-    }
-    
-    .box1 {
-        width: 100%;
-        max-width: 400px;
-        padding: 20px;
-        background: #fff;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    
-    .box1 h2 {
-        margin-bottom: 20px;
-        font-size: 1.5rem;
-        color: #333;
-    }
-    
-    .box1 input[type="text"],
-    .box1 input[type="password"],
-    .box1 input[type="submit"] {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border-radius: 4px;
-        border: 1px solid #ddd;
-        font-size: 1rem;
-    }
-    
-    .box1 input[type="submit"] {
-        background: #4CAF50;
-        color: white;
-        cursor: pointer;
-    }
-    
-    .box1 input[type="submit"]:hover {
-        background: #45a049;
-    }
-    
-    /* Footer styling */
-    
-    
-</style>
+    {% include "ecom/navbar.html" %}
 
-  {% include "ecom/navbar.html" %}
-
-    <!-- Main content container -->
     <div class="container">
         <div class="box1">
-            <h2>Costumer Login</h2>
-            <form action="" method="post">
+            <h2>Customer Login</h2>
+            
+           
+
+            <form method="post">
                 {% csrf_token %}
-                {% render_field form.username class="form-control" placeholder="Username" autocomplete="off" %}
-                     {% render_field form.password class="form-control" placeholder="Password" %}
-                     <input type="submit" name="" value="Login">
-            </form>
+                {{ form.as_p }}
+                <button type="submit" class="login-btn">Login</button>
+                <br><br>
+                <p>Don't have an account? <a href="/customersignup" style="color: rgb(42, 167, 216);">Sign up</a></p> <!-- Adjust the URL name if needed -->
+                <hr>
+                
+     </form>
         </div>
-    </div>
-<br><br><br>
-    <!-- Footer -->
+
+    </div>           <!-- Google Sign-in Button -->
+      
+    
     {% include "ecom/footer.html" %}
 </body>
 </html>

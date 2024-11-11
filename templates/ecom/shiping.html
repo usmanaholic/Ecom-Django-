@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipping Policy</title>
+    <style>
+        /* Reset */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+          }
+          .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+          }
+          h1, h2 {
+            color: #fff;
+          }
+          h1 {
+            text-align: center;
+            margin-bottom: 20px;
+          }
+          h2 {
+            font-size: 1.2em;
+            margin-top: 20px;
+            color: #ccc;
+          }
+          p, ul {
+            margin-bottom: 15px;
+          }
+          ul {
+            list-style-type: none;
+            padding-left: 0;
+          }
+          ul li {
+            padding-left: 20px;
+            position: relative;
+            text-decoration: none;
+          }
+          ul li:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            color: #fff;
+          }
+          a {
+            color: lightblue;
+          }
+          /* Styling for the back arrow button */
+
+        
+      </style>
+   
+</head>
+<body>
+  {% include "ecom/backarrow.html" %}
+
+    <div class="container">
+
+        <h1>Shipping Policy</h1>
+        <h2>Shipping Policy for Physical Products</h2>
+        
+        <h3>Order Processing Time</h3>
+        <p>Once your order is confirmed, we aim to process it within 24 hours and arrange pickup with our third-party courier service. Please note that delivery times may vary based on the destination. Typical delivery estimates are as follows:</p>
+        <ul>
+            <li><strong>Same City (Multan):</strong> Expected delivery within 24-48 business hours</li>
+            <li><strong>Major Cities in Pakistan:</strong> Expected delivery within 48-72 business hours</li>
+            <li><strong>Remote Areas (e.g., Gilgit, Swat):</strong> Expected delivery within 5-6 business days</li>
+        </ul>
+
+        <h3>Shipping Destinations</h3>
+        <p>We ship exclusively within Pakistan, covering over 750 destinations nationwide.</p>
+
+        <h3>Shipping Method & Fees</h3>
+        <p>We offer standard delivery across Pakistan, with a flat delivery fee of 250 PKR per order. Estimated delivery times are as outlined above, depending on your location.</p>
+
+        <h3>Free Shipping Offers</h3>
+        <p>We occasionally offer free shipping promotions, such as on orders of three or more items. These offers are available for limited times only and may vary.</p>
+
+        <h3>Returns & Exchanges</h3>
+        <p>We accept returns and exchanges on physical products within 5 days of delivery. For more details, please review our complete <a href="/return&refund/">Return, Refund, and Exchange Policy.</a></p>
+    </div>
+
+    <div class="container">
+        <h2>Shipping Policy for Digital Products</h2>
+
+        <h3>Delivery Method</h3>
+        <p>All digital products are delivered via email. To ensure seamless delivery, please provide a correct email address at the time of purchase. If an incorrect email address is provided, we will reach out via phone to confirm the correct details.</p>
+
+        <h3>Digital Product Availability</h3>
+        <p>Some digital products are available for download, while others are provided directly via email without a download link.</p>
+
+        <h3>Returns & Refunds for Digital Products</h3>
+        <p>Due to the nature of digital products, we do not accept returns or provide refunds. For more information, please review our Return, Refund, and Exchange Policy.</p>
+    </div>
+
+  
+</body>
+</html>

@@ -6,16 +6,18 @@ Developed By : Usman
 
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from ecom import views
 from django.contrib.auth.views import LoginView,LogoutView
 from django.conf.urls.static import static
 from django.conf import settings
+from django.contrib.auth import views as auth_views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.home_view,name=''),
     path('afterlogin', views.afterlogin_view,name='afterlogin'),
-    path('logout', LogoutView.as_view(template_name='ecom/logout.html'),name='logout'),
+    path('logout', LogoutView.as_view(template_name='ecom/logout.html'), name='logout'),
     path('aboutus', views.aboutus_view),
     path('contactus', views.contactus_view,name='contactus'),
     path('search', views.search_view,name='search'),
@@ -63,7 +65,17 @@ urlpatterns = [
     path('privacy-policy/', views.privacy_policy, name='privacy_policy'),
     path('terms&conditions/', views.terms_conditions, name='terms_conditions'),
     path('return&refund/', views.return_refund, name='return_refund'),
-    
+    path('contactus/', views.contactus, name='contactus'),
+    path('aboutus/', views.aboutus, name='aboutus'),
+    path('shipping/', views.shipping, name='shipping'),
+    path('faq/', views.faq, name='faq'),
+    path('products/', views.product_list, name='product-list'),
+    path('products/<int:id>/', views.product_detail, name='product-detail'),
+    path('cart/', views.cart_view, name='cart'),
+
+
+
+
 
 
 ]

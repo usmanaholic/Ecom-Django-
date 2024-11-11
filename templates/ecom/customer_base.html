@@ -255,7 +255,10 @@ body {
 
                 <li class="upper-links"><a class="links" href="/my-order">Track Orders</a></li>
                 <li class="upper-links"><a class="links" href="/my-profile">Profile</a></li>
-                <li class="upper-links"><a class="links" href="/logout">Logout</a></li>
+                <form action="{% url 'logout' %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="logout-btn">Logout</button>
+              </form>
                 
             </ul>
         </div>

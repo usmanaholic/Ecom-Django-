@@ -1,6 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- TrustBox script -->
+<script type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" async></script>
+<!-- End TrustBox script -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trick Storee</title>
@@ -16,6 +20,7 @@
     font-family: Arial, sans-serif;
 }
 
+
 /* Hero Section */
 .hero-section {
   background: url('/static/images/background1.jpg') no-repeat center center/cover;
@@ -25,7 +30,8 @@
   justify-content: center;
   color: white;
   text-align: center;
-  transition: background 1s ease-in-out; /* Add a transition for smooth sliding */
+  transition: background 1s ease-in-out;
+   /* Add a transition for smooth sliding */
 }
 
 .hero-content h1 {
@@ -43,8 +49,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    border-bottom: 1px solid #ddd;
+    margin-bottom: 1.5rem; /* Removed border-bottom property */
 }
+
 
 .section-header h2 {
     font-size: 1.8rem;
@@ -62,30 +69,72 @@
 }
 
 /* Categories Section */
-.categories-section, .products-section {
-    padding: 20px;
-    background-color: #f9f9f9;
+.categories-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background-color: #1a1a1a; /* Dark background */
+    border-radius: 8px;
+    color: #f0f0f0;
+}
+
+.categories-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+}
+
+.categories-section-header h2 {
+    font-size: 1.8rem;
+    color: #f0f0f0; /* Light text */
+}
+
+.categories-see-more {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border: 2px solid #f0f0f0;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.categories-see-more:hover {
+    background-color: #f0f0f0;
+    color: #1a1a1a;
 }
 
 .categories-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-    margin-top: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    padding: 0 1rem;
 }
 
-.category-item {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 15px;
-    text-align: center;
+.categories-grid .category-item {
+    background-color: #333; /* Dark gray background */
     border-radius: 8px;
-    transition: box-shadow 0.3s;
-    font-size: 1rem;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    color: #f0f0f0; /* Light text */
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.category-item:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.categories-grid .category-item:hover {
+    background-color: #f0f0f0;
+    color: #1a1a1a; /* Dark text on hover */
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Products Section */
@@ -234,54 +283,53 @@
     <main>
         <!-- Categories Section -->
         <section class="categories-section">
-            <div class="section-header">
+            <div class="categories-section-header">
                 <h2>Featured Categories</h2>
-                <a href="#" class="see-more">See All Categories</a>
+              
             </div>
             <div class="categories-grid">
-                <div class="category-item">Electronics</div>
-                <div class="category-item">Fashion</div>
-                <div class="category-item">Home Decor</div>
-                <div class="category-item">Books</div>
+                {% for category in categories %}
+                    <div class="category-item">
+                        <a href="{% url 'category-products' category.id %}">
+                            {{ category.name }}
+                        </a>
+                    </div>
+                {% endfor %}
             </div>
         </section>
-
         <!-- Products Section -->
         <section class="products-section">
             <div class="section-header">
-                <h2>Popular Products</h2>
-                <a href="#" class="see-more">See All Products</a>
+              <h2>Popular Products</h2>
+              <a href="#" class="see-more">See All Products</a>
             </div>
+            
             <div class="products-grid">
+              {% for p in products %}
                 <div class="product-item">
-                    <div class="product-image"></div>
-                    <h3>Product Name</h3>
-                    <p>$49.99</p>
-                    <button class="add-to-cart-btn">Add to Cart</button>
+                  <div class="product-image">
+                    <img src="{% static p.product_image.url %}" alt="product pic" height="200px" width="200px">
+                  </div>
+                  <h3>{{ p.name }}</h3>
+                  <p>${{ p.price }}</p>
+                  <p>{{ p.description }}</p>
+                  <a href="{% url 'add-to-cart' p.id %}" class="add-to-cart-btn">
+                    <i class="fa fa-shopping-cart"></i> Add to Cart
+                  </a>
                 </div>
-                <div class="product-item">
-                    <div class="product-image"></div>
-                    <h3>Product Name</h3>
-                    <p>$59.99</p>
-                    <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
-                <div class="product-item">
-                    <div class="product-image"></div>
-                    <h3>Product Name</h3>
-                    <p>$69.99</p>
-                    <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
-                <div class="product-item">
-                    <div class="product-image"></div>
-                    <h3>Product Name</h3>
-                    <p>$79.99</p>
-                    <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
+                
+                {% if forloop.counter|divisibleby:"4" %}
+                  </div><div class="products-grid"> <!-- Break into a new row after every 4 items -->
+                {% endif %}
+              {% endfor %}
             </div>
-        </section>
+          </section>
+        
     </main>
     <br><br><br><br>
     {% include "ecom/footer.html" %}
+
+    
     <script>
       const images = [
           '/static/images/background1.jpg',

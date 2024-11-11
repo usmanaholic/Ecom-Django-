@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Navigation Bar with Search Box</title>
+    <title>Navbar</title>
  
     <!-- Unicons CSS -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
@@ -29,6 +29,7 @@
   padding: 15px 200px;
   background: black;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 10;
 }
 .nav,
 .nav .nav-links {
@@ -171,11 +172,12 @@ a {
 
       <ul class="nav-links">
         <i class="uil uil-times navCloseBtn"></i>
-        <li><a href="#">Home</a></li>
+        <li><a href="/">Home</a></li>
         <li><a href="#">Categories</a></li>
-        <li><a href="#">Products</a></li>
-        <li><a href="#">About Us</a></li>
-        <li><a href="#">Contact Us</a></li>
+        <li><a href="/contactus">Contact us</a></li>
+        <li><a href="/aboutus">About Us</a></li>
+        <li><a href="/customerlogin">login/sign up</a></li>
+
       </ul>
 
       <i class="uil uil-search search-icon" id="searchIcon"></i>

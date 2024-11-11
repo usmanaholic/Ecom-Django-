@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>back Arrow</title>
+</head>
+<body>
+    <style>
+        .back-arrow-btn {
+            position: fixed; /* Fixed position to stay at the top */
+            top: 20px; /* Adjust the distance from the top */
+            left: 20px; /* Adjust the distance from the left */
+            font-size: 24px;
+            color: white;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            transition: color 0.3s ease;
+            z-index: 15; /* Ensure it stays on top */
+          }
+          
+          .back-arrow-btn:hover {
+            color: #555; /* Change color on hover */
+          }
+          
+    </style>
+    <button onclick="goBack()" class="back-arrow-btn">&#8592;</button>
+    <script>
+        // Go back to the previous page
+      function goBack() {
+        window.history.back();
+      }
+      
+      </script>
+</body>
+</html>

@@ -1,487 +1,537 @@
-{% extends 'ecom/customer_base.html' %}
 {% load static %}
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- TrustBox script -->
+<script type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" async></script>
+<!-- End TrustBox script -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trick Storee</title>
+    <link rel="icon" type="image/png" href="/static/images/465592768_122121850238506016_2019015608697120856_n.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 
+</head>
+<body>
+    <style>
 
-  <style media="screen">
-    body,
-html {
-  height: 100%;
+        /* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
-.d-flex {
-  display: -webkit-box;
-  display: -ms-flexbox;
+
+/* Hero Section */
+.hero-section {
+  background: url('/static/images/background1.jpg') no-repeat center center/cover;
+  height: 60vh;
   display: flex;
-}
-
-.align-center {
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
-}
-
-.flex-centerY-centerX {
   justify-content: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-body {
-  background-color:#f7f7f7;
-}
-
-.page-wrapper {
-  height: 100%;
-  display: table;
-}
-
-.page-wrapper .page-inner {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.el-wrapper {
-  width: 360px;
-  padding: 15px;
-  margin: 15px auto;
-  background-color: #fff;
-  border-radius: 15px;
-}
-
-@media (max-width: 991px) {
-  .el-wrapper {
-    width: 345px;
-  }
-}
-
-@media (max-width: 767px) {
-  .el-wrapper {
-    width: 290px;
-    margin: 30px auto;
-  }
-}
-
-.el-wrapper:hover .h-bg {
-  left: 0px;
-}
-
-.el-wrapper:hover .price {
-  left: 20px;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  -o-transform: translateY(-50%);
-  transform: translateY(-50%);
-  color: #f3f3f3;
-}
-
-.el-wrapper:hover .add-to-cart {
-  left: 50%;
-}
-
-.el-wrapper:hover .img {
-  webkit-filter: blur(7px);
-  -o-filter: blur(7px);
-  -ms-filter: blur(7px);
-  filter: blur(7px);
-  filter: progid:DXImageTransform.Microsoft.Blur(pixelradius='7', shadowopacity='0.0');
-  opacity: 0.4;
-}
-
-.el-wrapper:hover .info-inner {
-  bottom: 155px;
-}
-
-.el-wrapper:hover .a-size {
-  -webkit-transition-delay: 300ms;
-  -o-transition-delay: 300ms;
-  transition-delay: 300ms;
-  bottom: 50px;
-  opacity: 1;
-}
-
-.el-wrapper .box-down {
-  width: 100%;
-  height: 60px;
-  position: relative;
-  overflow: hidden;
-}
-
-.el-wrapper .box-up {
-  width: 100%;
-  height: 300px;
-  position: relative;
-  overflow: hidden;
+  color: white;
   text-align: center;
+  transition: background 1s ease-in-out;
+   /* Add a transition for smooth sliding */
 }
 
-.el-wrapper .img {
-  padding: 20px 0;
-  -webkit-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
-  -o-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
-  transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  -webkit-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -o-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
+.hero-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
 }
 
-.h-bg {
-  -webkit-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
-  -o-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
-  transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  -webkit-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -o-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  width: 660px;
-  height: 100%;
-  background-color: #3fcd7f;
+.hero-content p {
+    font-size: 1.2rem;
+}
+
+/* Section Headers */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 1.5rem; /* Removed border-bottom property */
+}
+
+
+.section-header h2 {
+    font-size: 1.8rem;
+    color: #333;
+}
+
+.see-more {
+    color: #007BFF;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.see-more:hover {
+    text-decoration: underline;
+}
+
+/* Categories Section */
+.categories-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background-color: #1a1a1a; /* Dark background */
+    border-radius: 8px;
+    color: #f0f0f0;
+}
+
+.categories-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+}
+
+.categories-section-header h2 {
+    font-size: 1.8rem;
+    color: #f0f0f0; /* Light text */
+}
+
+.categories-see-more {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border: 2px solid #f0f0f0;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.categories-see-more:hover {
+    background-color: #f0f0f0;
+    color: #1a1a1a;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  padding: 0 1rem;
+}
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+  .categories-grid {
+      grid-template-columns: repeat(2, 1fr); /* 2 columns for mobile */
+  }
+}
+
+.categories-grid .category-item {
+    background-color: #333; /* Dark gray background */
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    color: #f0f0f0; /* Light text */
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.categories-grid .category-item:hover {
+    background-color: #f0f0f0;
+    color: #1a1a1a; /* Dark text on hover */
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/* Products Section */
+/* General Products Section Styles */
+.products-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.see-more {
+  font-size: 14px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.products-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.product-item {
+  width: 23%; /* Default: 4 products per row */
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-item h3 {
+  font-size: 18px;
+  color: #333;
+}
+
+.product-item p {
+  font-size: 14px;
+  color: #666;
+}
+
+.product-actions {
+  margin-top: 10px;
+}
+
+.view-product-btn,
+.add-to-cart-btn {
+  display: inline-block;
+  margin: 5px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.view-product-btn {
+  background-color: #007bff;
+}
+
+.add-to-cart-btn {
+  background-color: #28a745;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination a {
+  margin: 0 10px;
+  padding: 8px 12px;
+  font-size: 14px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.pagination span {
+  font-size: 14px;
+  padding: 8px;
+  color: #333;
+}
+
+/* Responsive Design - Adjust Grid for Smaller Screens */
+@media (max-width: 768px) {
+  .products-grid {
+    /* 2 products per row on tablets and below */
+    grid-template-columns: repeat(2, 1fr); 
+  }
+
+  .product-item {
+    width: 48%; /* Adjust the width for 2 items per row */
+  }
+}
+
+@media (max-width: 480px) {
+  .products-grid {
+    /* 1 product per row on very small screens */
+    grid-template-columns: 1fr; 
+  }
+
+  .product-item {
+    width: 100%; /* Full width for each product on very small screens */
+  }
+}
+
+/* button shop now */
+.btn-12 {
+  position: relative;
+  display: inline-block;
+  font-size: 1rem;
+  padding: 15px 30px;
+  color: #000;
+  background: #fff;
+  border: 2px solid #000;
+  cursor: pointer;
+  overflow: hidden;
+  transition: color 0.4s;
+  border-radius: 50px;
+  z-index: 1;
+}
+
+.btn-12 span {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-12:before {
+  content: "";
   position: absolute;
-  left: -659px;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  transition: all 0.4s ease-in-out;
+  border-radius: 50px;
 }
 
-.h-bg .h-bg-inner {
+.btn-12:hover:before {
+  left: 0;
+}
+
+.btn-12:hover {
+  color: #fff;
+}
+
+/* Floating Cart Icon Styling */
+.floating-cart {
+    position: fixed;
+    bottom: 30px;           /* Distance from the bottom */
+    right: 30px;            /* Distance from the right */
+    background-color: #000; /* Dark background for contrast */
+    color: #fff;            /* White icon color */
+    border-radius: 50%;     /* Circular icon */
+    width: 60px;            /* Icon width */
+    height: 60px;           /* Icon height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    font-size: 30px;
+    transition: all 0.3s ease-in-out;  /* Smooth hover transition */
+    z-index: 1000;          /* Ensures it's on top of other elements */
+}
+
+/* Hover Effect */
+.floating-cart:hover {
+    transform: translateY(-5px); /* Slightly lift the cart on hover */
+    background-color: #333;      /* Darker background on hover */
+}
+
+/* Floating Cart Icon Link */
+.floating-cart a {
+    color: inherit;
+    text-decoration: none;
+    position: relative;
+}
+
+/* Cart Badge Styling */
+.cart-count {
+    position: absolute;
+    top: -8px;                 /* Position above the cart icon */
+    right: -8px;               /* Position to the right */
+    background-color: #e74c3c; /* Red badge for visibility */
+    color: white;
+    border-radius: 50%;
+    padding: 5px 8px;         /* Adjust padding for balance */
+    font-size: 10px;           /* Slightly smaller text */
+    font-weight: bold;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3); /* Slight shadow for depth */
+    transition: all 0.3s ease-in-out; /* Smooth transition for count changes */
+    min-width: 24px;           /* Minimum width for consistency */
+    min-height: 24px;          /* Minimum height for consistency */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Responsive Design for Small Screens */
+@media (max-width: 768px) {
+    .floating-cart {
+        width: 50px;            /* Smaller icon on mobile */
+        height: 50px;
+        font-size: 24px;         /* Adjust icon size */
+    }
+
+    .cart-count {
+        padding: 4px 8px;       /* Smaller badge on mobile */
+        font-size: 12px;
+        min-width: 20px;         /* Smaller minimum width */
+        min-height: 20px;        /* Smaller minimum height */
+    }
+}
+
+/* user profile floating */
+.floating-profile {
+  position: fixed;
+  top: 70px; /* Adjusted to be below the navbar */
+  left: 10px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.profile-icon {
+  font-size: 25px; /* Icon size */
+  color: #fff;
+  background-color: #000000; /* Modern background color */
+  padding: 5px;
+  border-radius: 50%;
+  /* Border around the icon */
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3); /* Floating effect */
+  transition: all 0.3s ease;
+}
+
+.profile-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+}
+
+.floating-profile a {
+  display: block;
   width: 50%;
   height: 100%;
-  background-color: #464646;
+  text-decoration: none;
 }
 
-.info-inner {
-  -webkit-transition: all 400ms cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition: all 400ms cubic-bezier(0, 0, 0.18, 1);
-  -o-transition: all 400ms cubic-bezier(0, 0, 0.18, 1);
-  transition: all 400ms cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  -webkit-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -o-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  position: absolute;
-  width: 100%;
-  bottom: 10px;
+.floating-profile a:hover .profile-icon {
+  transform: scale(1.1);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
 }
 
-.info-inner .p-name,
-.info-inner .p-company {
-  display: block;
-}
 
-.info-inner .p-name {
-  font-family: 'PT Sans', sans-serif;
-  font-size: 18px;
-  color: #252525;
-}
 
-.info-inner .p-company {
-  font-family: 'Lato', sans-serif;
-  font-size: 16px;
-  /* text-transform: uppercase; */
-  color: #fbfbfb;
-}
 
-.a-size {
-  -webkit-transition: all 300ms cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition: all 300ms cubic-bezier(0, 0, 0.18, 1);
-  -o-transition: all 300ms cubic-bezier(0, 0, 0.18, 1);
-  transition: all 300ms cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  -webkit-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -o-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  position: absolute;
-  width: 100%;
-  bottom: -20px;
-  font-family: 'PT Sans', sans-serif;
-  color: #2b2b2b;
-  font-weight: 600;
-  opacity: 0;
-}
+    </style>
 
-.a-size .size {
-  color: #252525;
-}
+    {% include "ecom/customer_navbar.html" %}
 
-.cart {
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  /* font-family: 'Lato', sans-serif; */
-  font-weight: 700;
-}
+    <div class="floating-profile">
 
-.cart .price {
-  -webkit-transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
-  -o-transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
-  transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  -webkit-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -o-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  -webkit-transition-delay: 100ms;
-  -o-transition-delay: 100ms;
-  transition-delay: 100ms;
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  font-size: 16px;
-  color: #252525;
-}
-
-.cart .add-to-cart {
-  -webkit-transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
-  -o-transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
-  transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  -webkit-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -o-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  -webkit-transition-delay: 100ms;
-  -o-transition-delay: 100ms;
-  transition-delay: 100ms;
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 110%;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-
-.cart .add-to-cart .txt {
-  font-size: 12px;
-  color: #fff;
-  letter-spacing: 0.045em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-* {
-  box-sizing: border-box;
-}
-
-/* Create three equal columns that floats next to each other */
-.column {
-  float: left;
-  width: 33.33%;
-  padding: 10px;
-  height: 300px; /* Should be removed. Only for demonstration */
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-  .column {
-    width: 100%;
-  }
-}
-
-/* html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  font-family: "Helvetica", sans-serif;
-} */
-
-img {
-  max-width: 100%;
-}
-
-.slider-container{
-  height: 35%;
-  width: 100%;
-  position: relative;
-  overflow: hidden; 
-  text-align: center;
-}
-
-.menu {
-  position: absolute;
-  left: 0;
-  z-index: 900;
-  width: 100%;
-  bottom: 0;
-}
-
-.menu label {
-  cursor: pointer;
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  background: #fff;
-  border-radius: 50px;
-  margin: 0 .2em 1em;
-  &:hover {
-    background: red;
-  }
-}
-
-.slide {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 100%;
-  z-index: 10;
-  padding: 8em 1em 0;
-  background-size: cover;
-  background-position: 50% 50%;
-  transition: left 0s .75s;
-}
-
-[id^="slide"]:checked + .slide {
-  left: 0;
-  z-index: 100;
-  transition: left .65s ease-out;
-}
-
-.slide-1 {
-  background-image: url("{% static 'images/ecom-banner1.jpg' %}");
-}
-.slide-2 {
-  background-image: url("{% static 'images/ecom-banner4.jpg' %}");
-}
-.slide-3 {
-  background-image: url("{% static 'images/ecom-banner1.png' %}");
-}
-.slide-4 {
-  background-image: url("{% static 'images/ecom-banner3.jpg' %}");
-}
-  </style>
-
-<div class="row">
-  <div class="col-md-12">
-    <div class="slider-container">
-      <div class="menu">
-        <label for="slide-dot-1"></label>
-        <label for="slide-dot-2"></label>
-        <label for="slide-dot-3"></label>
-        <label for="slide-dot-4"></label>
-      </div>
-      
-      <input id="slide-dot-1" type="radio" name="slides" checked>
-        <div class="slide slide-1"></div>
-      
-      <input id="slide-dot-2" type="radio" name="slides">
-        <div class="slide slide-2"></div>
-      
-      <input id="slide-dot-3" type="radio" name="slides">
-        <div class="slide slide-3"></div>
-      <input id="slide-dot-4" type="radio" name="slides">
-        <div class="slide slide-4"></div>
-    </div>
+      <a href="/customerlogin">
+          <i class="fa-solid fa-user profile-icon"></i>
+      </a>
   </div>
-</div>
 
 
-  {%if products%}
-  <h3 style="text-align:center; color:#3E454C;">{{word}}</h3>
-  <br>
-  
-  <!-- products data start -->
-  <div class="row">
+    <div class="floating-cart">
+      <a href="{% url 'cart' %}">
+          <i class="fa fa-shopping-cart"></i>
+          <span class="cart-count">{{ product_count_in_cart }}</span>
+      </a>
+  </div>
 
-      {% for p in products %}
-      <!-- card1 -->
-      <div class="column">
-      <div class="container page-wrapper" style="width: 450px;">
-        <div class="page-inner">
-          <div class="row">
-            <div class="el-wrapper">
-              <div class="box-up">
-                <img class="img" src="{% static p.product_image.url %}" alt="product pic" height="300px" width="300px">
-                <div class="img-info">
-                  <div class="info-inner">
-                    <span style="background-color:#3e454c; color:fbfbfb;"class="p-company">{{p.name}}</span>
 
-                  </div>
-                  <div class="a-size">{{p.description}}</div>
-                </div>
-              </div>
 
-              <div class="box-down">
-                <div class="h-bg">
-                  <div class="h-bg-inner"></div>
-                </div>
-
-                <a class="cart" href="{% url 'add-to-cart' p.id  %}">
-                  <span class="price">${{p.price}}</span>
-                  <span class="add-to-cart">
-                    <span class="txt"><i class="fa fa-shopping-cart"></i> Add To Cart</span>
-                  </span>
-                </a>
-              </div>
-            </div>
-          </div>
+    <br><br>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Discover Your Next Favorite Product</h1>
+            <p>Shop our latest collections and exclusive offers</p>
+            <br>
+            <button class="btn-12"><span>Shop Now</span></button>
+            
         </div>
-      </div>
-      </div>
-<!-- card1 end -->
-{% if forloop.counter|divisibleby:"3" %}
-    </div>
-    <div class="row">
-          <br><br><br><br><br>
-{% endif %}
+        
+    </section>
 
-  {% endfor %}
-</div>
-<!-- products data end -->
+    <!-- Main Content -->
+    <main>
+        <!-- Categories Section -->
+        <section class="categories-section">
+            <div class="categories-section-header">
+                <h2>Featured Categories</h2>
+              
+            </div>
+            <div class="categories-grid">
+                {% for category in categories %}
+                    <div class="category-item">
+                        <a href="{% url 'category-products' category.id %}">
+                            {{ category.name }}
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+        <!-- Products Section -->
+        <section class="products-section">
+          <div class="section-header">
+              <h2>Popular Products</h2>
+              <a href="#" class="see-more">See All Products</a>
+          </div>
+          
+          <div class="products-grid">
+              {% for p in products %}
+                  <div class="product-item">
+                      <div class="product-image">
+                          <img src="{% static p.product_image.url %}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
+                      </div>
+                      <h3>{{ p.name }}</h3>
+                      <p>{{ p.price }} PKR</p>
+                      <p>{{ p.description }}</p>
+                      
+                      <div class="product-actions">
+                          <a href="{% url 'product-detail' p.id %}" class="view-product-btn">View Product</a>
+                          <a href="{% url 'add-to-cart' p.id %}" class="add-to-cart-btn">
+                              <i class="fa fa-shopping-cart"></i> Add to Cart
+                          </a>
+                      </div>
+                  </div>
+                  
+                  {% if forloop.counter|divisibleby:"4" %}
+                      </div><div class="products-grid"> <!-- New row after every 4 items -->
+                  {% endif %}
+              {% endfor %}
+          </div>
+          
+          <!-- Pagination Controls -->
+          <div class="pagination">
+            {% if products.has_previous %}
+                <a href="?page={{ products.previous_page_number }}" class="prev-page">Previous</a>
+            {% endif %}
+            
+            <span>Page {{ products.number }} of {{ products.paginator.num_pages }}</span>
+            
+            {% if products.has_next %}
+                <a href="?page={{ products.next_page_number }}" class="next-page">Next</a>
+            {% endif %}
+        </div>
+      </section>
+        
+    </main>
+    <br><br><br><br>
+    {% include "ecom/footer.html" %}
 
-
-{%else%}
-<h3 style="text-align:center; color:#3E454C;">No Search Found</h3>
-{%endif%}
-
-<script>
-    {%if messages %}
-    {%for message in messages%}
-    alert('{{message}}');
-    {%endfor%}
-    {%endif%}
-</script>
-<br><br><br>
-<br><br><br><br><br><br><br><br><br><br><br><br>
-
-
-<!--
-developed By : Usman
--->
-
-
-
-{% endblock content %}
+    
+    <script>
+      const images = [
+          '/static/images/background1.jpg',
+          '/static/images/background2.jpg',
+          '/static/images/background3.jpg'
+      ];
+      let currentIndex = 0;
+  
+      function changeBackground() {
+          currentIndex = (currentIndex + 1) % images.length; // Cycle through the images
+          document.querySelector('.hero-section').style.backgroundImage = `url('${images[currentIndex]}')`;
+      }
+  
+      // Change the background every 5 seconds
+      setInterval(changeBackground, 5000);
+  </script>
+</body>
+</html>

@@ -3,6 +3,9 @@
 <html lang="en" dir="ltr">
 
 <head>
+  <!-- TrustBox script -->
+<script type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" async></script>
+<!-- End TrustBox script -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Mama Ecom</title>
@@ -63,12 +66,8 @@
 </head>
 
 <body>
-  {%if request.user.is_authenticated%}
-    {% include "ecom/customer_navbar.html" %}
-  {%else%}
-    {% include "ecom/navbar.html" %}
-  {%endif%}
-  <br><br><br>
+ 
+  {% include "ecom/backarrow.html" %}
   <section class="about-us">
     <div class="container">
       <h1>About Trick Storee</h1>
@@ -79,9 +78,11 @@
 
       <h2>What We Offer</h2>
       <ul>
-        <li>🔹 <strong>Electronics:</strong> Discover a range of high-quality gadgets and accessories.</li>
-        <li>🔹 <strong>Digital Courses:</strong> Learn new skills at your own pace with our selection of courses.</li>
-        <li>🔹 <strong>Gift Cards:</strong> Share the Trick Storee experience with flexible gift cards.</li>
+        <li>🔹 <strong>Tech Products:</strong> Discover cutting-edge tech gadgets and accessories designed to make your daily life easier, more connected, and more enjoyable.</li>
+        <li>🔹 <strong>Fashion Products:</strong> Step up your style with our curated collection of footwear, watches, bracelets, and more, perfect for any occasion.</li>
+        <li>🔹 <strong>Digital Streaming Channels:</strong> Get instant access to your favorite entertainment with our digital streaming channels, bringing you endless content anytime, anywhere.</li>
+        <li>🔹 <strong>Gadgets:</strong> Explore unique and innovative gadgets that add convenience and fun to your routine, from smart devices to practical tools.</li>
+        <li>🔹 <strong>Digital Courses:</strong> Skill Based Learning Short Courses</li>
       </ul>
 
       <h2>Why Choose Us?</h2>
@@ -90,15 +91,26 @@
       <h2>Stay Connected</h2>
       <p>Follow us to stay updated on new arrivals, deals, and more:</p>
       <div class="social-links">
-        <a href="https://www.facebook.com/trickstoree" target="_blank">Facebook</a>
+        <a href="https://www.facebook.com/p/trick-storee-61565180496097/" target="_blank">Facebook</a>
         <a href="https://www.instagram.com/trick._.storee" target="_blank">Instagram</a>
-        <a href="https://www.youtube.com/trickstoree" target="_blank">YouTube</a>
+        <a href="https://www.youtube.com/@trick_Storee" target="_blank">YouTube</a>
+        <a href="https://www.tiktok.com/@trick.storee" target="_blank">Tiktok</a>
+        <a href="https://whatsapp.com/channel/0029Vav7auoBqbr93h5GF63R" target="_blank">Whatsapp</a>
+
+      <h2>Support Trick Storee</h2>
+      <p><!-- TrustBox widget - Review Collector -->
+        <div class="trustpilot-widget" data-locale="en-US" data-template-id="56278e9abfbbba0bdcd568bc" data-businessunit-id="6724d6d2c65a99f755dc75fa" data-style-height="52px" data-style-width="100%" >
+          <a href="https://www.trustpilot.com/review/trickstoree.com" target="_blank" rel="noopener">Trustpilot</a>
+        </div>
+        <!-- End TrustBox widget --></p>
+
+
       </div>
     </div>
   </section>
   <br><br><br><br>
 
-  {% include "ecom/footer.html" %}
+
 </body>
 <!--
 developed By : Usman

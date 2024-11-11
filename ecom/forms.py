@@ -47,3 +47,10 @@ class ContactusForm(forms.Form):
 #For copun
 class CouponApplyForm(forms.Form):
     code = forms.CharField(label="Coupon")
+
+
+class CustomerLoginForm(forms.Form):
+    username = forms.CharField(max_length=150, label="Username", widget=forms.TextInput(attrs={'placeholder': 'Username'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+
+

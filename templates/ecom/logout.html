@@ -1,15 +1,95 @@
-{% extends 'ecom/homebase.html' %}
 {% load static %}
-{% block content %}
-<br><br><br>
-<!-- <img src="{% static "images/logout_img.png" %}"  style="width:800px; height:100px; padding-left:400px;"> -->
 
-<center>
+
+
+<style>
+    /* General Styling */
+body {
+    font-family: Arial, sans-serif;
+
+    background-color: #121212;
+    color: #ffffff;
+  }
+  
+  .logout-container {
+    max-width: 900px;
+    margin: 50px auto;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  /* Image Section */
+  .logout-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Logout Message */
+  .logout-message h2 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: #ffffff;
+  }
+  
+  .logout-message p {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+    color: #bdbdbd;
+  }
+  
+  /* Button */
+  .btn-home {
+    background-color: #ffffff;
+    color: #121212;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+  
+  .btn-home:hover {
+    background-color: #f5f5f5;
+    color: #000000;
+    transform: scale(1.05);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .logout-message h2 {
+      font-size: 2rem;
+    }
+  
+    .logout-message p {
+      font-size: 1rem;
+    }
+  
+    .btn-home {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+    }
+  }
+  
+</style>
+{% include "ecom/navbar.html" %}
+<br><br><br><br><br><br><br><br><br><br><br><br>
+
+<div class="logout-container">
+  <!-- Optional Logout Image -->
+  
+
+  <!-- Logout Message -->
+  <div class="logout-message">
     <h2>You've logged out successfully!</h2>
-</center>
+    <p>Thank you for visiting. Come back soon!</p>
+    <a href="/" class="btn-home">Go to Homepage</a>
+  </div>
+</div>
 
-<br><br><br><br><br>
-<br><br><br><br><br>
-<br><br><br>
-
-{% endblock content %}
+<br><br><br><br><br><br><br><br>
+{% include "ecom/footer.html" %}

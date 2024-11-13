@@ -38,19 +38,20 @@ class Product(models.Model):
 
 
 class Orders(models.Model):
-    STATUS =(
-        ('Pending','Pending'),
-        ('Order Confirmed','Order Confirmed'),
-        ('Out for Delivery','Out for Delivery'),
-        ('Delivered','Delivered'),
+    STATUS = (
+        ('Pending', 'Pending'),
+        ('Order Confirmed', 'Order Confirmed'),
+        ('Out for Delivery', 'Out for Delivery'),
+        ('Delivered', 'Delivered'),
     )
-    customer=models.ForeignKey('Customer', on_delete=models.CASCADE,null=True)
-    product=models.ForeignKey('Product',on_delete=models.CASCADE,null=True)
-    email = models.CharField(max_length=50,null=True)
-    address = models.CharField(max_length=500,null=True)
-    mobile = models.CharField(max_length=20,null=True)
-    order_date= models.DateField(auto_now_add=True,null=True)
-    status=models.CharField(max_length=50,null=True,choices=STATUS)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
+    order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name='order_items', null=True, blank=True)
+    email = models.CharField(max_length=50, null=True)
+    address = models.CharField(max_length=500, null=True)
+    mobile = models.CharField(max_length=20, null=True)
+    order_date = models.DateField(auto_now_add=True, null=True)
+    status = models.CharField(max_length=50, null=True, choices=STATUS)
     
     
 
@@ -93,7 +94,7 @@ class Order(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.order_number:
-            self.order_number = str(uuid.uuid4()).replace('-', '').upper()[:10]  # Generate unique order number
+            self.order_number = str(uuid.uuid4()).replace('-', '').upper()[:5]  # Generate unique order number
         super(Order, self).save(*args, **kwargs)
 
 

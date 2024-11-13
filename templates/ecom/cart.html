@@ -1,73 +1,210 @@
-{% extends 'ecom/homebase.html' %}
+
 {% load static %}
-{% block content %}
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-  <style media="screen">
-    .button {
-      display: inline-block;
-      border-radius: 4px;
-      background-color: #f4511e;
-      border: none;
-      color: #FFFFFF;
-      text-align: center;
-      font-size: 28px;
-      padding: 20px;
-      width: 200px;
-      transition: all 0.5s;
-      cursor: pointer;
-      margin: 5px;
-    }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart</title>
 
-    .button span {
-      cursor: pointer;
-      display: inline-block;
-      position: relative;
-      transition: 0.5s;
-    }
 
-    .button span:after {
-      content: '\00bb';
-      position: absolute;
-      opacity: 0;
-      top: 0;
-      right: -20px;
-      transition: 0.5s;
-    }
 
-    .button:hover span {
-      padding-right: 25px;
-    }
 
-    .button:hover span:after {
-      opacity: 1;
-      right: 0;
-    }
-
-    .button2 {
-      background-color: white;
-      color: black;
-      border: 2px solid #008CBA;
-    }
-
-    .button2:hover {
-      background-color: #008CBA;
-      color: white;
-    }
-  </style>
 </head>
+<body>
+  <style>
+    /* General Styling */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #121212;
+  color:#ffffff;
+}
 
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* My Cart Section */
+.cart-section {
+  margin-bottom: 30px;
+}
+
+.cart-header h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.cart-table th,
+.cart-table td {
+  text-align: center;
+  padding: 12px;
+  border: 1px solid #ffffff;
+}
+
+.cart-table th {
+  background-color: #1e1e1e;
+  font-weight: bold;
+}
+
+.cart-table td img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.empty-cart {
+  text-align: center;
+  color: #bbb;
+  font-style: italic;
+}
+
+/* Buttons */
+.btn-remove {
+  
+  padding: 8px 12px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 14px;
+  display: inline-block;
+}
+
+
+
+/* Coupon Form Section */
+.coupon-section h3 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.coupon-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.coupon-form input {
+  padding: 10px;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 10px;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+.coupon-form button {
+  background-color: #00bcd4;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.coupon-form button:hover {
+  background-color: #00a2b6;
+}
+
+/* Total Section */
+.total-section p {
+  text-align: center;
+  margin: 5px 0;
+}
+
+.total-section strong {
+  color: #ffffff;
+}
+
+/* Purchase Section */
+.purchase-section {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.btn-purchase {
+  background-color: #4caf50;
+  color: #ffffff;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn-purchase:hover {
+  background-color: #43a047;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .cart-table th,
+  .cart-table td {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .coupon-form input {
+    width: 90%;
+  }
+}
+/* Bin button */
+
+.bin-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 15px;
+  background-color: rgb(255, 95, 95);
+  cursor: pointer;
+  border: 3px solid rgb(255, 201, 201);
+  transition-duration: 0.3s;
+}
+.bin-bottom {
+  width: 15px;
+}
+.bin-top {
+  width: 17px;
+  transform-origin: right;
+  transition-duration: 0.3s;
+}
+.bin-button:hover .bin-top {
+  transform: rotate(45deg);
+}
+.bin-button:hover {
+  background-color: rgb(255, 0, 0);
+}
+.bin-button:active {
+  transform: scale(0.9);
+}
+
+
+  </style>
+  {% include "ecom/customer_navbar.html" %}
 <br><br><br><br>
 
 <div class="container">
-  <div class="panel panel-success">
-    <div class="panel-heading">
-      <h6 style="text-align:center;" class="panel-title">My Cart</h6>
+  <!-- My Cart Section -->
+  <div class="cart-section">
+    <div class="cart-header">
+      <h2>My Cart</h2>
     </div>
-    <table class="table table-hover table-bordered" id="dev-table">
+    <table class="cart-table">
       <thead>
         <tr>
           <th>Name</th>
@@ -77,74 +214,107 @@
           <th>Action</th>
         </tr>
       </thead>
-      {% for p in products %}
-      <tr>
-        <td>{{ p.name }}</td>
-        <td><img src="{% static p.product_image.url %}" alt="Product Image" height="50px" width="50px" /></td>
-        <td>${{ p.price }}</td>
-        <td>{{ p.description }}</td>
-        <td>
-          <a class="btn btn-danger btn-xs" href="{% url 'remove-from-cart' p.id %}">
-              <span class="glyphicon glyphicon-trash"></span>
-          </a>
-      </td>
-      </tr>
-      {% empty %}
-      <tr>
-        <td colspan="5" style="text-align: center;">No products in your cart</td>
-      </tr>
-      {% endfor %}
+      <tbody>
+        {% for p in products %}
+        <tr>
+          <td>{{ p.name }}</td>
+          <td><img src="{% static p.product_image.url %}" alt="Product Image"></td>
+          <td>{{ p.price }} Pkr</td>
+          <td>{{ p.description }}</td>
+          <td>
+            <a href="{% url 'remove-from-cart' p.id %}" class="btn-remove">
+
+<button class="bin-button">
+  <svg
+    class="bin-top"
+    viewBox="0 0 39 7"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <line y1="5" x2="39" y2="5" stroke="white" stroke-width="4"></line>
+    <line
+      x1="12"
+      y1="1.5"
+      x2="26.0357"
+      y2="1.5"
+      stroke="white"
+      stroke-width="3"
+    ></line>
+  </svg>
+  <svg
+    class="bin-bottom"
+    viewBox="0 0 33 39"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <mask id="path-1-inside-1_8_19" fill="white">
+      <path
+        d="M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z"
+      ></path>
+    </mask>
+    <path
+      d="M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z"
+      fill="white"
+      mask="url(#path-1-inside-1_8_19)"
+    ></path>
+    <path d="M12 6L12 29" stroke="white" stroke-width="4"></path>
+    <path d="M21 6V29" stroke="white" stroke-width="4"></path>
+  </svg>
+</button></a>
+
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="empty-cart">No products in your cart</td>
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
   </div>
 
   <!-- Coupon Form Section -->
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 style="text-align:center;" class="panel-title">Apply Coupon</h4>
+  <div class="coupon-section">
+    <h3>Apply Coupon</h3>
+    {% if messages %}
+    <div class="message-box">
+      <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
     </div>
-    <div class="panel-body">
-      {% if messages %}
-        <div class="alert alert-info">
-          <ul>
-            {% for message in messages %}
-              <li>{{ message }}</li>
-            {% endfor %}
-          </ul>
-        </div>
-      {% endif %}
-      <form method="post">
-        {% csrf_token %}
-        <div class="form-group">
-          <input type="text" class="form-control" name="coupon_code" placeholder="Enter coupon code" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Apply Coupon</button>
-      </form>
-    </div>
+    {% endif %}
+    <form method="post" class="coupon-form">
+      {% csrf_token %}
+      <input type="text" name="coupon_code" placeholder="Enter coupon code" required>
+      <button type="submit">Apply Coupon</button>
+    </form>
   </div>
 
-  <!-- Total Price & Discount Section -->
-  <div style="text-align: center;">
-    <p>Total Price: ${{ total }}</p>
-    <p>Delivery Fee: ${{ delivery_fee }}</p> <!-- Add delivery fee here -->
-    
+  <!-- Total Price Section -->
+  <div class="total-section">
+    <p><strong>Total Price:</strong> {{ total }} Pkr</p>
+    <p><strong>Delivery Fee:</strong> {{ delivery_fee }} Pkr</p>
     {% if coupon_discount %}
-      <p>Coupon Discount: {{ coupon_discount }}%</p>
-      <p>Total After Discount: ${{ final_total }}</p>
+    <p><strong>Coupon Discount:</strong> {{ coupon_discount }}%</p>
+    <p><strong>Total After Discount:</strong> {{ final_total }} Pkr</p>
     {% else %}
-      <p>Final Total: ${{ final_total }}</p> <!-- Updated to final_total -->
+    <p><strong>Final Total:</strong> {{ final_total }} Pkr</p>
     {% endif %}
   </div>
 
   <!-- Purchase Button -->
-  <div style="text-align: center;">
+  <div class="purchase-section">
     <a href="/customer-address">
-      <button class="btn btn-success btn-lg">
-        <span>Purchase</span>
-      </button>
+      <button class="btn-purchase">Purchase</button>
     </a>
   </div>
 </div>
 
 <br><br><br><br><br>
+{% include "ecom/footer.html" %}
+</body>
+</html>
 <!-- developed By : Usman -->
-{% endblock content %}
+

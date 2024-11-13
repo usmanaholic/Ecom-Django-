@@ -1,97 +1,142 @@
-{% extends 'ecom/customer_base.html' %}
 {% load widget_tweaks %}
-{% block content %}
 
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <style media="screen">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Profile</title>
+  <style>
     body {
-      background-color:#ffffff;
+      background-color: #121212; /* Dark theme */
+      color: #fff; /* Light text */
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
     }
-    a:link {
-      text-decoration: none;
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .register-form {
+      background-color: #1a1a1a; /* Slightly lighter for contrast */
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
 
     .note {
       text-align: center;
-      height: 80px;
-      background: -webkit-linear-gradient(left, #0072ff, #8811c5);
-      color: #fff;
+      font-size: 1.8rem;
       font-weight: bold;
-      line-height: 80px;
+      margin-bottom: 20px;
+      color: #00d4ff; /* Accent color */
+      text-transform: uppercase;
     }
 
     .form-content {
-      padding: 5%;
-      border: 1px solid #ced4da;
-      margin-bottom: 2%;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
     }
 
     .form-control {
-      border-radius: 1.5rem;
+      background-color: #222;
+      border: 1px solid #444;
+      border-radius: 5px;
+      color: #fff;
+      padding: 10px;
+      font-size: 1rem;
+      margin-top: 5px;
+    }
+
+    .form-control:focus {
+      border-color: #00d4ff;
+      outline: none;
+      box-shadow: 0 0 5px #00d4ff;
     }
 
     .btnSubmit {
-      border: none;
-      border-radius: 1.5rem;
-      padding: 1%;
-      width: 20%;
-      cursor: pointer;
-      background: #0062cc;
+      background-color: #00d4ff;
       color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
+      width: 100%;
+      margin-top: 20px;
+      transition: background-color 0.3s;
     }
 
-    .menu{
-      top: 50px;
+    .btnSubmit:hover {
+      background-color: #007a99;
+    }
+
+    @media (min-width: 768px) {
+      .form-content {
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+      }
     }
   </style>
-
-
 </head>
-<br><br><br><br><br><br>
-<!------ update page for doctor by admin(sumit)  ---------->
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  <div class="container register-form">
-    <div class="form">
-      <div class="note">
-        <p>EDIT PROFILE</p>
-      </div>
-      <div class="form-content">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              {% render_field userForm.first_name class="form-control" placeholder="First Name" %}
-            </div>
-            <div class="form-group">
-              {% render_field userForm.username class="form-control" placeholder="Username" %}
-            </div>
-            <div class="form-group">
-              {% render_field customerForm.mobile class="form-control" placeholder="Mobile" %}
-            </div>
-            <div class="form-group">
-              {% render_field customerForm.profile_pic class="form-control" placeholder="Profile Picture" %}
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              {% render_field userForm.last_name class="form-control" placeholder="Last Name" %}
-            </div>
-            <div class="form-group">
-              {% render_field userForm.password class="form-control" placeholder="Password" %}
-            </div>
-            <div class="form-group">
-              {% render_field customerForm.address class="form-control" placeholder="Address" %}
-            </div>
+<body>
+  {% include "ecom/customer_navbar.html" %}
+  <br><br><br><br><br><br>
 
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="container register-form">
+      <div class="form">
+        <div class="note">
+          <p>Edit Profile</p>
+        </div>
+        <div class="form-content">
+          <div class="form-group">
+            <label for="first_name">First Name</label>
+            {% render_field userForm.first_name class="form-control" placeholder="First Name" id="first_name" %}
+          </div>
+          <div class="form-group">
+            <label for="last_name">Last Name</label>
+            {% render_field userForm.last_name class="form-control" placeholder="Last Name" id="last_name" %}
+          </div>
+          <div class="form-group">
+            <label for="username">Username</label>
+            {% render_field userForm.username class="form-control" placeholder="Username" id="username" %}
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            {% render_field userForm.password class="form-control" placeholder="Password" id="password" %}
+          </div>
+          <div class="form-group">
+            <label for="mobile">Mobile</label>
+            {% render_field customerForm.mobile class="form-control" placeholder="Mobile" id="mobile" %}
+          </div>
+          <div class="form-group">
+            <label for="address">Address</label>
+            {% render_field customerForm.address class="form-control" placeholder="Address" id="address" %}
+          </div>
+          <div class="form-group">
+            <label for="profile_pic">Profile Picture</label>
+            {% render_field customerForm.profile_pic class="form-control" id="profile_pic" %}
           </div>
         </div>
         <button type="submit" class="btnSubmit">Edit</button>
       </div>
     </div>
-  </div>
-</form>
-<!--
-developed By : sumit kumar
--->
-
-{% endblock content %}
+  </form>
+  <br><br><br><br><br><br>
+  {% include "ecom/footer.html" %}
+</body>
+</html>

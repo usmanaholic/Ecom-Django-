@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib import messages
 from django.conf import settings
-from .models import Category, Product, Coupon, CouponUsage
+from .models import Category, Product, Coupon, CouponUsage, Orders, Order, Customer
 from django.utils import timezone
 from .forms import CouponApplyForm
 from decimal import Decimal
@@ -325,7 +325,7 @@ def cart_view(request):
     # Fetching product details from the database whose ID is present in cookies
     products = None
     total = 0
-    delivery_fee = 0
+    delivery_fee = 0  # Initialize delivery fee
 
     if 'product_ids' in request.COOKIES:
         product_ids = request.COOKIES['product_ids']
@@ -333,13 +333,19 @@ def cart_view(request):
             product_id_in_cart = product_ids.split('|')
             products = models.Product.objects.filter(id__in=product_id_in_cart)
 
-            # Calculate total price of products in the cart and add delivery fee for physical products
+            has_physical_product = False  # Flag to check if there's at least one physical product
+
+            # Calculate total price of products in the cart
             for p in products:
                 total += p.price
 
-                # Add delivery fee for non-digital products
+                # Check if the product is non-digital
                 if not p.is_digital:
-                    delivery_fee += 50  # Set your delivery fee value here
+                    has_physical_product = True
+
+            # Add delivery fee only if there's a physical product
+            if has_physical_product:
+                delivery_fee = 250  # Set your delivery fee value here
 
     # Coupon application logic
     coupon_discount = 0
@@ -364,10 +370,6 @@ def cart_view(request):
                 messages.error(request, "You have already used this coupon.")
             else:
                 # Apply the discount and calculate the final total
-                #____________________________________________________________
-                #____if you want to remove percentage from coupon___________
-
-
                 coupon_discount = coupon.discount
                 final_total = (total + delivery_fee) * (1 - coupon_discount / 100)
 
@@ -382,7 +384,7 @@ def cart_view(request):
         except Coupon.DoesNotExist:
             # Handle the case where the coupon does not exist or is invalid
             messages.error(request, "This coupon is invalid or expired.")
-    
+
     return render(request, 'ecom/cart.html', {
         'products': products,
         'total': total,
@@ -527,45 +529,56 @@ def customer_address_view(request):
 #then only this view should be accessed
 @login_required(login_url='customerlogin')
 def payment_success_view(request):
-    # Here we will place order | after successful payment
-    # we will fetch customer  mobile, address, Email
-    # we will fetch product id from cookies then respective details from db
-    # then we will create order objects and store in db
-    # after that we will delete cookies because after order placed...cart should be empty
-    customer=models.Customer.objects.get(user_id=request.user.id)
-    products=None
-    email=None
-    mobile=None
-    address=None
+    customer = Customer.objects.get(user_id=request.user.id)
+    products = None
+    email = None
+    mobile = None
+    address = None
+
+    # Get products from cookies
     if 'product_ids' in request.COOKIES:
         product_ids = request.COOKIES['product_ids']
-        if product_ids != "":
-            product_id_in_cart=product_ids.split('|')
-            products=models.Product.objects.all().filter(id__in = product_id_in_cart)
-            # Here we get products list that will be ordered by one customer at a time
+        if product_ids:
+            product_id_in_cart = product_ids.split('|')
+            products = Product.objects.filter(id__in=product_id_in_cart)
 
-    # these things can be change so accessing at the time of order...
+    # Get customer details from cookies
     if 'email' in request.COOKIES:
-        email=request.COOKIES['email']
+        email = request.COOKIES['email']
     if 'mobile' in request.COOKIES:
-        mobile=request.COOKIES['mobile']
+        mobile = request.COOKIES['mobile']
     if 'address' in request.COOKIES:
-        address=request.COOKIES['address']
+        address = request.COOKIES['address']
 
-    # here we are placing number of orders as much there is a products
-    # suppose if we have 5 items in cart and we place order....so 5 rows will be created in orders table
-    # there will be lot of redundant data in orders table...but its become more complicated if we normalize it
-    for product in products:
-        models.Orders.objects.get_or_create(customer=customer,product=product,status='Pending',email=email,mobile=mobile,address=address)
+    if products:
+        # Create a new order (group)
+        order = Order.objects.create(
+            customer=customer,
+        )
 
-    # after order placed cookies should be deleted
-    response = render(request,'ecom/payment_success.html')
-    response.delete_cookie('product_ids')
-    response.delete_cookie('email')
-    response.delete_cookie('mobile')
-    response.delete_cookie('address')
-    return response
+        # Create individual orders for each product
+        for product in products:
+            Orders.objects.create(
+                customer=customer,
+                product=product,
+                order=order,
+                email=email,
+                mobile=mobile,
+                address=address,
+                status='Pending',
+            )
 
+        # Show the order number on the success page
+        response = render(request, 'ecom/payment_success.html', {'order_number': order.order_number})
+
+        # Clear the cookies
+        response.delete_cookie('product_ids')
+        response.delete_cookie('email')
+        response.delete_cookie('mobile')
+        response.delete_cookie('address')
+        return response
+
+    return render(request, 'ecom/payment_success.html', {'error': 'No products found in cart.'})
 
 
 

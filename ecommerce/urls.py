@@ -52,7 +52,7 @@ urlpatterns = [
     path('customer-home', views.customer_home_view,name='customer-home'),
     path('my-order', views.my_order_view,name='my-order'),
     # path('my-order', views.my_order_view2,name='my-order'),
-    path('my-profile', views.my_profile_view,name='my-profile'),
+    path('my-profile/', views.my_profile_view,name='my-profile'),
     path('edit-profile', views.edit_profile_view,name='edit-profile'),
     path('download-invoice/<int:orderID>/<int:productID>', views.download_invoice_view,name='download-invoice'),
 

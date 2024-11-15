@@ -72,6 +72,8 @@ urlpatterns = [
     path('products/', views.product_list, name='product-list'),
     path('products/<int:id>/', views.product_detail, name='product-detail'),
     path('cart/', views.cart_view, name='cart'),
+    path('all-categories/', views.all_categories_view, name='all_categories'),
+    path('all-products/', views.all_products_view, name='all_products'),
 
 
 

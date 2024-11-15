@@ -20,6 +20,7 @@ class Customer(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
+    featured = models.BooleanField(default=False)  # New field to indicate featured categories
 
     def __str__(self):
         return self.name
@@ -32,6 +33,7 @@ class Product(models.Model):
     description=models.CharField(max_length=40)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', default=1)
     is_digital = models.BooleanField(default=False) 
+    featured = models.BooleanField(default=False) # New field to indicate Popular Products
     def __str__(self):
         return self.name
 
@@ -96,6 +98,7 @@ class Order(models.Model):
         if not self.order_number:
             self.order_number = str(uuid.uuid4()).replace('-', '').upper()[:5]  # Generate unique order number
         super(Order, self).save(*args, **kwargs)
+
 
 
 

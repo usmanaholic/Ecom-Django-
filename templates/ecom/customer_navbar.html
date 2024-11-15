@@ -176,10 +176,8 @@ a {
         <li><a href="#">Categories</a></li>
         <li><a href="/contactus">Contact us</a></li>
         <li><a href="/aboutus">About Us</a></li>
-        <li><form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="logout-btn">Logout</button>
-        </form></li>
+        <li><a href="/my-order">Track Order</a></li>
+
 
       </ul>
     <form method="GET" action="{% url 'search' %}">

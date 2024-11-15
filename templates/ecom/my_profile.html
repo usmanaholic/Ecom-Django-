@@ -1,186 +1,162 @@
-
 {% load static %}
-
-
-
+{% include "ecom/customer_navbar.html" %}
+<br><br><br><br><br>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile Page</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+</head>
+<body>
   <style>
-    body {
-      background-color: #121212; /* Black background */
-      color: #fff; /* White text */
-      font-family: Arial, sans-serif;
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
-
+    
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212; /* Black theme */
+      color: #fff; /* White text */
+      line-height: 1.6;
+    }
+    
     .container {
+      max-width: 1200px;
+      margin: 0 auto;
       padding: 20px;
     }
-
-    .img-rounded {
-      border-radius: 50%;
+    
+    .profile-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .profile-pic img {
       width: 150px;
       height: 150px;
+      border-radius: 50%;
+      border: 2px solid #fff;
       object-fit: cover;
-      border: 3px solid #fff;
     }
-
-    blockquote {
-      border-left: 4px solid #fff;
-      padding-left: 15px;
+    
+    .profile-info {
+      margin-left: 20px;
     }
-
-    .btn-primary {
-      background-color: #fff;
-      color: #000;
-      border: none;
-      font-size: 1.2rem;
+    
+    .profile-info h2 {
+      margin-bottom: 10px;
+      font-size: 1.8rem;
+    }
+    
+    .profile-info p {
+      margin: 5px 0;
+    }
+    
+    .edit-btn {
+      display: inline-block;
+      margin-top: 15px;
       padding: 10px 20px;
-      transition: background-color 0.3s, color 0.3s;
+      background-color: #fff; /* White button */
+      color: #000; /* Black text */
+      text-decoration: none;
+      font-weight: bold;
+      border: 2px solid #fff;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
-
-    .btn-primary:hover {
+    
+    .edit-btn:hover {
       background-color: #000;
       color: #fff;
-      border: 2px solid #fff;
     }
-
-    .container {
-      color: #fff;
+    
+    .logout-section {
+      position: fixed; /* Make it fixed so it stays in the top-right corner */
+      top: 80px;
+      right: 20px; /* Completely aligned to the right */
+      z-index: 1000; /* Ensure it stays above other elements */
     }
-  
-    h2 {
-      margin-bottom: 30px;
+    
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px; /* Space between icon and text */
+      background: linear-gradient(45deg, #ff6b6b, #f94d6a); /* Gradient background */
+      color: #fff; /* White text */
+      border: none;
+      padding: 10px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
       font-weight: bold;
-      border-bottom: 2px solid #fff;
-      display: inline-block;
-      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
     }
-  
-    .card {
-      background-color: #1a1a1a; /* Dark card background */
-      border: 1px solid #444; /* Subtle border for contrast */
-      border-radius: 10px; /* Rounded corners */
-      transition: transform 0.3s, box-shadow 0.3s;
+    
+    .logout-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.4);
     }
-  
-    .card:hover {
-      transform: scale(1.05); /* Slight zoom effect on hover */
-      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+    
+    .logout-icon {
+      font-size: 1.2rem; /* Adjust icon size */
     }
-  
-    .card-title {
-      font-size: 1.2rem;
-      margin-bottom: 15px;
-      font-weight: bold;
-    }
-  
-    .text-primary {
-      color: #00d4ff; /* Highlighted text */
-    }
-  
-    .row {
-      margin: 0;
-    }
-  
-    .text-muted {
-      color: #aaa;
-    }
-  
+    
+    /* Responsive Logout Button */
     @media (max-width: 768px) {
-      .card {
-        margin: 0 15px;
-      }
-  
-      h2 {
-        font-size: 1.5rem;
+      .logout-btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
       }
     }
-
-
-
-
-    /* Responsive Styles */
+    
+    /* Responsive Design */
     @media (max-width: 768px) {
-      .container {
-        padding-left: 20px;
-        padding-right: 20px;
+      .profile-section {
+        flex-direction: column;
       }
-
-      .img-rounded {
-        width: 100px;
-        height: 100px;
-      }
-
-      .btn-primary {
-        font-size: 1rem;
-        padding: 8px 16px;
+    
+      .profile-info {
+        margin: 20px 0 0 0;
       }
     }
   </style>
-</head>
-<body>
-
-  {% include "ecom/customer_navbar.html" %}
-  <br><br><br><br><br>
-
-  <div class="container text-center">
-    <div class="row justify-content-center align-items-center">
-      <div class="col-md-3 col-sm-12">
-        <img src="{% static customer.profile_pic.url %}" alt="Profile Pic" class="img-rounded">
+  <div class="container">
+    <div class="profile-section">
+      <div class="logout-section">
+        <form action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="logout-btn">
+           <i class="fa fa-sign-out-alt"></i>Logout
+          </button>
+        </form>
       </div>
-      <div class="col-md-5 col-sm-12">
-        <blockquote class="mt-3">
-          <p>Username: {{ request.user }}</p>
-          <small><cite title="Source Title">Address: {{ customer.address }}</cite></small>
-        </blockquote>
-        <p><i class="glyphicon glyphicon-phone"></i> Contact: {{ customer.mobile }}</p>
+      <div class="profile-pic">
+        <img src="{% static customer.profile_pic.url %}" alt="Profile Pic">
+      </div>
+      <div class="profile-info">
+        <h2>{{ request.user }}</h2>
+        <p><strong>Address:</strong> {{ customer.address }}</p>
+        <p><strong>Contact:</strong> {{ customer.mobile }}</p>
+        <a href="/edit-profile" class="edit-btn">Edit Profile</a>
       </div>
     </div>
-    <div class="mt-4">
-      <a href="/edit-profile">
-        <button class="btn btn-primary btn-lg">Edit Profile</button>
-      </a>
-    </div>
-  </div>
 
-  <div class="container text-center mt-5">
-    <h2>Your Active Coupons</h2>
-    <div class="row justify-content-center">
-      {% if active_coupons %}
-        {% for coupon in active_coupons %}
-          <div class="col-md-4 col-sm-6 my-3">
-            <div class="card bg-dark text-white shadow-sm">
-              <div class="card-body">
-                <h5 class="card-title">Coupon Code: <span class="text-primary">{{ coupon.code }}</span></h5>
-                <p class="card-text">
-                  <strong>Discount:</strong> {{ coupon.discount }}%<br>
-                  <strong>Valid From:</strong> {{ coupon.valid_from|date:"Y-m-d" }}<br>
-                  <strong>Valid To:</strong> {{ coupon.valid_to|date:"Y-m-d" }}
-                </p>
-              </div>
-            </div>
-          </div>
-        {% endfor %}
-      {% else %}
-        <div class="col-12">
-          <p class="text-muted">You have no active coupons.</p>
-        </div>
-      {% endif %}
-    </div>
+    
   </div>
-  
-
- 
 </body>
 </html>
 
-
+<br><br><br>
 {% include "ecom/footer.html" %}

@@ -25,6 +25,8 @@
 }
 
 
+
+
 /* Hero Section */
 .hero-section {
   background: url('/static/images/bg1.jpg') no-repeat center center/cover;
@@ -453,50 +455,51 @@
     <main>
         <!-- Categories Section -->
         <section class="categories-section">
-            <div class="categories-section-header">
-                <h2>Featured Categories</h2>
-              
-            </div>
-            <div class="categories-grid">
-                {% for category in categories %}
-                    <div class="category-item">
-                        <a href="{% url 'category-products' category.id %}">
-                            {{ category.name }}
-                        </a>
-                    </div>
-                {% endfor %}
-            </div>
-        </section>
+          <div class="categories-section-header">
+              <h2>Featured Categories</h2>
+              <a href="{% url 'all_categories' %}" class="see-more">See All Categories</a>
+            
+          </div>
+          <div class="categories-grid">
+              {% for category in featured_categories %}
+                  <div class="category-item">
+                      <a href="{% url 'category-products' category.id %}">
+                          {{ category.name }}
+                      </a>
+                  </div>
+              {% endfor %}
+          </div>
+      </section>
         <!-- Products Section -->
         <section class="products-section">
           <div class="section-header">
-              <h2>Popular Products</h2>
-              <a href="#" class="see-more">See All Products</a>
-          </div>
-          
-          <div class="products-grid">
-              {% for p in products %}
-                  <div class="product-item">
-                      <div class="product-image">
-                          <img src="{% static p.product_image.url %}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
-                      </div>
-                      <h3>{{ p.name }}</h3>
-                      <p>{{ p.price }} PKR</p>
-                      <p>{{ p.description }}</p>
-                      
-                      <div class="product-actions">
-                          <a href="{% url 'product-detail' p.id %}" class="view-product-btn">View Product</a>
-                          <a href="{% url 'add-to-cart' p.id %}" class="add-to-cart-btn">
-                              <i class="fa fa-shopping-cart"></i> Add to Cart
-                          </a>
-                      </div>
-                  </div>
-                  
-                  {% if forloop.counter|divisibleby:"4" %}
-                      </div><div class="products-grid"> <!-- New row after every 4 items -->
-                  {% endif %}
-              {% endfor %}
-          </div>
+            <h2>Popular Products</h2>
+            <a href="{% url 'all_products' %}" class="see-more">See All Products</a>
+        </div>
+        
+        <div class="products-grid">
+            {% for p in popular_products %}
+                <div class="product-item">
+                    <div class="product-image">
+                        <img src="{% static p.product_image.url %}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
+                    </div>
+                    <h3>{{ p.name }}</h3>
+                    <p>{{ p.price }} PKR</p>
+                    <p>{{ p.description }}</p>
+                    
+                    <div class="product-actions">
+                        <a href="{% url 'product-detail' p.id %}" class="view-product-btn">View Product</a>
+                        <a href="{% url 'add-to-cart' p.id %}" class="add-to-cart-btn">
+                            <i class="fa fa-shopping-cart"></i> Add to Cart
+                        </a>
+                    </div>
+                </div>
+                
+                {% if forloop.counter|divisibleby:"4" %}
+                    </div><div class="products-grid"> <!-- New row after every 4 items -->
+                {% endif %}
+            {% endfor %}
+        </div>
           
           <!-- Pagination Controls -->
           <div class="pagination">
@@ -520,15 +523,25 @@
     <script>
       const images = [
           '/static/images/bg1.jpg',
-          '/static/images/bg3.jpg',
-
-          '/static/images/background3.jpg'
+          '/static/images/bg2.jpg',
+          '/static/images/bg3.jpg'
       ];
       let currentIndex = 0;
   
+      // Preload images to enable lazy loading
+      const imageElements = images.map(src => {
+          const img = new Image();
+          img.src = src;
+          return img;
+      });
+  
       function changeBackground() {
           currentIndex = (currentIndex + 1) % images.length; // Cycle through the images
-          document.querySelector('.hero-section').style.backgroundImage = `url('${images[currentIndex]}')`;
+  
+          // Ensure the image is loaded before setting it as background
+          if (imageElements[currentIndex].complete) {
+              document.querySelector('.hero-section').style.backgroundImage = `url('${images[currentIndex]}')`;
+          }
       }
   
       // Change the background every 5 seconds

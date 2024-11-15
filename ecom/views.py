@@ -19,8 +19,10 @@ from django.contrib.auth.forms import AuthenticationForm
 
 def home_view(request):
     products = models.Product.objects.all()  # Fetch all products
-    categories = models.Category.objects.all()  # Fetch all categories
-    
+    popular_products = models.Product.objects.filter(featured=True) # Only popular products
+    featured_categories = models.Category.objects.filter(featured=True)  # Only featured categories
+    categories = models.Category.objects.all()  # All categories
+
     # Check if product_ids are stored in cookies (for cart count)
     if 'product_ids' in request.COOKIES:
         product_ids = request.COOKIES['product_ids']
@@ -33,11 +35,14 @@ def home_view(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect('afterlogin')
 
-    # Pass both products and categories to the template
+    # Pass products, categories, and featured categories to the template
     return render(request, 'ecom/index.html', {
         'products': products,
+        'popular_products': popular_products,
         'categories': categories,
-        'product_count_in_cart': product_count_in_cart
+        'featured_categories': featured_categories,
+        'product_count_in_cart': product_count_in_cart,
+        
     })
 
 
@@ -283,6 +288,9 @@ def search_view(request):
 # any one can add product to cart, no need of signin
 def add_to_cart_view(request,pk):
     products=models.Product.objects.all()
+    popular_products = models.Product.objects.filter(featured=True) # Only popular products
+    featured_categories = models.Category.objects.filter(featured=True)  # Only featured categories
+    categories = models.Category.objects.all()  # All categories
 
     #for cart counter, fetching products ids added by customer from cookies
     if 'product_ids' in request.COOKIES:
@@ -292,7 +300,10 @@ def add_to_cart_view(request,pk):
     else:
         product_count_in_cart=1
 
-    response = render(request, 'ecom/index.html',{'products':products,'product_count_in_cart':product_count_in_cart})
+    response = render(request, 'ecom/index.html',{'products':products,'product_count_in_cart':product_count_in_cart, 'popular_products': popular_products,
+        'categories': categories,
+        'featured_categories': featured_categories,
+        'product_count_in_cart': product_count_in_cart,})
 
     #adding product id to cookies
     if 'product_ids' in request.COOKIES:
@@ -467,13 +478,17 @@ def remove_from_cart_view(request, pk):
 @user_passes_test(is_customer)
 def customer_home_view(request):
     products=models.Product.objects.all()
+    featured_categories = models.Category.objects.filter(featured=True)  # Only featured categories
+    popular_products = models.Product.objects.filter(featured=True)
+    categories = models.Category.objects.all()
     if 'product_ids' in request.COOKIES:
         product_ids = request.COOKIES['product_ids']
         counter=product_ids.split('|')
         product_count_in_cart=len(set(counter))
     else:
         product_count_in_cart=0
-    return render(request,'ecom/customer_home.html',{'products':products,'product_count_in_cart':product_count_in_cart})
+    return render(request,'ecom/customer_home.html',{'products':products,'product_count_in_cart':product_count_in_cart,'categories': categories,
+        'featured_categories': featured_categories, 'popular_products': popular_products, })
 
 
 
@@ -811,5 +826,14 @@ def product_list(request):
         'products': products,
     }
     return render(request, 'productlisht.html', context)
+
+
+def all_categories_view(request):
+    categories = Category.objects.all()  # Fetch all categories
+    return render(request, 'ecom/allcategories.html', {'categories': categories})
+
+def all_products_view(request):
+    product = Product.objects.all()  # Fetch all categories
+    return render(request, 'ecom/allproducts.html', {'products': product})
 
 

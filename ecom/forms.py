@@ -23,10 +23,19 @@ class ProductForm(forms.ModelForm):
 
 #address of shipment
 class AddressForm(forms.Form):
-    Email = forms.EmailField()
-    Mobile= forms.IntegerField()
-    Address = forms.CharField(max_length=500)
-
+    first_name = forms.CharField(max_length=100, label="First Name")
+    last_name = forms.CharField(max_length=100, label="Last Name")
+    email = forms.EmailField(label="Email")
+    mobile = forms.CharField(max_length=15, label="Mobile")
+    address_line_1 = forms.CharField(max_length=500, label="Address Line 1")
+    address_line_2 = forms.CharField(max_length=500, required=False, label="Address Line 2")
+    city = forms.CharField(max_length=100, label="City")
+    state = forms.CharField(max_length=100, label="State/Province")
+    zip_code = forms.CharField(max_length=20, label="ZIP/Postal Code")
+    country = forms.CharField(max_length=100, label="Country")
+    notes = forms.CharField(
+        max_length=500, required=False, widget=forms.Textarea, label="Order Notes"
+    )
 class FeedbackForm(forms.ModelForm):
     class Meta:
         model=models.Feedback

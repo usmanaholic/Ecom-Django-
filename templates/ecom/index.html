@@ -455,10 +455,11 @@
         <section class="categories-section">
             <div class="categories-section-header">
                 <h2>Featured Categories</h2>
+                <a href="{% url 'all_categories' %}" class="see-more">See All Categories</a>
               
             </div>
             <div class="categories-grid">
-                {% for category in categories %}
+                {% for category in featured_categories %}
                     <div class="category-item">
                         <a href="{% url 'category-products' category.id %}">
                             {{ category.name }}
@@ -471,11 +472,11 @@
         <section class="products-section">
           <div class="section-header">
               <h2>Popular Products</h2>
-              <a href="#" class="see-more">See All Products</a>
+              <a href="{% url 'all_products' %}" class="see-more">See All Products</a>
           </div>
           
           <div class="products-grid">
-              {% for p in products %}
+              {% for p in popular_products %}
                   <div class="product-item">
                       <div class="product-image">
                           <img src="{% static p.product_image.url %}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
@@ -525,9 +526,20 @@
       ];
       let currentIndex = 0;
   
+      // Preload images to enable lazy loading
+      const imageElements = images.map(src => {
+          const img = new Image();
+          img.src = src;
+          return img;
+      });
+  
       function changeBackground() {
           currentIndex = (currentIndex + 1) % images.length; // Cycle through the images
-          document.querySelector('.hero-section').style.backgroundImage = `url('${images[currentIndex]}')`;
+  
+          // Ensure the image is loaded before setting it as background
+          if (imageElements[currentIndex].complete) {
+              document.querySelector('.hero-section').style.backgroundImage = `url('${images[currentIndex]}')`;
+          }
       }
   
       // Change the background every 5 seconds

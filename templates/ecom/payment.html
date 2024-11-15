@@ -1,185 +1,196 @@
 {% load static %}
 
-
-<br><br><br>
-
-<style>
-  /* General Styles */
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: #121212;
-    color: #fff;
-    margin: 0;
-    padding: 0;
-  }
-
-  .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  }
-
-  .payment-form {
-    width: 100%;
-    max-width: 500px;
-    background-color: #121212;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
-    padding: 20px;
-  }
-
-  .payment-form h3 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #fff;
-  }
-
-  .form-group {
-    margin-bottom: 15px;
-  }
-
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    font-size: 14px;
-    color: #ccc;
-  }
-
-  .form-control {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #222;
-    color: #fff;
-    font-size: 14px;
-  }
-
-  .form-control:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
-  }
-
-  .row {
-    display: flex;
-    gap: 15px;
-  }
-
-  .row .col {
-    flex: 1;
-  }
-
-  .checkbox label {
-    font-size: 14px;
-    color: #ccc;
-  }
-
-  .btn {
-    width: 100%;
-    padding: 12px;
-    background-color: #444;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    text-align: center;
-    cursor: pointer;
-    margin-top: 20px;
-    text-decoration: none;
-  }
-
-  .btn:hover {
-    background-color: #333;
-  }
-
-  .btn-success {
-    background-color: #28a745;
-  }
-
-  .btn-success:hover {
-    background-color: #218838;
-  }
-
-  .nav-pills {
-    list-style-type: none;
-    padding: 0;
-    margin: 20px 0;
-  }
-
-  .nav-pills li {
-    background-color: #333;
-    border-radius: 5px;
-    padding: 10px;
-    text-align: center;
-    color: #fff;
-    font-size: 14px;
-  }
-
-  .nav-pills li.active {
-    background-color: #444;
-  }
-
-  .badge {
-    background-color: #555;
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 50px;
-  }
-
-  /* Responsive Design */
-  @media (max-width: 768px) {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment</title>
+</head>
+<body>
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #121212;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+  
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+  
     .payment-form {
-      padding: 15px;
+      width: 100%;
+      max-width: 500px;
+      background-color: #121212;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+      padding: 20px;
     }
-
+  
+    .payment-form h3 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #fff;
+    }
+  
+    .form-group {
+      margin-bottom: 15px;
+    }
+  
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      font-size: 14px;
+      color: #ccc;
+    }
+  
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #222;
+      color: #fff;
+      font-size: 14px;
+    }
+  
+    .form-control:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    }
+  
     .row {
-      flex-direction: column;
+      display: flex;
+      gap: 15px;
     }
-  }
-</style>
-
-<div class="container">
-  <div class="payment-form">
-    <h3>Payment Details</h3>
-    <form role="form" method="post">
-      <div class="form-group">
-        <label for="cardNumber">Card Number</label>
-        <input type="text" class="form-control" id="cardNumber" placeholder="xxxx xxxx xxxx xxxx" required autofocus />
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label for="expityMonth">Month</label>
-            <input type="text" class="form-control" id="expityMonth" placeholder="MM - 02" required />
+  
+    .row .col {
+      flex: 1;
+    }
+  
+    .checkbox label {
+      font-size: 14px;
+      color: #ccc;
+    }
+  
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #444;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      text-align: center;
+      cursor: pointer;
+      margin-top: 20px;
+      text-decoration: none;
+    }
+  
+    .btn:hover {
+      background-color: #333;
+    }
+  
+    .btn-success {
+      background-color: #28a745;
+    }
+  
+    .btn-success:hover {
+      background-color: #218838;
+    }
+  
+    .nav-pills {
+      list-style-type: none;
+      padding: 0;
+      margin: 20px 0;
+    }
+  
+    .nav-pills li {
+      background-color: #333;
+      border-radius: 5px;
+      padding: 10px;
+      text-align: center;
+      color: #fff;
+      font-size: 14px;
+    }
+  
+    .nav-pills li.active {
+      background-color: #444;
+    }
+  
+    .badge {
+      background-color: #555;
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 50px;
+    }
+  
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .payment-form {
+        padding: 15px;
+      }
+  
+      .row {
+        flex-direction: column;
+      }
+    }
+  </style>
+  <div class="container">
+    <div class="payment-form">
+      <h3>Payment Details</h3>
+      <form role="form" method="post">
+        <div class="form-group">
+          <label for="cardNumber">Card Number</label>
+          <input type="text" class="form-control" id="cardNumber" placeholder="xxxx xxxx xxxx xxxx" required autofocus />
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="expityMonth">Month</label>
+              <input type="text" class="form-control" id="expityMonth" placeholder="MM - 02" required />
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="expityYear">Expiry Year</label>
+              <input type="text" class="form-control" id="expityYear" placeholder="YY - 22" required />
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="cvCode">CV Code</label>
+              <input type="password" class="form-control" id="cvCode" placeholder="CV - xxx" required />
+            </div>
           </div>
         </div>
-        <div class="col">
-          <div class="form-group">
-            <label for="expityYear">Expiry Year</label>
-            <input type="text" class="form-control" id="expityYear" placeholder="YY - 22" required />
-          </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" /> Remember
+          </label>
         </div>
-        <div class="col">
-          <div class="form-group">
-            <label for="cvCode">CV Code</label>
-            <input type="password" class="form-control" id="cvCode" placeholder="CV - xxx" required />
-          </div>
-        </div>
-      </div>
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" /> Remember
-        </label>
-      </div>
-      <ul class="nav nav-pills nav-stacked">
-        <li class="active"><a href="#">Final Payment <span class="badge pull-right">{{ total }}</span></a></li>
-      </ul>
-      <a href="/payment-success" class="btn btn-success">Pay</a>
-    </form>
+        <ul class="nav nav-pills nav-stacked">
+          <li class="active"><a href="#">Final Payment <span class="badge pull-right">{{ total }}</span></a></li>
+        </ul>
+        <a href="/payment-success" class="btn btn-success">Pay</a>
+      </form>
+    </div>
   </div>
-</div>
+</body>
+</html>
 
-{% include "ecom/footer.html" %}
+
+
+
+
+
+

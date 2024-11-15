@@ -1,8 +1,15 @@
-
+{% include "ecom/customer_navbar.html" %}
 {% load static %}
 {% load widget_tweaks %}
-
-<style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Customer-Details</title>
+</head>
+<body>
+	<style>
 	body {
 		font-family: Arial, sans-serif;
 		margin: 0;
@@ -95,24 +102,54 @@
 	
 </style>
 
-{% include "ecom/customer_navbar.html" %}
 <br><br><br><br><br>
-
 {% if product_in_cart %}
     <form method="post">
         {% csrf_token %}
         <ul class="form-style-1">
             <li>
+                <label>First Name <span class="required">*</span></label>
+                {% render_field addressForm.first_name class="field-long" placeholder="First Name" %}
+            </li>
+            <li>
+                <label>Last Name <span class="required">*</span></label>
+                {% render_field addressForm.last_name class="field-long" placeholder="Last Name" %}
+            </li>
+            <li>
                 <label>Email <span class="required">*</span></label>
-                {% render_field addressForm.Email class="field-long" placeholder="Email" %}
+                {% render_field addressForm.email class="field-long" placeholder="Email" %}
             </li>
             <li>
                 <label>Mobile <span class="required">*</span></label>
-                {% render_field addressForm.Mobile class="field-long" placeholder="Mobile" %}
+                {% render_field addressForm.mobile class="field-long" placeholder="Mobile" %}
             </li>
             <li>
-                <label>Shipment Address <span class="required">*</span></label>
-                {% render_field addressForm.Address id="field5" class="field-long field-textarea" placeholder="Building Number, City, Pin" %}
+                <label>Address Line 1 <span class="required">*</span></label>
+                {% render_field addressForm.address_line_1 class="field-long" placeholder="Street Address" %}
+            </li>
+            <li>
+                <label>Address Line 2</label>
+                {% render_field addressForm.address_line_2 class="field-long" placeholder="Apartment, Suite, etc." %}
+            </li>
+            <li>
+                <label>City <span class="required">*</span></label>
+                {% render_field addressForm.city class="field-long" placeholder="City" %}
+            </li>
+            <li>
+                <label>State/Province <span class="required">*</span></label>
+                {% render_field addressForm.state class="field-long" placeholder="State/Province" %}
+            </li>
+            <li>
+                <label>ZIP/Postal Code <span class="required">*</span></label>
+                {% render_field addressForm.zip_code class="field-long" placeholder="ZIP/Postal Code" %}
+            </li>
+            <li>
+                <label>Country <span class="required">*</span></label>
+                {% render_field addressForm.country class="field-long" placeholder="Country" %}
+            </li>
+            <li>
+                <label>Order Notes</label>
+                {% render_field addressForm.notes id="field-notes" class="field-long field-textarea" placeholder="Any special instructions for delivery" %}
             </li>
             <li>
                 <input type="submit" value="Proceed To Pay" />
@@ -121,11 +158,18 @@
     </form>
 {% else %}
     <br><br>
-    <h1 style="color: red;">First Add Product In Cart</h1>
+    <h1 style="color: white;">First Add Product In Cart</h1>
     <br><br><br><br><br><br><br><br><br><br>
 {% endif %}
-
+</body>
+</html>
 {% include "ecom/footer.html" %}
+
+
+
+
+
+
 
 
 

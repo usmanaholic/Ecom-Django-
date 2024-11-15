@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-Products</title>
+</head>
+<body>
+    <style>
+        .products-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+          }
+          
+          .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+          }
+          
+          .see-more {
+            font-size: 14px;
+            color: #007bff;
+            text-decoration: none;
+          }
+          
+          .products-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+          }
+          
+          .product-item {
+            width: 23%; /* Default: 4 products per row */
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          }
+          
+          .product-item h3 {
+            font-size: 18px;
+            color: #333;
+          }
+          
+          .product-item p {
+            font-size: 14px;
+            color: #666;
+          }
+          
+          .product-actions {
+            margin-top: 10px;
+          }
+          
+          .view-product-btn,
+          .add-to-cart-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 8px 12px;
+            font-size: 14px;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+          }
+          
+          .view-product-btn {
+            background-color: #007bff;
+          }
+          
+          .add-to-cart-btn {
+            background-color: #28a745;
+          }
+    </style>
+    <div class="products-grid">
+    {% for p in products %}
+        <div class="product-item">
+            <div class="product-image">
+                <img src="{% static p.product_image.url %}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
+            </div>
+            <h3>{{ p.name }}</h3>
+            <p>{{ p.price }} PKR</p>
+            <p>{{ p.description }}</p>
+            
+            <div class="product-actions">
+                <a href="{% url 'product-detail' p.id %}" class="view-product-btn">View Product</a>
+                <a href="{% url 'add-to-cart' p.id %}" class="add-to-cart-btn">
+                    <i class="fa fa-shopping-cart"></i> Add to Cart
+                </a>
+            </div>
+        </div>
+
+        {% if forloop.counter|divisibleby:"4" %}
+    </div><div class="products-grid"> <!-- New row after every 4 items -->
+{% endif %}
+{% endfor %}
+</div>
+</body>
+</html>
+

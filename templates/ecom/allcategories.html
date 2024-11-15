@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-Categories</title>
+</head>
+<body>
+  
+    <section class="categories-section">
+        <div class="categories-section-header">
+            <h2>All Categories</h2>
+
+          
+        </div>
+        <div class="categories-grid">
+            {% for category in categories %}
+                <div class="category-item">
+                    <a href="{% url 'category-products' category.id %}">
+                        {{ category.name }}
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="{% url 'home' %}" class="back-link">Back to Home</a>
+        </div>
+    </section>
+</body>
+</html>

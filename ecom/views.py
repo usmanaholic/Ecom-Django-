@@ -80,6 +80,12 @@ def sub_category_products_view(request, sub_category_id):
         'products': products
     })
 
+#_______________________________________________
+#___________Navbar view_______________________________
+#____________________________________________________
+def categories_context(request):
+    categories = Category.objects.prefetch_related('sub_category').all()
+    return {'categories': categories}
 
 #for showing login button for admin(by usman)
 def adminclick_view(request):

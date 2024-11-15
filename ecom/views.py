@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib import messages
 from django.conf import settings
-from .models import Category, Product, Coupon, CouponUsage, Orders, Order, Customer
+from .models import Category, Product, Coupon, CouponUsage, Orders, Order, Customer, Sub_category
 from django.utils import timezone
 from .forms import CouponApplyForm
 from decimal import Decimal
@@ -22,6 +22,7 @@ def home_view(request):
     popular_products = models.Product.objects.filter(featured=True) # Only popular products
     featured_categories = models.Category.objects.filter(featured=True)  # Only featured categories
     categories = models.Category.objects.all()  # All categories
+    sub_categories = models.Sub_category.objects.all()
 
     # Check if product_ids are stored in cookies (for cart count)
     if 'product_ids' in request.COOKIES:
@@ -42,10 +43,13 @@ def home_view(request):
         'categories': categories,
         'featured_categories': featured_categories,
         'product_count_in_cart': product_count_in_cart,
+        'sub_categories': sub_categories,
         
     })
 
-
+#_______________________________________________
+#___________category_______________________________
+#____________________________________________________
 
 def category_products_view(request, category_id):
     # Get the category object by its ID or return a 404 if not found
@@ -59,6 +63,23 @@ def category_products_view(request, category_id):
         'category': category,
         'products': products
     })
+
+#_______________________________________________
+#___________sub_category_______________________________
+#____________________________________________________
+def sub_category_products_view(request, sub_category_id):
+    # Get the sub_category object by its ID or return a 404 if not found
+    sub_category = get_object_or_404(Sub_category, id=sub_category_id)
+    
+    # Filter the products by the selected category
+    products = Product.objects.filter(sub_category=sub_category)
+    
+    # Render a template to show products for this category
+    return render(request, 'ecom/sub_category_products.html', {
+        'sub_category': sub_category,
+        'products': products
+    })
+
 
 #for showing login button for admin(by usman)
 def adminclick_view(request):

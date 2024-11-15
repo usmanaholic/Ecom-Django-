@@ -25,6 +25,7 @@ urlpatterns = [
     path('view-feedback', views.view_feedback_view,name='view-feedback'),
     path('', views.home_view, name='home'),
     path('category/<int:category_id>/', views.category_products_view, name='category-products'),
+    path('sub_category/<int:sub_category_id>/', views.sub_category_products_view, name='sub_category-products'),
     
 
     # Category products page
@@ -74,6 +75,7 @@ urlpatterns = [
     path('cart/', views.cart_view, name='cart'),
     path('all-categories/', views.all_categories_view, name='all_categories'),
     path('all-products/', views.all_products_view, name='all_products'),
+
 
 
 

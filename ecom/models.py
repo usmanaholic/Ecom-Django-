@@ -24,6 +24,16 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Sub_category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='sub_category', default=1)
+
+
+    def __str__(self):
+        return self.name
+    
 
 
 class Product(models.Model):
@@ -32,6 +42,7 @@ class Product(models.Model):
     price = models.PositiveIntegerField()
     description=models.CharField(max_length=40)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', default=1)
+    sub_category = models.ForeignKey(Sub_category, on_delete=models.CASCADE, related_name='products', default=1)
     is_digital = models.BooleanField(default=False) 
     featured = models.BooleanField(default=False) # New field to indicate Popular Products
     def __str__(self):

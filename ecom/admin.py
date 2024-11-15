@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Customer, Order,Product,Orders,Feedback,Category
+from .models import Customer, Order,Product,Orders,Feedback,Category, Sub_category
 from .models import Coupon
 # Register your models here.
 class CustomerAdmin(admin.ModelAdmin):
@@ -20,6 +20,8 @@ admin.site.register(Feedback, FeedbackAdmin)
 # Register your models here.
 
 admin.site.register(Category)
+
+admin.site.register(Sub_category)
 #COPUN
 @admin.register(Coupon)
 class CouponAdmin(admin.ModelAdmin):

@@ -466,6 +466,14 @@
                         </a>
                     </div>
                 {% endfor %}
+                {% for sub_category in sub_categories %}
+                <div class="category-item">
+                  <a href="{% url 'sub_category-products' sub_category.id %}">
+
+                        {{ sub_category.name }}
+                    </a>
+                </div>
+            {% endfor %}
             </div>
         </section>
         <!-- Products Section -->

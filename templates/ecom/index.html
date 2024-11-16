@@ -1,3 +1,5 @@
+{% include "ecom/navbar.html" %}
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -21,9 +23,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: "Poppins", sans-serif;
 }
-
+body{
+  background-color: white;
+}
 
 /* Hero Section */
 .hero-section {
@@ -248,6 +252,8 @@
     grid-template-columns: repeat(2, 1fr); 
   }
 
+
+
   .product-item {
     width: 48%; /* Adjust the width for 2 items per row */
   }
@@ -258,6 +264,7 @@
     /* 1 product per row on very small screens */
     grid-template-columns: 1fr; 
   }
+  
 
   .product-item {
     width: 100%; /* Full width for each product on very small screens */
@@ -417,7 +424,7 @@
 
     </style>
 
-    {% include "ecom/navbar.html" %}
+
 
     <div class="floating-profile">
 
@@ -466,14 +473,7 @@
                         </a>
                     </div>
                 {% endfor %}
-                {% for sub_category in sub_categories %}
-                <div class="category-item">
-                  <a href="{% url 'sub_category-products' sub_category.id %}">
-
-                        {{ sub_category.name }}
-                    </a>
-                </div>
-            {% endfor %}
+               
             </div>
         </section>
         <!-- Products Section -->

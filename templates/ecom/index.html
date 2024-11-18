@@ -1,4 +1,4 @@
-{% include "ecom/navbar.html" %}
+
 
 {% load static %}
 <!DOCTYPE html>
@@ -423,6 +423,7 @@ body{
 
 
     </style>
+    {% include "ecom/navbar.html" %}
 
 
 
@@ -491,7 +492,7 @@ body{
                       </div>
                       <h3>{{ p.name }}</h3>
                       <p>{{ p.price }} PKR</p>
-                      <p>{{ p.description }}</p>
+                      <p>{{ p.short_description }}</p>
                       
                       <div class="product-actions">
                           <a href="{% url 'product-detail' p.id %}" class="view-product-btn">View Product</a>

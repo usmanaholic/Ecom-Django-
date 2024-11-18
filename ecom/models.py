@@ -37,14 +37,29 @@ class Sub_category(models.Model):
 
 
 class Product(models.Model):
-    name=models.CharField(max_length=40)
-    product_image= models.ImageField(upload_to='product_image/',null=True,blank=True, default="-")
+    name = models.CharField(max_length=100)  # Increased max length for longer product names
+    product_image = models.ImageField(upload_to='product_image/', null=True, blank=True, default="-")
+    additional_image1 = models.ImageField(upload_to='product_image/other/', null=True, blank=True, )
+    additional_image2 = models.ImageField(upload_to='product_image/other/', null=True, blank=True, )
+    additional_image3 = models.ImageField(upload_to='product_image/other/', null=True, blank=True, )
+    additional_image4 = models.ImageField(upload_to='product_image/other/', null=True, blank=True, )  # New field for additional images
     price = models.PositiveIntegerField()
-    description=models.CharField(max_length=40)
+    discount = models.PositiveIntegerField(null=True, blank=True, help_text="Discount percentage")  # Discount percentage
+    description = models.TextField(max_length=1000)# Extended for detailed product descriptions
+    short_description = models.TextField(max_length=100, null=True)  
+    stock = models.PositiveIntegerField(default=0)  # New field to track stock quantity
+    colors = models.JSONField(default=list, blank=True, help_text="List of available colors")  # Store available colors as a list
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', default=1)
     sub_category = models.ForeignKey(Sub_category, on_delete=models.CASCADE, related_name='products', default=1)
-    is_digital = models.BooleanField(default=False) 
-    featured = models.BooleanField(default=False) # New field to indicate Popular Products
+    is_digital = models.BooleanField(default=False)
+    featured = models.BooleanField(default=False)  # Indicates Popular Products
+
+    def final_price(self):
+        """Calculate final price after applying discount."""
+        if self.discount:
+            return self.price - (self.price * self.discount // 100)
+        return self.price
+
     def __str__(self):
         return self.name
 

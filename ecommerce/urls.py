@@ -26,6 +26,7 @@ urlpatterns = [
     path('', views.home_view, name='home'),
     path('category/<int:category_id>/', views.category_products_view, name='category-products'),
     path('sub_category/<int:sub_category_id>/', views.sub_category_products_view, name='sub_category-products'),
+    path('products/<int:product_id>/', views.product_detail, name='product_detail'),
     
 
     # Category products page

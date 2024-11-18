@@ -220,7 +220,7 @@ body {
           <td>{{ p.name }}</td>
           <td><img src="{% static p.product_image.url %}" alt="Product Image"></td>
           <td>{{ p.price }} Pkr</td>
-          <td>{{ p.description }}</td>
+          <td>{{ p.short_description }}</td>
           <td>
             <a href="{% url 'remove-from-cart' p.id %}" class="btn-remove">
 

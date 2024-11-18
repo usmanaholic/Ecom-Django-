@@ -1,324 +1,452 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View more</title>
+    <title>{{ product.name }} - Product Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
 </head>
-<body>
-    <style>
-        /* Basic reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
+{% include "ecom/navbar.html" %}
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&family=Oswald&family=Poppins:wght@400;600&display=swap');
 
-/* Main container styling */
-main {
-    display: flex;
-    justify-content: center;
-    padding: 2rem;
-    gap: 3rem;
-}
-
-.left, .right {
-    width: 45%;
-}
-
-/* Product image styling */
-.product-img {
-    width: 100%;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.product-img img {
-    width: 100%;
-    border-radius: 8px;
-}
-
-.thumbnails {
-    margin-top: 1rem;
-}
-
-.thumbnails-list {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.img-thumbs {
-    cursor: pointer;
-    border: 2px solid transparent;
-    border-radius: 8px;
-}
-
-.img-thumbs.active {
-    border-color: #f06c00; /* Highlighted border color for selected thumbnail */
-}
-
-.img-thumbs img {
-    width: 60px;
-    height: 60px;
-    border-radius: 8px;
-    transition: transform 0.3s;
-}
-
-.img-thumbs:hover img {
-    transform: scale(1.1);
-}
-
-/* Right section styling */
-.right h3 {
-    color: #f06c00;
-    font-weight: 600;
-    letter-spacing: 1px;
-    font-size: 1rem;
-}
-
-.right h1 {
-    margin: 0.5rem 0;
-    font-size: 2rem;
-    font-weight: 700;
-    line-height: 1.2;
-}
-
-.right p {
-    margin-top: 1rem;
-    font-size: 1rem;
-    color: #555;
-    line-height: 1.6;
-}
-
-/* Price section styling */
-.price-description {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.price-description h2 {
-    font-size: 1.5rem;
-    color: #f06c00;
-}
-
-.price-description h4 {
-    color: #f06c00;
-    font-size: 1.1rem;
-    background-color: #ffecd1;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-}
-
-.price-description h5 {
-    color: #888;
-    font-size: 1rem;
-    text-decoration: line-through;
-}
-
-/* Cart functionality styling */
-.cart-function {
-    display: flex;
-    align-items: center;
-    margin-top: 1.5rem;
-}
-
-.numbers {
-    display: flex;
-    align-items: center;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 0.5rem;
-    margin-right: 1rem;
-    gap: 0.5rem;
-}
-
-.numbers span {
-    cursor: pointer;
-}
-
-.numbers img {
-    width: 12px;
-    height: 12px;
-}
-
-.cart-number {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #333;
-}
-
-#add-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.8rem 1.5rem;
-    background-color: #f06c00;
-    color: #fff;
-    font-weight: 600;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-#add-btn:hover {
-    background-color: #d96000;
-}
-
-/* Showcase modal styling */
-.showcase {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.3s, visibility 0.3s;
-}
-
-.showcase.active {
-    visibility: visible;
-    opacity: 1;
-}
-
-.showcase .left {
-    position: relative;
-    width: 60%;
-    max-width: 800px;
-}
-
-.close-showcase {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    z-index: 10;
-}
-
-.product-img-showcase {
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.product-img-showcase img {
-    width: 100%;
-}
-
-.thumbnails-list .img-thumbs-showcase {
-    cursor: pointer;
-    margin-top: 1rem;
-}
-
-.img-thumbs-showcase.active img {
-    border: 2px solid #f06c00;
-    border-radius: 8px;
-}
-
-.img-thumbs-showcase img {
-    width: 80px;
-    height: 80px;
-    transition: transform 0.3s;
-}
-
-.img-thumbs-showcase:hover img {
-    transform: scale(1.1);
-}
-
-    </style>
-    <main>
-        <div class="left">
-            <div class="product-img">
-                <img src="/e-commerce-product-page/images/image-product-1.jpg" alt="product image" id="product-preview">
-                
-            </div>
-            <div class="thumbnails">
-                <ul class="thumbnails-list">
-                    <li class="img-thumbs active">
-                    <img src="/e-commerce-product-page/images/image-product-2-thumbnail.jpg" alt="">
-                </li>
-                <li class="img-thumbs">
-                    <img src="/e-commerce-product-page/images/image-product-3-thumbnail.jpg" alt="">
-                </li>
-                <li class="img-thumbs">
-                    <img src="/e-commerce-product-page/images/image-product-4-thumbnail.jpg" alt="">
-                </li>
-                <li class="img-thumbs">
-                    <img src="images/image-product-4-thumbnail.jpg" alt="">
-                </li>
-                </ul>
-                
-                
-            </div>
-        </div>
+        *{
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", sans-serif;
+            box-sizing: border-box;
+        }
+        body{
+            background: #fff;
+        }
         
-        <div class="right">
-            <h3>SNEAKER COMPANY</h3>
-            <h1>Fall Limited Edition Sneakers</h1>
-            <p>These low-profile sneakers are your perfect casual wear companion. Featuring a 
-durable rubber outer sole, they’ll withstand everything the weather can offer.</p>
-              <div class="price-description">
-                  <h2>$125.00</h2>
-                  <h4>50%</h4>
-                  <h5><strike>$250.00</strike></h5>
-              </div>
-              
-              <div class="cart-function">
-                  <div class="numbers">
-                      <span class="minus">
-                          <img src="images/icon-minus.svg" alt="">
-                      </span>
-                      <span class="cart-number">
-                          0
-                      </span>
-                      <span class="plus">
-                          <img src="images/icon-plus.svg" alt="">
-                      </span>
-                  </div>
-                  
-                  <button id="add-btn"><img src="images/icon-cart-white.svg" alt="" > Add to Cart</button>
-              </div>
-        </div>
-    </main>
-    
-</section>
+        section{
+            padding: 20px 100px;
+        }
+        
+        button{
+            width: 100%;
+            background: hsl(0, 0%, 0%);
+            margin: 30px 0;
+            padding: 15px;
+            border-radius: 10px;
+            color: #fff;
+            outline: none;
+            border: none;
+            font-weight: bold;
+        }
 
-<div class="showcase">
-    
-    <div class="left">
-        <div class="close-showcase">
-            <img src="images/icon-close-white.svg" alt="">
-        </div>
-            <div class="product-img">
-                <img src="images/image-product-1.jpg" alt="product image" id="product-preview-showcase">
+      
+
+        
+        main{
+            position: relative;
+            z-index: 0;
+            display: grid;
+            grid-template-columns: auto auto;
+            padding: 0 100px;
+            grid-gap: 100px;
+            align-items: center;
+            margin-top: 80px;
+        }
+        
+        .product-img img{
+            width: 500px;
+            height: 500px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            
+        }
+        .left{
+            position: relative;
+        }
+        
+        
+        .thumbnails-list{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-decoration: none;
+        }
+        .thumbnails img{
+            width: 100px;
+            border-radius: 10px;
+            position: relative;
+            
+        }
+        
+        .thumbnails-list li.active{
+            display: flex;
+            padding: 2px;
+            opacity: 0.5;
+            background: hsl(0, 0%, 0%);
+            border-radius: 10px;
+            align-items: center;
+        }
+        
+        
+        .cart-function{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cart-function .numbers{
+            display: flex;
+            margin-right: 10px;
+            width: 250px;
+            justify-content: space-between;
+            padding: 17px 10px;
+            background: hsl(223, 64%, 98%);
+            align-items: center;
+            border-radius: 10px;
+        }
+        .cart-function button{
+            display: flex;
+            color: #fcfcfc;
+            justify-content: center;
+            align-items: center;
+        }
+        .cart-function button img{
+            margin-right: 10px;
+        }
+        
+        .right h3{
+            color: hsl(0, 0%, 0%);
+            margin-bottom: 15px;
+        }
+        .right h1{
+            font-size: 50px;
+            font-weight: bolder;
+            margin: 20px 0;
+        }
+        .right p{
+            letter-spacing: 0.7px;
+            line-height: 1.7em;
+            margin: 10px 0 20px;
+            color: hsl(219, 9%, 45%);
+        }
+        
+        .right .price-description{
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .right .price-description h2{
+            margin-right: 10px;
+        }
+        .right .price-description h4{
+            background: hsl(25, 100%, 94%);
+            color: hsl(0, 71%, 44%);
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-right: 40px;
+            
+        }
+        .right .price-description h5{
+            color: hsl(220, 14%, 75%);
+        }
+        .minus:hover, .plus:hover{
+            cursor: pointer;
+        }
+        button:hover{
+            background: hsl(25, 100%, 94%);
+        }
+        
+        .img-thumbs:hover, .img-thumbs-showcase:hover{
+            cursor: pointer;
+            opacity: 0.5;
+        }
+        
+        
+        .showcase{
+            position: fixed;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            display: none;
+        }
+        .close-showcase{
+            position: absolute;
+            top: -40px;
+            right: 0;
+        }
+        .close-showcase img{
+            width: 20px;
+        }
+        
+        @media(max-width: 1250px){
+            section{
+                padding: 20px;
+            }
+            .product-img img{
+            width: 300px;
+            height: 300px;
+            }
+            .thumbnails img{
+            width: 50px;
+            }
+            main{
+                grid-gap: 50px;
+                padding: 0;
+            }
+            .right{
+                width: 100%;
+            }
+        }
+        
+        @media(max-width: 760px){
+            section{
+                padding: 0;
+            }
+            nav{
                 
+                background: #fff;
+                padding: 20px 20px;
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                margin: auto;
+                z-index: 1;
+            }
+            .menu-toggle{
+                display: block;
+            }
+            .overlay{
+                width: 100%;
+                height: 100%;
+                position: fixed;
+                left: 0;
+                top: 0;
+                background: rgba(0, 0, 0, 0.8);
+                z-index: 1;
+                display: none;
+            }
+            .links{
+                
+                position: fixed;
+                height: 100%;
+                width: 200px;
+                top: 0;
+                left: -200px;
+                background: #fff;
+                z-index: 1;
+                transition: 1s;
+            }
+            .links ul{
+                display: block;
+                
+            }
+            
+            .close-menu{
+                display: block;
+                margin: 20px 20px 40px;
+            }
+            .link{
+                padding: 10px; 
+                margin: 20px 0;
+                font-weight: bold;
+                font-size: 16px;
+            }
+            .link:hover{
+                background: hsl(25, 100%, 94%);
+            }
+            .link:hover:before{
+                display: none;
+            }
+            .avatar{
+                width: 30px;
+                height: 30px;
+            }
+            .cart-img{
+                width: 20px;
+                height: 20px;
+                z-index: 1;
+            }
+            .cart-div .cart-number{
+                top: -10px;
+                right: -10px;
+                font-size: 10px;
+            }
+            main{
+                display: block;
+                margin-top: 0px;
+                padding: 0;
+                position: relative;
+                
+            }
+            
+            .product-img img{
+                width: 100%;
+                border-radius: 0;
+                margin-bottom: 0px;
+            }
+            .product-img{
+                margin-bottom: 20px;
+            }
+            
+            .right{
+                padding: 20px;
+                
+            }
+            .cart-function{
+                display: block;
+            }
+            .cart-function .numbers{
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            .cart-function button{
+                margin-top: 0px;
+            }
+            .right h1{
+                font-size: 40px;
+            }
+            .cart-open{
+                position: absolute;
+                top: 50px;
+                left: -220px;
+                z-index: 1;
+                
+            }
+            .left{
+                position: relative;
+                
+            }
+            .cart-description .cart-number{
+                font-size: 16px;
+                top: 0;
+                left: 0;
+            }
+            
+            .img-thumbs:hover{
+            cursor: pointer;
+            opacity: 0.5;
+            }
+            .thumbnails{
+                padding: 0 10px;
+            }
+        }
+         
+    </style>
+<body>
+    <section>
+        <main>
+            <div class="left">
+                <div class="product-img">
+                    <img src="{% static product.product_image.url %}" alt="{{ product.name }}" id="product-preview">
+                </div>
+                <div class="thumbnails">
+                    <ul class="thumbnails-list">
+                        {% if product.additional_image1 %}
+                        <li class="img-thumbs active">
+                            <img src="{% static product.additional_image1.url %}" alt="Additional Image 1" onclick="changeMainImage(this)">
+                        </li>
+                        {% endif %}
+                        {% if product.additional_image2 %}
+                        <li class="img-thumbs">
+                            <img src="{% static product.additional_image2.url %}" alt="Additional Image 2" onclick="changeMainImage(this)">
+                        </li>
+                        {% endif %}
+                        {% if product.additional_image3 %}
+                        <li class="img-thumbs">
+                            <img src="{% static product.additional_image3.url %}" alt="Additional Image 3" onclick="changeMainImage(this)">
+                        </li>
+                        {% endif %}
+                        {% if product.additional_image4 %}
+                        <li class="img-thumbs">
+                            <img src="{% static product.additional_image4.url %}" alt="Additional Image 4" onclick="changeMainImage(this)">
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+    
+            <div class="right">
+                <h3>{{ product.brand|default:"SNEAKER COMPANY" }}</h3>
+                <h1>{{ product.name }}</h1>
+                <p>{{ product.description|default:"These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer." }}</p>
+                <div class="price-description">
+                    {% if product.discount %}
+                    <h2>PKR {{ product.final_price }}</h2>
+                    <h4>{{ product.discount }}%</h4>
+                    <h5><strike>PKR {{ product.price }}</strike></h5>
+                    {% else %}
+                    <h2>PKR {{ product.price }}</h2>
+                    {% endif %}
+                </div>
+    
+                <div class="cart-function">
+                    <div class="numbers">
+                        <span class="minus">
+                            <img src="images/icon-minus.svg" alt="">
+                        </span>
+                        <span class="cart-number">0</span>
+                        <span class="plus">
+                            <img src="images/icon-plus.svg" alt="">
+                        </span>
+                    </div>
+                    <button id="add-btn">
+                        <img src="images/icon-cart-white.svg" alt=""> Add to Cart
+                    </button>
+                </div>
+            </div>
+        </main>
+    </section>
+    
+    <div class="showcase">
+        <div class="left">
+            <div class="close-showcase">
+                <img src="images/icon-close-white.svg" alt="">
+            </div>
+            <div class="product-img">
+                <img src="{% static product.product_image.url %}" alt="{{ product.name }}" id="product-preview-showcase">
             </div>
             <div class="thumbnails">
                 <ul class="thumbnails-list">
+                    {% if product.additional_image1 %}
                     <li class="img-thumbs-showcase active">
-                    <img src="images/image-product-1-thumbnail.jpg" alt="">
-                </li>
-                <li class="img-thumbs-showcase">
-                    <img src="images/image-product-2-thumbnail.jpg" alt="">
-                </li>
-                <li class="img-thumbs-showcase">
-                    <img src="images/image-product-3-thumbnail.jpg" alt="">
-                </li>
-                <li class="img-thumbs-showcase">
-                    <img src="images/image-product-4-thumbnail.jpg" alt="">
-                </li>
+                        <img src="{% static product.additional_image1.url %}" alt="Additional Image 1" onclick="changeMainImage(this, 'product-preview-showcase')">
+                    </li>
+                    {% endif %}
+                    {% if product.additional_image2 %}
+                    <li class="img-thumbs-showcase">
+                        <img src="{% static product.additional_image2.url %}" alt="Additional Image 2" onclick="changeMainImage(this, 'product-preview-showcase')">
+                    </li>
+                    {% endif %}
+                    {% if product.additional_image3 %}
+                    <li class="img-thumbs-showcase">
+                        <img src="{% static product.additional_image3.url %}" alt="Additional Image 3" onclick="changeMainImage(this, 'product-preview-showcase')">
+                    </li>
+                    {% endif %}
+                    {% if product.additional_image4 %}
+                    <li class="img-thumbs-showcase">
+                        <img src="{% static product.additional_image4.url %}" alt="Additional Image 4" onclick="changeMainImage(this, 'product-preview-showcase')">
+                    </li>
+                    {% endif %}
                 </ul>
-                
-                
             </div>
-</div>
+        </div>
+    </div>
+    
+    <script>
+        function changeMainImage(element, targetId = "product-preview") {
+            const mainImage = document.getElementById(targetId);
+            mainImage.src = element.src;
+        }
+    </script>
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% include "ecom/footer.html" %}
 </body>
 </html>

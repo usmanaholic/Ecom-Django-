@@ -832,12 +832,6 @@ def faq(request):
     return render(request, 'ecom/faq.html')
 
 
-def product_detail(request, id):
-    product = get_object_or_404(Product, id=id)
-    context = {
-        'product': product
-    }
-    return render(request, 'ecom/viewmore.html', context)
 
 def product_list(request):
     product_list = Product.objects.all()  # Get all products
@@ -862,3 +856,11 @@ def all_products_view(request):
     return render(request, 'ecom/allproducts.html', {'products': product})
 
 
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, id=product_id,)
+
+    
+    context = {
+        'product': product,
+    }
+    return render(request, 'ecom/viewmore.html', context)

@@ -480,7 +480,7 @@ body{
         <!-- Products Section -->
         <section class="products-section">
           <div class="section-header">
-              <h2>Popular Products</h2>
+              <h2>New Products</h2>
               <a href="{% url 'all_products' %}" class="see-more">See All Products</a>
           </div>
           
@@ -508,19 +508,76 @@ body{
               {% endfor %}
           </div>
           
-          <!-- Pagination Controls -->
-          <div class="pagination">
-            {% if products.has_previous %}
-                <a href="?page={{ products.previous_page_number }}" class="prev-page">Previous</a>
-            {% endif %}
-            
-            <span>Page {{ products.number }} of {{ products.paginator.num_pages }}</span>
-            
-            {% if products.has_next %}
-                <a href="?page={{ products.next_page_number }}" class="next-page">Next</a>
-            {% endif %}
-        </div>
+        
       </section>
+    </section>
+    <!-- Products Section -->
+    <section class="products-section">
+      <div class="section-header">
+          <h2>Popular Products</h2>
+          <a href="{% url 'all_products' %}" class="see-more">See All Products</a>
+      </div>
+      
+      <div class="products-grid">
+          {% for p in popular_products %}
+              <div class="product-item">
+                  <div class="product-image">
+                      <img src="{% static p.product_image.url %}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
+                  </div>
+                  <h3>{{ p.name }}</h3>
+                  <p>{{ p.price }} PKR</p>
+                  <p>{{ p.short_description }}</p>
+                  
+                  <div class="product-actions">
+                      <a href="{% url 'product-detail' p.id %}" class="view-product-btn">View Product</a>
+                      <a href="{% url 'add-to-cart' p.id %}" class="add-to-cart-btn">
+                          <i class="fa fa-shopping-cart"></i> Add to Cart
+                      </a>
+                  </div>
+              </div>
+              
+              {% if forloop.counter|divisibleby:"4" %}
+                  </div><div class="products-grid"> <!-- New row after every 4 items -->
+              {% endif %}
+          {% endfor %}
+      </div>
+      
+    
+  </section>
+</section>
+<!-- Products Section -->
+<section class="products-section">
+  <div class="section-header">
+      <h2>Featured Products</h2>
+      <a href="{% url 'all_products' %}" class="see-more">See All Products</a>
+  </div>
+  
+  <div class="products-grid">
+      {% for p in popular_products %}
+          <div class="product-item">
+              <div class="product-image">
+                  <img src="{% static p.product_image.url %}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
+              </div>
+              <h3>{{ p.name }}</h3>
+              <p>{{ p.price }} PKR</p>
+              <p>{{ p.short_description }}</p>
+              
+              <div class="product-actions">
+                  <a href="{% url 'product-detail' p.id %}" class="view-product-btn">View Product</a>
+                  <a href="{% url 'add-to-cart' p.id %}" class="add-to-cart-btn">
+                      <i class="fa fa-shopping-cart"></i> Add to Cart
+                  </a>
+              </div>
+          </div>
+          
+          {% if forloop.counter|divisibleby:"4" %}
+              </div><div class="products-grid"> <!-- New row after every 4 items -->
+          {% endif %}
+      {% endfor %}
+  </div>
+  
+
+</section>
         
     </main>
     <br><br><br><br>

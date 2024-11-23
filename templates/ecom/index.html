@@ -244,6 +244,55 @@ body{
   padding: 8px;
   color: #333;
 }
+/* General styling */
+.product-slider-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.products-slider {
+  display: flex;
+  gap: 20px;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+.product-item {
+  flex: 0 0 calc(25% - 20px); /* Four items per row */
+  box-sizing: border-box;
+  background: #fff;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* Arrow styling */
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.left-arrow {
+  left: 10px;
+}
+
+.right-arrow {
+  right: 10px;
+}
 
 /* Responsive Design - Adjust Grid for Smaller Screens */
 @media (max-width: 768px) {
@@ -384,7 +433,7 @@ body{
 /* user profile floating */
 .floating-profile {
   position: fixed;
-  top: 70px; /* Adjusted to be below the navbar */
+  top: 95px; /* Adjusted to be below the navbar */
   left: 10px;
   z-index: 2;
   display: flex;
@@ -480,33 +529,34 @@ body{
         <!-- Products Section -->
         <section class="products-section">
           <div class="section-header">
-              <h2>New Products</h2>
-              <a href="{% url 'all_products' %}" class="see-more">See All Products</a>
-          </div>
-          
-          <div class="products-grid">
-              {% for p in popular_products %}
-                  <div class="product-item">
-                      <div class="product-image">
-                          <img src="{% static p.product_image.url %}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
-                      </div>
-                      <h3>{{ p.name }}</h3>
-                      <p>{{ p.price }} PKR</p>
-                      <p>{{ p.short_description }}</p>
-                      
-                      <div class="product-actions">
-                          <a href="{% url 'product-detail' p.id %}" class="view-product-btn">View Product</a>
-                          <a href="{% url 'add-to-cart' p.id %}" class="add-to-cart-btn">
-                              <i class="fa fa-shopping-cart"></i> Add to Cart
-                          </a>
-                      </div>
-                  </div>
-                  
-                  {% if forloop.counter|divisibleby:"4" %}
-                      </div><div class="products-grid"> <!-- New row after every 4 items -->
-                  {% endif %}
-              {% endfor %}
-          </div>
+            <h2>New Products</h2>
+            <a href="{% url 'all_products' %}" class="see-more">See All Products</a>
+        </div>
+        
+        <div class="product-slider-container">
+            <button class="slider-arrow left-arrow">&#10094;</button>
+            <div class="products-slider">
+                {% for p in products %}
+                <div class="product-item">
+                    <div class="product-image">
+                        <img src="{% static p.product_image.url %}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
+                    </div>
+                    <h3>{{ p.name }}</h3>
+                    <p>{{ p.price }} PKR</p>
+                    <p>{{ p.short_description }}</p>
+        
+                    <div class="product-actions">
+                        <a href="{% url 'product-detail' p.id %}" class="view-product-btn">View Product</a>
+                        <a href="{% url 'add-to-cart' p.id %}" class="add-to-cart-btn">
+                            <i class="fa fa-shopping-cart"></i> Add to Cart
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="slider-arrow right-arrow">&#10095;</button>
+        </div>
+        
           
         
       </section>
@@ -553,7 +603,7 @@ body{
   </div>
   
   <div class="products-grid">
-      {% for p in popular_products %}
+      {% for p in featured_products %}
           <div class="product-item">
               <div class="product-image">
                   <img src="{% static p.product_image.url %}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
@@ -610,6 +660,24 @@ body{
   
       // Change the background every 5 seconds
       setInterval(changeBackground, 5000);
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const slider = document.querySelector(".products-slider");
+        const leftArrow = document.querySelector(".left-arrow");
+        const rightArrow = document.querySelector(".right-arrow");
+    
+        // Set the width of each slide dynamically based on the viewport
+        const slideWidth = document.querySelector(".product-item").offsetWidth + 20; // Includes gap
+    
+        leftArrow.addEventListener("click", () => {
+            slider.scrollBy({ left: -slideWidth * 4, behavior: "smooth" });
+        });
+    
+        rightArrow.addEventListener("click", () => {
+            slider.scrollBy({ left: slideWidth * 4, behavior: "smooth" });
+        });
+    });
+    
   </script>
 </body>
 </html>

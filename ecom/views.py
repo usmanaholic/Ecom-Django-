@@ -19,7 +19,8 @@ from django.contrib.auth.forms import AuthenticationForm
 
 def home_view(request):
     products = models.Product.objects.all()  # Fetch all products
-    popular_products = models.Product.objects.filter(featured=True) # Only popular products
+    popular_products = models.Product.objects.filter(popular=True)
+    featured_products = models.Product.objects.filter(featured=True)  # Only popular products
     featured_categories = models.Category.objects.filter(featured=True)  # Only featured categories
     categories = models.Category.objects.all()  # All categories
     sub_categories = models.Sub_category.objects.all()
@@ -44,7 +45,7 @@ def home_view(request):
         'featured_categories': featured_categories,
         'product_count_in_cart': product_count_in_cart,
         'sub_categories': sub_categories,
-        
+        'featured_products': featured_products,
     })
 
 #_______________________________________________

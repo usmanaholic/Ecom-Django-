@@ -53,6 +53,9 @@ class Product(models.Model):
     sub_category = models.ForeignKey(Sub_category, on_delete=models.CASCADE, related_name='products', default=1)
     is_digital = models.BooleanField(default=False)
     featured = models.BooleanField(default=False)  # Indicates Popular Products
+    popular = models.BooleanField(default=False)  # Indicates Popular Products
+
+
 
     def final_price(self):
         """Calculate final price after applying discount."""

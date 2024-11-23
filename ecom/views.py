@@ -858,6 +858,8 @@ def all_products_view(request):
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id,)
+    
+
 
     
     context = {

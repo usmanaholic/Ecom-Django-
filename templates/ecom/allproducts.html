@@ -75,6 +75,8 @@
             background-color: #28a745;
           }
     </style>
+    {% include "ecom/customer_navbar.html" %}
+    <br><br><br><br>
     <div class="products-grid">
     {% for p in products %}
         <div class="product-item">
@@ -98,6 +100,9 @@
 {% endif %}
 {% endfor %}
 </div>
-</body>
-</html>
 
+</body>
+
+</html>
+<br><br>
+{% include "ecom/footer.html" %}

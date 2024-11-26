@@ -14,6 +14,7 @@ from django.contrib.auth import authenticate, login
 from .forms import CustomerLoginForm
 from django.core.paginator import Paginator
 from django.contrib.auth.forms import AuthenticationForm
+import json
 
 
 
@@ -312,77 +313,91 @@ def search_view(request):
 
 
 # any one can add product to cart, no need of signin
-def add_to_cart_view(request,pk):
-    products=models.Product.objects.all()
-    popular_products = models.Product.objects.filter(featured=True) # Only popular products
+from django.utils.http import urlencode
+
+
+def add_to_cart_view(request, pk):
+    products = models.Product.objects.all()
+    popular_products = models.Product.objects.filter(featured=True)  # Only popular products
     featured_categories = models.Category.objects.filter(featured=True)  # Only featured categories
     categories = models.Category.objects.all()  # All categories
 
-    #for cart counter, fetching products ids added by customer from cookies
-    if 'product_ids' in request.COOKIES:
-        product_ids = request.COOKIES['product_ids']
-        counter=product_ids.split('|')
-        product_count_in_cart=len(set(counter))
+    # Initialize cart
+    if 'cart' in request.COOKIES:
+        # Decode cart from cookies
+        cart = json.loads(request.COOKIES['cart'])
     else:
-        product_count_in_cart=1
+        cart = {}
 
-    response = render(request, 'ecom/index.html',{'products':products,'product_count_in_cart':product_count_in_cart, 'popular_products': popular_products,
+    # Add or update the product in the cart
+    if str(pk) in cart:
+        cart[str(pk)]['quantity'] += 1  # Increment quantity if product exists
+    else:
+        product = models.Product.objects.get(id=pk)
+        cart[str(pk)] = {'quantity': 1, 'price': product.price}  # Add product with initial quantity
+
+    # Calculate the total number of unique products in the cart
+    product_count_in_cart = sum(item['quantity'] for item in cart.values())
+
+    # Prepare the response
+    response = render(request, 'ecom/index.html', {
+        'products': products,
+        'product_count_in_cart': product_count_in_cart,
+        'popular_products': popular_products,
         'categories': categories,
         'featured_categories': featured_categories,
-        'product_count_in_cart': product_count_in_cart,})
+    })
 
-    #adding product id to cookies
-    if 'product_ids' in request.COOKIES:
-        product_ids = request.COOKIES['product_ids']
-        if product_ids=="":
-            product_ids=str(pk)
-        else:
-            product_ids=product_ids+"|"+str(pk)
-        response.set_cookie('product_ids', product_ids)
-    else:
-        response.set_cookie('product_ids', pk)
+    # Save updated cart in cookies
+    response.set_cookie('cart', json.dumps(cart))
 
-    product=models.Product.objects.get(id=pk)
-    messages.info(request, product.name + ' added to cart successfully!')
+    # Show success message
+    product = models.Product.objects.get(id=pk)
+    messages.info(request, f"{product.name} added to cart successfully!")
 
     return response
 
 
-
 # for checkout of cart
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import Product, Coupon, CouponUsage
+import json
+from django.utils import timezone
+
+# Cart View
 def cart_view(request):
     # For cart counter
-    if 'product_ids' in request.COOKIES:
-        product_ids = request.COOKIES['product_ids']
-        counter = product_ids.split('|')
-        product_count_in_cart = len(set(counter))
+    if 'cart' in request.COOKIES:
+        cart = json.loads(request.COOKIES['cart'])
+        product_count_in_cart = sum(item['quantity'] for item in cart.values())  # Total product count
     else:
+        cart = {}
         product_count_in_cart = 0
 
     # Fetching product details from the database whose ID is present in cookies
-    products = None
+    products = []
     total = 0
     delivery_fee = 0  # Initialize delivery fee
 
-    if 'product_ids' in request.COOKIES:
-        product_ids = request.COOKIES['product_ids']
-        if product_ids != "":
-            product_id_in_cart = product_ids.split('|')
-            products = models.Product.objects.filter(id__in=product_id_in_cart)
+    if cart:
+        product_ids_in_cart = cart.keys()  # Get all product IDs in cart
+        products = Product.objects.filter(id__in=product_ids_in_cart)
 
-            has_physical_product = False  # Flag to check if there's at least one physical product
+        has_physical_product = False  # Flag to check if there's at least one physical product
 
-            # Calculate total price of products in the cart
-            for p in products:
-                total += p.price
+        # Calculate total price of products in the cart and check for physical products
+        for p in products:
+            quantity = cart[str(p.id)]['quantity']
+            total += p.price * quantity
 
-                # Check if the product is non-digital
-                if not p.is_digital:
-                    has_physical_product = True
+            # Check if the product is non-digital
+            if not p.is_digital:
+                has_physical_product = True
 
-            # Add delivery fee only if there's a physical product
-            if has_physical_product:
-                delivery_fee = 250  # Set your delivery fee value here
+        # Add delivery fee only if there's a physical product
+        if has_physical_product:
+            delivery_fee = 250  # Set your delivery fee value here
 
     # Coupon application logic
     coupon_discount = 0
@@ -403,23 +418,15 @@ def cart_view(request):
 
             # Check if the user has already used the coupon
             if CouponUsage.objects.filter(user=request.user, coupon=coupon).exists():
-                # If the user has already used the coupon, display an error message
                 messages.error(request, "You have already used this coupon.")
             else:
-                # Apply the discount and calculate the final total
                 coupon_discount = coupon.discount
                 final_total = (total + delivery_fee) * (1 - coupon_discount / 100)
-
-                # Record the coupon usage
                 CouponUsage.objects.create(user=request.user, coupon=coupon)
-
-                # Store the coupon code in session
                 request.session['coupon_code'] = coupon_code
-
                 messages.success(request, f"Coupon applied successfully! You received a {coupon_discount}% discount.")
 
         except Coupon.DoesNotExist:
-            # Handle the case where the coupon does not exist or is invalid
             messages.error(request, "This coupon is invalid or expired.")
 
     return render(request, 'ecom/cart.html', {
@@ -429,41 +436,35 @@ def cart_view(request):
         'final_total': final_total,
         'product_count_in_cart': product_count_in_cart,
         'coupon_discount': coupon_discount,
+        'cart': cart,  # Passing the cart to template
     })
 
-
+# Remove from Cart View
 def remove_from_cart_view(request, pk):
-    # For counter in cart
-    product_ids = request.COOKIES.get('product_ids', '')
-    product_id_list = product_ids.split('|') if product_ids else []
-    product_count_in_cart = len(set(product_id_list))
-
-    # Remove product id from cookie
-    if str(pk) in product_id_list:
-        product_id_list.remove(str(pk))
-
-    # Fetch remaining products in cart
-    products = Product.objects.filter(id__in=product_id_list)
-
-    # Calculate total price after removal
-    total = sum(product.price for product in products)
-
-    # Update cookie value after removing product id from cart
-    new_value = '|'.join(product_id_list)
-    response = render(request, 'ecom/cart.html', {
-        'products': products,
-        'total': total,
-        'product_count_in_cart': product_count_in_cart
-    })
-
-    # Set or delete the cookie
-    if new_value:
-        response.set_cookie('product_ids', new_value)
+    # Initialize the cart from cookies
+    if 'cart' in request.COOKIES:
+        cart = json.loads(request.COOKIES['cart'])
     else:
-        response.delete_cookie('product_ids')
+        cart = {}
+
+    # Remove or set the product quantity to 0
+    if str(pk) in cart:
+        if cart[str(pk)]['quantity'] > 1:
+            cart[str(pk)]['quantity'] -= 1  # Decrease quantity if more than 1
+        else:
+            del cart[str(pk)]  # Remove product from cart completely if quantity is 1
+
+    # Calculate the total price after removal
+    total = sum(item['price'] * item['quantity'] for item in cart.values())
+
+    # Update the cart cookie with the new value
+    response = redirect('cart_view')  # Redirect to the cart view after removal
+    response.set_cookie('cart', json.dumps(cart))  # Update the cart in cookies
+
+    # Show success message
+    messages.info(request, "Product removed from cart successfully!")
 
     return response
-
 
 def send_feedback_view(request):
     feedbackForm=forms.FeedbackForm()
@@ -478,23 +479,6 @@ def send_feedback_view(request):
 #_________________________________________
 #___________Remove Coupon_________________
 #__________________________________________
-def remove_from_cart_view(request, pk):
-    if 'product_ids' in request.COOKIES:
-        product_ids = request.COOKIES['product_ids']
-        product_id_in_cart = product_ids.split('|')
-        product_id_in_cart.remove(str(pk))
-        value = '|'.join(product_id_in_cart)
-        response = redirect('cart_view')
-        if product_id_in_cart:
-            response.set_cookie('product_ids', value)
-        else:
-            response.delete_cookie('product_ids')
-
-        # Clear the coupon code if applied
-        if 'coupon_code' in request.session:
-            del request.session['coupon_code']
-
-        return response
 
 
 #---------------------------------------------------------------------------------
@@ -521,49 +505,47 @@ def customer_home_view(request):
 # shipment address before placing order
 @login_required(login_url='customerlogin')
 def customer_address_view(request):
-    # this is for checking whether product is present in cart or not
-    # if there is no product in cart we will not show address form
-    product_in_cart=False
-    if 'product_ids' in request.COOKIES:
-        product_ids = request.COOKIES['product_ids']
-        if product_ids != "":
-            product_in_cart=True
-    #for counter in cart
-    if 'product_ids' in request.COOKIES:
-        product_ids = request.COOKIES['product_ids']
-        counter=product_ids.split('|')
-        product_count_in_cart=len(set(counter))
-    else:
-        product_count_in_cart=0
+    # Check if products are present in the cart
+    product_in_cart = False
+    cart = {}
+
+    if 'cart' in request.COOKIES:
+        cart = json.loads(request.COOKIES.get('cart', '{}'))
+        if cart:  # If the cart is not empty
+            product_in_cart = True
+
+    # Count total products in the cart
+    product_count_in_cart = sum(item['quantity'] for item in cart.values()) if cart else 0
 
     addressForm = forms.AddressForm()
+
     if request.method == 'POST':
         addressForm = forms.AddressForm(request.POST)
         if addressForm.is_valid():
-            # here we are taking address, email, mobile at time of order placement
-            # we are not taking it from customer account table because
-            # these thing can be changes
-            email = addressForm.cleaned_data['Email']
-            mobile=addressForm.cleaned_data['Mobile']
-            address = addressForm.cleaned_data['Address']
-            #for showing total price on payment page.....accessing id from cookies then fetching  price of product from db
-            total=0
-            if 'product_ids' in request.COOKIES:
-                product_ids = request.COOKIES['product_ids']
-                if product_ids != "":
-                    product_id_in_cart=product_ids.split('|')
-                    products=models.Product.objects.all().filter(id__in = product_id_in_cart)
-                    for p in products:
-                        total=total+p.price
+            # Collecting form data
+            email = addressForm.cleaned_data['email']
+            mobile = addressForm.cleaned_data['mobile']
+            address_line_1 = addressForm.cleaned_data['address_line_1']
 
-            response = render(request, 'ecom/payment.html',{'total':total})
-            response.set_cookie('email',email)
-            response.set_cookie('mobile',mobile)
-            response.set_cookie('address',address)
+            # Calculate the total price of products in the cart
+            total = 0
+            product_ids_in_cart = cart.keys()
+            products = models.Product.objects.filter(id__in=product_ids_in_cart)
+
+            for p in products:
+                total += p.price * cart[str(p.id)]['quantity']
+
+            response = render(request, 'ecom/payment.html', {'total': total})
+            response.set_cookie('email', email)
+            response.set_cookie('mobile', mobile)
+            response.set_cookie('address', address_line_1)
             return response
-    return render(request,'ecom/customer_address.html',{'addressForm':addressForm,'product_in_cart':product_in_cart,'product_count_in_cart':product_count_in_cart})
 
-
+    return render(request, 'ecom/customer_address.html', {
+        'addressForm': addressForm,
+        'product_in_cart': product_in_cart,
+        'product_count_in_cart': product_count_in_cart,
+    })
 
 
 # here we are just directing to this view...actually we have to check whther payment is successful or not
@@ -857,13 +839,44 @@ def all_products_view(request):
     return render(request, 'ecom/allproducts.html', {'products': product})
 
 
-def product_detail(request, product_id):
-    product = get_object_or_404(Product, id=product_id,)
-    
+def product_detail(request, product_id, sub_category_id):
+    sub_category = get_object_or_404(Sub_category, id=sub_category_id)
+    product = get_object_or_404(Product, id=product_id)
 
+    # Fetch all products for the given sub-category
+    related_products = Product.objects.filter(sub_category=sub_category)
 
-    
+    # Group products by sub-category for the template
+    sub_category_products = {
+        sub_category_id: related_products
+    }
+
     context = {
         'product': product,
+        'sub_category_products': sub_category_products,  # Include grouped products
     }
     return render(request, 'ecom/viewmore.html', context)
+
+
+def update_quantity(request, pk):
+    # Check if cart exists in cookies
+    if 'cart' in request.COOKIES:
+        cart = json.loads(request.COOKIES['cart'])
+    else:
+        cart = {}
+
+    # Update the quantity of the product
+    if str(pk) in cart:
+        quantity = request.POST.get('quantity', 1)
+        cart[str(pk)]['quantity'] = int(quantity)
+
+        # Update the cart in cookies
+        response = redirect('cart')  # Assuming your cart view is named 'cart'
+        response.set_cookie('cart', json.dumps(cart))
+
+        # Show success message
+        messages.info(request, "Product quantity updated successfully!")
+        return response
+    else:
+        messages.error(request, "Product not found in cart.")
+        return redirect('cart')

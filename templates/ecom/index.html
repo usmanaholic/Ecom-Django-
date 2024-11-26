@@ -12,6 +12,7 @@
     <title>Trick Storee</title>
     <link rel="icon" type="image/png" href="/static/images/465592768_122121850238506016_2019015608697120856_n.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
 
 
 </head>
@@ -245,6 +246,7 @@ body{
   color: #333;
 }
 /* General styling */
+/* General styling */
 .product-slider-container {
   position: relative;
   width: 100%;
@@ -259,7 +261,7 @@ body{
 }
 
 .product-item {
-  flex: 0 0 calc(25% - 20px); /* Four items per row */
+  flex: 0 0 calc(25% - 20px); /* Default: 4 items per row */
   box-sizing: border-box;
   background: #fff;
   padding: 10px;
@@ -294,6 +296,26 @@ body{
   right: 10px;
 }
 
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .product-item {
+    flex: 0 0 calc(25% - 20px); /* 3 items per row */
+  }
+}
+
+@media (max-width: 768px) {
+  .product-item {
+    flex: 0 0 calc(25% - 20px); /* 2 items per row */
+  }
+}
+
+@media (max-width: 480px) {
+  .product-item {
+    flex: 0 0 calc(25% - 20px); /* 1 item per row */
+  }
+}
+
+
 /* Responsive Design - Adjust Grid for Smaller Screens */
 @media (max-width: 768px) {
   .products-grid {
@@ -311,13 +333,14 @@ body{
 @media (max-width: 480px) {
   .products-grid {
     /* 1 product per row on very small screens */
-    grid-template-columns: 1fr; 
+    grid-template-columns: 2fr; 
   }
   
 
   .product-item {
     width: 100%; /* Full width for each product on very small screens */
   }
+ 
 }
 
 /* button shop now */
@@ -546,7 +569,7 @@ body{
                     <p>{{ p.short_description }}</p>
         
                     <div class="product-actions">
-                        <a href="{% url 'product-detail' p.id %}" class="view-product-btn">View Product</a>
+                        <a href="{% url 'product_detail' p.id p.sub_category.id %}" class="view-product-btn">View Product</a>
                         <a href="{% url 'add-to-cart' p.id %}" class="add-to-cart-btn">
                             <i class="fa fa-shopping-cart"></i> Add to Cart
                         </a>
@@ -560,7 +583,7 @@ body{
           
         
       </section>
-    </section>
+
     <!-- Products Section -->
     <section class="products-section">
       <div class="section-header">
@@ -666,17 +689,29 @@ body{
         const leftArrow = document.querySelector(".left-arrow");
         const rightArrow = document.querySelector(".right-arrow");
     
-        // Set the width of each slide dynamically based on the viewport
+        const getVisibleCount = () => {
+            if (window.innerWidth <= 480) return 1; // 1 product for small screens
+            if (window.innerWidth <= 768) return 1; // 2 products for tablets
+            if (window.innerWidth <= 1200) return 1; // 3 products for medium screens
+            return 1; // 4 products for large screens
+        };
+    
         const slideWidth = document.querySelector(".product-item").offsetWidth + 20; // Includes gap
     
         leftArrow.addEventListener("click", () => {
-            slider.scrollBy({ left: -slideWidth * 4, behavior: "smooth" });
+            slider.scrollBy({ left: -slideWidth * getVisibleCount(), behavior: "smooth" });
         });
     
         rightArrow.addEventListener("click", () => {
-            slider.scrollBy({ left: slideWidth * 4, behavior: "smooth" });
+            slider.scrollBy({ left: slideWidth * getVisibleCount(), behavior: "smooth" });
+        });
+    
+        // Recalculate visible count on resize
+        window.addEventListener("resize", () => {
+            slider.scrollLeft = 0; // Reset scroll position on resize
         });
     });
+    
     
   </script>
 </body>

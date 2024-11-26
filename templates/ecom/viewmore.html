@@ -1,4 +1,5 @@
 {% load static %}
+{% load cart_filters %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,9 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ product.name }} - Product Details</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     
 </head>
 {% include "ecom/navbar.html" %}
+<br><br><br><br>
 <style>
         @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&family=Oswald&family=Poppins:wght@400;600&display=swap');
 
@@ -335,6 +339,258 @@
                 padding: 0 10px;
             }
         }
+        /* product section */
+        .products-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+          }
+          
+          .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+          }
+          
+          .see-more {
+            font-size: 14px;
+            color: #007bff;
+            text-decoration: none;
+          }
+          
+          .products-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+          }
+          
+          .product-item {
+            width: 23%; /* Default: 4 products per row */
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          }
+          
+          .product-item h3 {
+            font-size: 18px;
+            color: #333;
+          }
+          
+          .product-item p {
+            font-size: 14px;
+            color: #666;
+          }
+          
+          .product-actions {
+            margin-top: 10px;
+          }
+          
+          .view-product-btn,
+          .add-to-cart-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 8px 12px;
+            font-size: 14px;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+          }
+          
+          .view-product-btn {
+            background-color: #007bff;
+          }
+          
+          .add-to-cart-btn {
+            background-color: #28a745;
+          }
+          
+          .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+          }
+          
+          .pagination a {
+            margin: 0 10px;
+            padding: 8px 12px;
+            font-size: 14px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+          }
+          
+          .pagination span {
+            font-size: 14px;
+            padding: 8px;
+            color: #333;
+          }
+          /* General styling */
+          /* General styling */
+          .product-slider-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+          }
+          
+          .products-slider {
+            display: flex;
+            gap: 20px;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+          }
+          
+          .product-item {
+            flex: 0 0 calc(25% - 20px); /* Default: 4 items per row */
+            box-sizing: border-box;
+            background: #fff;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+          }
+          
+          /* Arrow styling */
+          .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+          }
+          
+          .left-arrow {
+            left: 10px;
+          }
+          
+          .right-arrow {
+            right: 10px;
+          }
+          
+          /* Responsive Design */
+          @media (max-width: 1200px) {
+            .product-item {
+              flex: 0 0 calc(25% - 20px); /* 3 items per row */
+            }
+          }
+          
+          @media (max-width: 768px) {
+            .product-item {
+              flex: 0 0 calc(25% - 20px); /* 2 items per row */
+            }
+          }
+          
+          @media (max-width: 480px) {
+            .product-item {
+              flex: 0 0 calc(25% - 20px); /* 1 item per row */
+            }
+          }
+          
+          
+          /* Responsive Design - Adjust Grid for Smaller Screens */
+          @media (max-width: 768px) {
+            .products-grid {
+              /* 2 products per row on tablets and below */
+              grid-template-columns: repeat(2, 1fr); 
+            }
+          
+          
+          
+            .product-item {
+              width: 48%; /* Adjust the width for 2 items per row */
+            }
+          }
+          
+          @media (max-width: 480px) {
+            .products-grid {
+              /* 1 product per row on very small screens */
+              grid-template-columns: 2fr; 
+            }
+            
+          
+            .product-item {
+              width: 100%; /* Full width for each product on very small screens */
+            }
+           
+          }
+
+          /* Container for each product's form */
+.quantity-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+/* Style for the buttons */
+.quantity-btn {
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.quantity-btn:hover {
+    background-color: #ddd;
+}
+
+/* Style for minus and plus buttons */
+.minus {
+    color: #d9534f;
+}
+
+.plus {
+    color: #5bc0de;
+}
+
+/* Style for the quantity input field */
+#quantity-input {
+    width: 50px;
+    text-align: center;
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+}
+
+#quantity-input:focus {
+    border-color: #5bc0de;
+}
+
+/* Update button styles */
+.update-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.update-btn:hover {
+    background-color: #218838;
+}
+
+          
          
     </style>
 <body>
@@ -377,25 +633,31 @@
                 <div class="price-description">
                     {% if product.discount %}
                     <h2>PKR {{ product.final_price }}</h2>
-                    <h4>{{ product.discount }}%</h4>
+                    <h4>{{ product.discount }}Pkr</h4>
                     <h5><strike>PKR {{ product.price }}</strike></h5>
                     {% else %}
                     <h2>PKR {{ product.price }}</h2>
                     {% endif %}
                 </div>
     
-                <div class="cart-function">
-                    <div class="numbers">
-                        <span class="minus">
-                            <img src="images/icon-minus.svg" alt="">
-                        </span>
-                        <span class="cart-number">0</span>
-                        <span class="plus">
-                            <img src="images/icon-plus.svg" alt="">
-                        </span>
-                    </div>
+{% for p in products %}
+    <form method="POST" action="{% url 'update-quantity' p.id %}">
+        {% csrf_token %}
+        <div class="numbers">
+            <button type="button" class="minus" onclick="decreaseQuantity()">
+                <i class="fas fa-minus"></i>
+            </button>
+            <input type="number" name="quantity" id="quantity-input" value="{{ cart|get_item:p.id }}" min="1">
+            <button type="button" class="plus" onclick="increaseQuantity()">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+        <button type="submit">Update</button>
+    </form>
+{% endfor %}
+
                     <button id="add-btn">
-                        <img src="images/icon-cart-white.svg" alt=""> Add to Cart
+                       <a href="{% url 'add-to-cart' product.id %}"> <img src="images/icon-cart-white.svg" alt=""> Add to Cart</a>
                     </button>
                 </div>
             </div>
@@ -436,12 +698,67 @@
             </div>
         </div>
     </div>
+
+    <section class="products-section">
+        <div class="section-header">
+            <h2>Related Products</h2>
+            <a href="{% url 'all_products' %}" class="see-more">See All Products</a>
+        </div>
+    
+        {% for sub_category_id, products in sub_category_products.items %}
+        <div class="sub-category-container">
+
+            
+            <div class="product-slider-container">
+                <button class="slider-arrow left-arrow">&#10094;</button>
+                <div class="products-slider">
+                    {% for p in products %}
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img src="{% static p.product_image.url %}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
+                        </div>
+                        <h3>{{ p.name }}</h3>
+                        <p>{{ p.price }} PKR</p>
+                        <p>{{ p.short_description }}</p>
+    
+                        <div class="product-actions">
+                            <!-- Pass both product_id and sub_category_id to the product-detail URL -->
+                            <a href="{% url 'product_detail' p.id sub_category_id %}" class="view-product-btn">View Product</a>
+                            <a href="{% url 'add-to-cart' p.id %}" class="add-to-cart-btn">
+                                <i class="fa fa-shopping-cart"></i> Add to Cart
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="slider-arrow right-arrow">&#10095;</button>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+    
     
     <script>
         function changeMainImage(element, targetId = "product-preview") {
             const mainImage = document.getElementById(targetId);
             mainImage.src = element.src;
         }
+
+
+// Get the input field for quantity
+const quantityInput = document.getElementById('quantity-input');
+    
+// Function to decrease quantity
+function decreaseQuantity() {
+    if (quantityInput.value > 1) {
+        quantityInput.value = parseInt(quantityInput.value) - 1;
+    }
+}
+
+// Function to increase quantity
+function increaseQuantity() {
+    quantityInput.value = parseInt(quantityInput.value) + 1;
+}
     </script>
     
 

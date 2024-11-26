@@ -26,7 +26,10 @@ urlpatterns = [
     path('', views.home_view, name='home'),
     path('category/<int:category_id>/', views.category_products_view, name='category-products'),
     path('sub_category/<int:sub_category_id>/', views.sub_category_products_view, name='sub_category-products'),
-    path('products/<int:product_id>/', views.product_detail, name='product_detail'),
+    path('products/<int:product_id>/<int:sub_category_id>/', views.product_detail, name='product_detail'),
+    path('update-quantity/<int:pk>/', views.update_quantity, name='update-quantity'),
+    
+
     
 
     # Category products page
@@ -61,7 +64,7 @@ urlpatterns = [
 
     path('add-to-cart/<int:pk>', views.add_to_cart_view,name='add-to-cart'),
     path('cart', views.cart_view,name='cart_view'),
-    path('remove-from-cart/<int:pk>', views.remove_from_cart_view,name='remove-from-cart'),
+    path('remove-from-cart/<int:pk>/', views.remove_from_cart_view, name='remove-from-cart'),
     path('customer-address', views.customer_address_view,name='customer-address'),
     path('payment-success', views.payment_success_view,name='payment-success'),
     path('privacy-policy/', views.privacy_policy, name='privacy_policy'),

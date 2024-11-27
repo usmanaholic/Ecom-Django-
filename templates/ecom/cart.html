@@ -7,302 +7,197 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cart</title>
+  <!-- Bootstrap CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
 
 
 
 
 </head>
 <body>
-  <style>
-    /* General Styling */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #121212;
-  color:#ffffff;
-}
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
+    <style>
+      @media (min-width: 1025px) {
+        .h-custom {
+        height: 100vh !important;
+        }
+        }
+        
+        .card-registration .select-input.form-control[readonly]:not([disabled]) {
+        font-size: 1rem;
+        line-height: 2.15;
+        padding-left: .75em;
+        padding-right: .75em;
+        }
+        
+        .card-registration .select-arrow {
+        top: 13px;
+        }
 
-/* My Cart Section */
-.cart-section {
-  margin-bottom: 30px;
-}
-
-.cart-header h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #ffffff;
-}
-
-.cart-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-.cart-table th,
-.cart-table td {
-  text-align: center;
-  padding: 12px;
-  border: 1px solid #ffffff;
-}
-
-.cart-table th {
-  background-color: #1e1e1e;
-  font-weight: bold;
-}
-
-.cart-table td img {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  border-radius: 5px;
-}
-
-.empty-cart {
-  text-align: center;
-  color: #bbb;
-  font-style: italic;
-}
-
-/* Buttons */
-.btn-remove {
-  
-  padding: 8px 12px;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 14px;
-  display: inline-block;
-}
+        
+    </style>
+    
 
 
 
-/* Coupon Form Section */
-.coupon-section h3 {
-  text-align: center;
-  margin-bottom: 15px;
-}
-
-.coupon-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.coupon-form input {
-  padding: 10px;
-  width: 100%;
-  max-width: 400px;
-  margin-bottom: 10px;
-  border: 1px solid #ffffff;
-  border-radius: 5px;
-  background-color: #1e1e1e;
-  color: #ffffff;
-}
-
-.coupon-form button {
-  background-color: #00bcd4;
-  color: #ffffff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.coupon-form button:hover {
-  background-color: #00a2b6;
-}
-
-/* Total Section */
-.total-section p {
-  text-align: center;
-  margin: 5px 0;
-}
-
-.total-section strong {
-  color: #ffffff;
-}
-
-/* Purchase Section */
-.purchase-section {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.btn-purchase {
-  background-color: #4caf50;
-  color: #ffffff;
-  padding: 15px 30px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.btn-purchase:hover {
-  background-color: #43a047;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .cart-table th,
-  .cart-table td {
-    font-size: 14px;
-    padding: 8px;
-  }
-
-  .coupon-form input {
-    width: 90%;
-  }
-}
-/* Bin button */
-
-.bin-button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 15px;
-  background-color: rgb(255, 95, 95);
-  cursor: pointer;
-  border: 3px solid rgb(255, 201, 201);
-  transition-duration: 0.3s;
-}
-.bin-bottom {
-  width: 15px;
-}
-.bin-top {
-  width: 17px;
-  transform-origin: right;
-  transition-duration: 0.3s;
-}
-.bin-button:hover .bin-top {
-  transform: rotate(45deg);
-}
-.bin-button:hover {
-  background-color: rgb(255, 0, 0);
-}
-.bin-button:active {
-  transform: scale(0.9);
-}
-
-
-  </style>
   {% include "ecom/customer_navbar.html" %}
 <br><br><br><br>
 
-<div class="container">
-  <!-- My Cart Section -->
-  <div class="cart-section">
-    <div class="cart-header">
-      <h2>My Cart</h2>
+<section class="h-100 h-custom" style="background-color: #ffffff;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12">
+        <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+          <div class="card-body p-0">
+            <div class="row g-0">
+              <div class="col-lg-8">
+                <div class="p-5">
+                  <div class="d-flex justify-content-between align-items-center mb-5">
+                    <h1 class="fw-bold mb-0">My Cart</h1>
+                    <h6 class="mb-0 text-muted">{{ products|length }} items</h6>
+                  </div>
+                  <hr class="my-4">
+
+                  {% for p in products %}
+                  <div class="row mb-4 d-flex justify-content-between align-items-center">
+                    <div class="col-md-2 col-lg-2 col-xl-2">
+                      <img
+                        src="{% static p.product_image.url %}"
+                        class="img-fluid rounded-3" alt="{{ p.name }}">
+                    </div>
+                    <div class="col-md-3 col-lg-3 col-xl-3">
+                      <h6 class="text-muted">{{ p.category }}</h6>
+                      <h6 class="mb-0">{{ p.name }}</h6>
+                    </div>
+                    <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                      <form method="POST" action="{% url 'update-quantity' p.id %}">
+                        {% csrf_token %}
+                        <div class="d-flex align-items-center">
+                          <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                            <i class="fas fa-minus"></i>
+                          </button>
+                          <input min="1" name="quantity" value="{{ cart|get_item:p.id }}" type="number"
+                            class="form-control form-control-sm text-center" />
+                          <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                            <i class="fas fa-plus"></i>
+                          </button>
+                        </div>
+                      </form>
+                      
+                    </div>
+                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                      <h6 class="mb-0">{{ p.price }} Pkr</h6>
+                    </div>
+                    <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                      <a href="{% url 'remove-from-cart' p.id %}" class="text-muted">
+                        <i class="fas fa-times"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <hr class="my-4">
+                  {% empty %}
+                  <p class="text-center">No products in your cart.</p>
+                  {% endfor %}
+
+                  <div class="pt-5">
+                    <h6 class="mb-0"><a href="/" class="text-body">
+                      <i class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a>
+                    </h6>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 bg-body-tertiary">
+                <div class="p-5">
+                  <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+                  <hr class="my-4">
+
+                  <div class="d-flex justify-content-between mb-4">
+                    <h5 class="text-uppercase">Items {{ products|length }}</h5>
+                    <h5>{{ total }} Pkr</h5>
+                  </div>
+                  <div class="d-flex justify-content-between mb-4">
+                    <h5 class="text-uppercase">Delivery Fee </h5>
+                    <h5>{{ delivery_fee }} Pkr</h5>
+                  </div>
+
+                  <h5 class="text-uppercase mb-3">Shipping</h5>
+                  <div class="mb-4 pb-2">
+                    <select name="delivery_method" form="delivery-method-form" class="form-select">
+                      <option value="cod">Cash on Delivery</option>
+                      <option value="online">Online Payment</option>
+                    </select>
+                  </div>
+
+                  <h5 class="text-uppercase mb-3">Apply Code</h5>
+                  <form method="POST" >
+                    {% csrf_token %}
+                    <div class="mb-5">
+                      <div class="form-outline">
+                        <input type="text" name="coupon_code" id="form3Examplea2" class="form-control form-control-lg" />
+                        <label class="form-label" for="form3Examplea2">Enter your code</label>
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Apply</button>
+                  </form>
+
+                  <hr class="my-4">
+                  <div class="d-flex justify-content-between mb-5">
+                    <h5 class="text-uppercase">Total Price</h5>
+                    <h5>{{ final_total }} Pkr</h5>
+                  </div>
+                  <a href="/customer-address">
+                    <button type="button" class="btn btn-dark btn-block btn-lg">Purchase</button>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <table class="cart-table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Image</th>
-          <th>Price</th>
-          <th>Quantity</th> <!-- Added quantity column -->
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for p in products %}
-        <tr>
-          <td>{{ p.name }}</td>
-          <td><img src="{% static p.product_image.url %}" alt="Product Image"></td>
-          <td>{{ p.price }} Pkr</td>
-          <td>
-            <form method="POST" action="{% url 'update-quantity' p.id %}">
-              {% csrf_token %}
-              <input type="number" name="quantity" value="{{ cart|get_item:p.id }}" min="1">
-              <button type="submit">Update</button>
-          </form>
-          </td>
-          <td>
-            <a href="{% url 'remove-from-cart' p.id %}" class="btn-remove">
-              <button class="bin-button">
-                <svg class="bin-top" viewBox="0 0 39 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <line y1="5" x2="39" y2="5" stroke="white" stroke-width="4"></line>
-                  <line x1="12" y1="1.5" x2="26.0357" y2="1.5" stroke="white" stroke-width="3"></line>
-                </svg>
-                <svg class="bin-bottom" viewBox="0 0 33 39" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <mask id="path-1-inside-1_8_19" fill="white">
-                    <path d="M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z"></path>
-                  </mask>
-                  <path d="M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z" fill="white" mask="url(#path-1-inside-1_8_19)"></path>
-                  <path d="M12 6L12 29" stroke="white" stroke-width="4"></path>
-                  <path d="M21 6V29" stroke="white" stroke-width="4"></path>
-                </svg>
-              </button>
-            </a>
-          </td>
-        </tr>
-        {% empty %}
-        <tr>
-          <td colspan="5" class="empty-cart">No products in your cart</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
   </div>
-
-  <!-- Coupon Form Section -->
-  <div class="coupon-section">
-    <h3>Apply Coupon</h3>
-    {% if messages %}
-    <div class="message-box">
-      <ul>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-    {% endif %}
-    <form method="post" class="coupon-form">
-      {% csrf_token %}
-      <input type="text" name="coupon_code" placeholder="Enter coupon code" required>
-      <button type="submit">Apply Coupon</button>
-    </form>
-  </div>
-
-  <!-- Total Price Section -->
-  <div class="total-section">
-    <p><strong>Total Price:</strong> {{ total }} Pkr</p>
-    <p><strong>Delivery Fee:</strong> {{ delivery_fee }} Pkr</p>
-    {% if coupon_discount %}
-    <p><strong>Coupon Discount:</strong> {{ coupon_discount }}%</p>
-    <p><strong>Total After Discount:</strong> {{ final_total }} Pkr</p>
-    {% else %}
-    <p><strong>Final Total:</strong> {{ final_total }} Pkr</p>
-    {% endif %}
-  </div>
-
-  <!-- Purchase Button -->
-  <div class="purchase-section">
-    <a href="/customer-address">
-      <button class="btn-purchase">Purchase</button>
-    </a>
-  </div>
-
-  
-</div>
+</section>
 
 
 
 
-<br><br><br><br><br>
-{% include "ecom/footer.html" %}
+
+<script>
+  document.querySelectorAll('input[name="delivery_method"]').forEach((radio) => {
+    radio.addEventListener('change', function () {
+      document.getElementById('delivery-method-form').submit();
+    });
+  });
+
+  document.querySelectorAll('.plus-btn, .minus-btn').forEach((button) => {
+    button.addEventListener('click', function () {
+      const productId = this.getAttribute('data-product-id');
+      const quantityInput = document.getElementById(`quantity-${productId}`);
+      let currentQuantity = parseInt(quantityInput.value);
+      
+      if (this.classList.contains('plus-btn')) {
+        quantityInput.value = currentQuantity + 1;
+      } else if (this.classList.contains('minus-btn') && currentQuantity > 1) {
+        quantityInput.value = currentQuantity - 1;
+      }
+
+      // Trigger the form submission
+      const form = document.getElementById(`quantity-form-${productId}`);
+      form.submit();
+    });
+  });
+</script>
+
 </body>
 </html>
+
+<br><br><br><br><br><br><br>
+{% include "ecom/footer.html" %}
 <!-- developed By : Usman -->
 

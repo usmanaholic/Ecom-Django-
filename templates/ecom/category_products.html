@@ -101,8 +101,8 @@
                 <div class="product-item">
                     <img src="{% static product.product_image.url %}" alt="{{ product.name }}" height="200" width="200">
                     <h3>{{ product.name }}</h3>
-                    <p>{{ product.description }}</p>
-                    <p>Price: ${{ product.price }}</p>
+
+                    <p>Price: {{ product.price }}Pkr</p>
                 </div>
             {% endfor %}
         {% else %}

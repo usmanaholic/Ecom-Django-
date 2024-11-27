@@ -28,6 +28,7 @@ urlpatterns = [
     path('sub_category/<int:sub_category_id>/', views.sub_category_products_view, name='sub_category-products'),
     path('products/<int:product_id>/<int:sub_category_id>/', views.product_detail, name='product_detail'),
     path('update-quantity/<int:pk>/', views.update_quantity, name='update-quantity'),
+    path('set-delivery-method/', views.set_delivery_method, name='set-delivery-method'),
     
 
     

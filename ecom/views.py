@@ -840,11 +840,12 @@ def all_products_view(request):
 
 
 def product_detail(request, product_id, sub_category_id):
-    sub_category = get_object_or_404(Sub_category, id=sub_category_id)
+
     product = get_object_or_404(Product, id=product_id)
+    related_products = Product.objects.filter(sub_category=product.sub_category).exclude(id=product_id)[:4]  # Get related products
 
     # Fetch all products for the given sub-category
-    related_products = Product.objects.filter(sub_category=sub_category)
+
 
     # Group products by sub-category for the template
     sub_category_products = {
@@ -853,7 +854,7 @@ def product_detail(request, product_id, sub_category_id):
 
     context = {
         'product': product,
-        'sub_category_products': sub_category_products,  # Include grouped products
+        'related_products': related_products,  # Include grouped products
     }
     return render(request, 'ecom/viewmore.html', context)
 
@@ -880,3 +881,18 @@ def update_quantity(request, pk):
     else:
         messages.error(request, "Product not found in cart.")
         return redirect('cart')
+    
+
+#____________________________________________
+#________delivery____________________________
+#_______________________________________________
+def set_delivery_method(request):
+    if request.method == 'POST':
+        delivery_method = request.POST.get('delivery_method')
+        if delivery_method:
+            # Store the delivery method in session or database
+            request.session['delivery_method'] = delivery_method
+            messages.success(request, f"You selected {delivery_method.replace('_', ' ').title()} as your delivery method.")
+        else:
+            messages.error(request, "Please select a delivery method.")
+    return redirect('cart')  # Redirect back to the cart page

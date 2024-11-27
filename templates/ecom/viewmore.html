@@ -8,762 +8,169 @@
     <title>{{ product.name }} - Product Details</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <!-- Add Bootstrap CSS and JS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 
     
 </head>
 {% include "ecom/navbar.html" %}
 <br><br><br><br>
-<style>
-        @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&family=Oswald&family=Poppins:wght@400;600&display=swap');
-
-        *{
-            margin: 0;
-            padding: 0;
-            font-family: "Poppins", sans-serif;
-            box-sizing: border-box;
-        }
-        body{
-            background: #fff;
-        }
-        
-        section{
-            padding: 20px 100px;
-        }
-        
-        button{
-            width: 100%;
-            background: hsl(0, 0%, 0%);
-            margin: 30px 0;
-            padding: 15px;
-            border-radius: 10px;
-            color: #fff;
-            outline: none;
-            border: none;
-            font-weight: bold;
-        }
-
-      
-
-        
-        main{
-            position: relative;
-            z-index: 0;
-            display: grid;
-            grid-template-columns: auto auto;
-            padding: 0 100px;
-            grid-gap: 100px;
-            align-items: center;
-            margin-top: 80px;
-        }
-        
-        .product-img img{
-            width: 500px;
-            height: 500px;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            
-        }
-        .left{
-            position: relative;
-        }
-        
-        
-        .thumbnails-list{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-decoration: none;
-        }
-        .thumbnails img{
-            width: 100px;
-            border-radius: 10px;
-            position: relative;
-            
-        }
-        
-        .thumbnails-list li.active{
-            display: flex;
-            padding: 2px;
-            opacity: 0.5;
-            background: hsl(0, 0%, 0%);
-            border-radius: 10px;
-            align-items: center;
-        }
-        
-        
-        .cart-function{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .cart-function .numbers{
-            display: flex;
-            margin-right: 10px;
-            width: 250px;
-            justify-content: space-between;
-            padding: 17px 10px;
-            background: hsl(223, 64%, 98%);
-            align-items: center;
-            border-radius: 10px;
-        }
-        .cart-function button{
-            display: flex;
-            color: #fcfcfc;
-            justify-content: center;
-            align-items: center;
-        }
-        .cart-function button img{
-            margin-right: 10px;
-        }
-        
-        .right h3{
-            color: hsl(0, 0%, 0%);
-            margin-bottom: 15px;
-        }
-        .right h1{
-            font-size: 50px;
-            font-weight: bolder;
-            margin: 20px 0;
-        }
-        .right p{
-            letter-spacing: 0.7px;
-            line-height: 1.7em;
-            margin: 10px 0 20px;
-            color: hsl(219, 9%, 45%);
-        }
-        
-        .right .price-description{
-            display: flex;
-            align-items: center;
-            margin: 20px 0;
-        }
-        .right .price-description h2{
-            margin-right: 10px;
-        }
-        .right .price-description h4{
-            background: hsl(25, 100%, 94%);
-            color: hsl(0, 71%, 44%);
-            padding: 5px 10px;
-            border-radius: 5px;
-            margin-right: 40px;
-            
-        }
-        .right .price-description h5{
-            color: hsl(220, 14%, 75%);
-        }
-        .minus:hover, .plus:hover{
-            cursor: pointer;
-        }
-        button:hover{
-            background: hsl(25, 100%, 94%);
-        }
-        
-        .img-thumbs:hover, .img-thumbs-showcase:hover{
-            cursor: pointer;
-            opacity: 0.5;
-        }
-        
-        
-        .showcase{
-            position: fixed;
-            text-align: center;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            top: 0;
-            left: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            display: none;
-        }
-        .close-showcase{
-            position: absolute;
-            top: -40px;
-            right: 0;
-        }
-        .close-showcase img{
-            width: 20px;
-        }
-        
-        @media(max-width: 1250px){
-            section{
-                padding: 20px;
-            }
-            .product-img img{
-            width: 300px;
-            height: 300px;
-            }
-            .thumbnails img{
-            width: 50px;
-            }
-            main{
-                grid-gap: 50px;
-                padding: 0;
-            }
-            .right{
-                width: 100%;
-            }
-        }
-        
-        @media(max-width: 760px){
-            section{
-                padding: 0;
-            }
-            nav{
-                
-                background: #fff;
-                padding: 20px 20px;
-                display: flex;
-                justify-content: space-between;
-                width: 100%;
-                margin: auto;
-                z-index: 1;
-            }
-            .menu-toggle{
-                display: block;
-            }
-            .overlay{
-                width: 100%;
-                height: 100%;
-                position: fixed;
-                left: 0;
-                top: 0;
-                background: rgba(0, 0, 0, 0.8);
-                z-index: 1;
-                display: none;
-            }
-            .links{
-                
-                position: fixed;
-                height: 100%;
-                width: 200px;
-                top: 0;
-                left: -200px;
-                background: #fff;
-                z-index: 1;
-                transition: 1s;
-            }
-            .links ul{
-                display: block;
-                
-            }
-            
-            .close-menu{
-                display: block;
-                margin: 20px 20px 40px;
-            }
-            .link{
-                padding: 10px; 
-                margin: 20px 0;
-                font-weight: bold;
-                font-size: 16px;
-            }
-            .link:hover{
-                background: hsl(25, 100%, 94%);
-            }
-            .link:hover:before{
-                display: none;
-            }
-            .avatar{
-                width: 30px;
-                height: 30px;
-            }
-            .cart-img{
-                width: 20px;
-                height: 20px;
-                z-index: 1;
-            }
-            .cart-div .cart-number{
-                top: -10px;
-                right: -10px;
-                font-size: 10px;
-            }
-            main{
-                display: block;
-                margin-top: 0px;
-                padding: 0;
-                position: relative;
-                
-            }
-            
-            .product-img img{
-                width: 100%;
-                border-radius: 0;
-                margin-bottom: 0px;
-            }
-            .product-img{
-                margin-bottom: 20px;
-            }
-            
-            .right{
-                padding: 20px;
-                
-            }
-            .cart-function{
-                display: block;
-            }
-            .cart-function .numbers{
-                width: 100%;
-                margin-bottom: 10px;
-            }
-            .cart-function button{
-                margin-top: 0px;
-            }
-            .right h1{
-                font-size: 40px;
-            }
-            .cart-open{
-                position: absolute;
-                top: 50px;
-                left: -220px;
-                z-index: 1;
-                
-            }
-            .left{
-                position: relative;
-                
-            }
-            .cart-description .cart-number{
-                font-size: 16px;
-                top: 0;
-                left: 0;
-            }
-            
-            .img-thumbs:hover{
-            cursor: pointer;
-            opacity: 0.5;
-            }
-            .thumbnails{
-                padding: 0 10px;
-            }
-        }
-        /* product section */
-        .products-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-          }
-          
-          .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-          }
-          
-          .see-more {
-            font-size: 14px;
-            color: #007bff;
-            text-decoration: none;
-          }
-          
-          .products-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-          }
-          
-          .product-item {
-            width: 23%; /* Default: 4 products per row */
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-          }
-          
-          .product-item h3 {
-            font-size: 18px;
-            color: #333;
-          }
-          
-          .product-item p {
-            font-size: 14px;
-            color: #666;
-          }
-          
-          .product-actions {
-            margin-top: 10px;
-          }
-          
-          .view-product-btn,
-          .add-to-cart-btn {
-            display: inline-block;
-            margin: 5px;
-            padding: 8px 12px;
-            font-size: 14px;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-          }
-          
-          .view-product-btn {
-            background-color: #007bff;
-          }
-          
-          .add-to-cart-btn {
-            background-color: #28a745;
-          }
-          
-          .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-          }
-          
-          .pagination a {
-            margin: 0 10px;
-            padding: 8px 12px;
-            font-size: 14px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-          }
-          
-          .pagination span {
-            font-size: 14px;
-            padding: 8px;
-            color: #333;
-          }
-          /* General styling */
-          /* General styling */
-          .product-slider-container {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-          }
-          
-          .products-slider {
-            display: flex;
-            gap: 20px;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-          }
-          
-          .product-item {
-            flex: 0 0 calc(25% - 20px); /* Default: 4 items per row */
-            box-sizing: border-box;
-            background: #fff;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            text-align: center;
-          }
-          
-          /* Arrow styling */
-          .slider-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 10;
-            background: rgba(0, 0, 0, 0.5);
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-          }
-          
-          .left-arrow {
-            left: 10px;
-          }
-          
-          .right-arrow {
-            right: 10px;
-          }
-          
-          /* Responsive Design */
-          @media (max-width: 1200px) {
-            .product-item {
-              flex: 0 0 calc(25% - 20px); /* 3 items per row */
-            }
-          }
-          
-          @media (max-width: 768px) {
-            .product-item {
-              flex: 0 0 calc(25% - 20px); /* 2 items per row */
-            }
-          }
-          
-          @media (max-width: 480px) {
-            .product-item {
-              flex: 0 0 calc(25% - 20px); /* 1 item per row */
-            }
-          }
-          
-          
-          /* Responsive Design - Adjust Grid for Smaller Screens */
-          @media (max-width: 768px) {
-            .products-grid {
-              /* 2 products per row on tablets and below */
-              grid-template-columns: repeat(2, 1fr); 
-            }
-          
-          
-          
-            .product-item {
-              width: 48%; /* Adjust the width for 2 items per row */
-            }
-          }
-          
-          @media (max-width: 480px) {
-            .products-grid {
-              /* 1 product per row on very small screens */
-              grid-template-columns: 2fr; 
-            }
-            
-          
-            .product-item {
-              width: 100%; /* Full width for each product on very small screens */
-            }
-           
-          }
-
-          /* Container for each product's form */
-.quantity-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-/* Style for the buttons */
-.quantity-btn {
-    background-color: #f4f4f4;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 8px 12px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.quantity-btn:hover {
-    background-color: #ddd;
-}
-
-/* Style for minus and plus buttons */
-.minus {
-    color: #d9534f;
-}
-
-.plus {
-    color: #5bc0de;
-}
-
-/* Style for the quantity input field */
-#quantity-input {
-    width: 50px;
-    text-align: center;
-    padding: 5px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    transition: border-color 0.3s;
-}
-
-#quantity-input:focus {
-    border-color: #5bc0de;
-}
-
-/* Update button styles */
-.update-btn {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    font-size: 14px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 10px;
-}
-
-.update-btn:hover {
-    background-color: #218838;
-}
-
-          
-         
-    </style>
 <body>
-    <section>
-        <main>
-            <div class="left">
-                <div class="product-img">
-                    <img src="{% static product.product_image.url %}" alt="{{ product.name }}" id="product-preview">
-                </div>
-                <div class="thumbnails">
-                    <ul class="thumbnails-list">
-                        {% if product.additional_image1 %}
-                        <li class="img-thumbs active">
-                            <img src="{% static product.additional_image1.url %}" alt="Additional Image 1" onclick="changeMainImage(this)">
-                        </li>
-                        {% endif %}
-                        {% if product.additional_image2 %}
-                        <li class="img-thumbs">
-                            <img src="{% static product.additional_image2.url %}" alt="Additional Image 2" onclick="changeMainImage(this)">
-                        </li>
-                        {% endif %}
-                        {% if product.additional_image3 %}
-                        <li class="img-thumbs">
-                            <img src="{% static product.additional_image3.url %}" alt="Additional Image 3" onclick="changeMainImage(this)">
-                        </li>
-                        {% endif %}
-                        {% if product.additional_image4 %}
-                        <li class="img-thumbs">
-                            <img src="{% static product.additional_image4.url %}" alt="Additional Image 4" onclick="changeMainImage(this)">
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-    
-            <div class="right">
-                <h3>{{ product.brand|default:"Trick Storee" }}</h3>
-                <h1>{{ product.name }}</h1>
-                
-                <div class="price-description">
-                    {% if product.discount %}
-                    <h2>PKR {{ product.final_price }}</h2>
-                    <h4>{{ product.discount }}Pkr</h4>
-                    <h5><strike>PKR {{ product.price }}</strike></h5>
-                    {% else %}
-                    <h2>PKR {{ product.price }}</h2>
-                    {% endif %}
-                </div>
-    
-{% for p in products %}
-    <form method="POST" action="{% url 'update-quantity' p.id %}">
-        {% csrf_token %}
-        <div class="numbers">
-            <button type="button" class="minus" onclick="decreaseQuantity()">
-                <i class="fas fa-minus"></i>
-            </button>
-            <input type="number" name="quantity" id="quantity-input" value="{{ cart|get_item:p.id }}" min="1">
-            <button type="button" class="plus" onclick="increaseQuantity()">
-                <i class="fas fa-plus"></i>
-            </button>
-        </div>
-        <button type="submit">Update</button>
-    </form>
-{% endfor %}
+    <style>
+        .product-image {
+            max-height: 400px;
+            object-fit: cover;
+        }
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+        .thumbnail:hover, .thumbnail.active {
+            opacity: 1;
+        }
 
-                    <button id="add-btn">
-                       <a href="{% url 'add-to-cart' product.id %}"> <img src="images/icon-cart-white.svg" alt=""> Add to Cart</a>
-                    </button>
+        
+
+</style>
+
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Product Images -->
+        <div class="col-md-6 mb-4">
+            <img src="{% static product.product_image.url %}" alt="{{ product.name }}" class="img-fluid rounded mb-3 product-image" id="mainImage">
+            <div class="d-flex justify-content-between">
+                {% if product.additional_image1 %}
+                    <img src="{% static product.additional_image1.url %}" alt="Additional Image 1" class="thumbnail rounded active" onclick="changeImage(event, this.src)">
+                {% endif %}
+                {% if product.additional_image2 %}
+                    <img src="{% static product.additional_image2.url %}" alt="Additional Image 2" class="thumbnail rounded" onclick="changeImage(event, this.src)">
+                {% endif %}
+                {% if product.additional_image3 %}
+                    <img src="{% static product.additional_image3.url %}" alt="Additional Image 3" class="thumbnail rounded" onclick="changeImage(event, this.src)">
+                {% endif %}
+                {% if product.additional_image4 %}
+                    <img src="{% static product.additional_image4.url %}" alt="Additional Image 4" class="thumbnail rounded" onclick="changeImage(event, this.src)">
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Product Details -->
+        <div class="col-md-6">
+            <h2 class="mb-3">{{ product.name }}</h2>
+            <p class="text-muted mb-4">SKU: {{ product.sku|default:"N/A" }}</p>
+            <div class="mb-3">
+                {% if product.discount %}
+                    <span class="h4 me-2">PKR {{ product.final_price }}</span>
+                    <span class="text-muted"><s>PKR {{ product.price }}</s></span>
+                {% else %}
+                    <span class="h4 me-2">PKR {{ product.price }}</span>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                <i class="bi bi-star-fill text-warning"></i>
+                <i class="bi bi-star-fill text-warning"></i>
+                <i class="bi bi-star-fill text-warning"></i>
+                <i class="bi bi-star-fill text-warning"></i>
+                <i class="bi bi-star-half text-warning"></i>
+                <span class="ms-2">4.5 (120 reviews)</span>
+            </div>
+            <p class="mb-4">{{ product.description|default:"No description available." }}</p>
+
+            <div class="mb-4">
+                <h5>Color:</h5>
+                <div class="btn-group" role="group" aria-label="Color selection">
+                    <input type="radio" class="btn-check" name="color" id="black" autocomplete="off" checked>
+                    <label class="btn btn-outline-dark" for="black">Black</label>
+                    <input type="radio" class="btn-check" name="color" id="silver" autocomplete="off">
+                    <label class="btn btn-outline-secondary" for="silver">Silver</label>
+                    <input type="radio" class="btn-check" name="color" id="blue" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="blue">Blue</label>
                 </div>
             </div>
-        </main>
-    </section>
-    
-    <div class="showcase">
-        <div class="left">
-            <div class="close-showcase">
-                <img src="images/icon-close-white.svg" alt="">
-            </div>
-            <div class="product-img">
-                <img src="{% static product.product_image.url %}" alt="{{ product.name }}" id="product-preview-showcase">
-            </div>
-            <div class="thumbnails">
-                <ul class="thumbnails-list">
-                    {% if product.additional_image1 %}
-                    <li class="img-thumbs-showcase active">
-                        <img src="{% static product.additional_image1.url %}" alt="Additional Image 1" onclick="changeMainImage(this, 'product-preview-showcase')">
-                    </li>
-                    {% endif %}
-                    {% if product.additional_image2 %}
-                    <li class="img-thumbs-showcase">
-                        <img src="{% static product.additional_image2.url %}" alt="Additional Image 2" onclick="changeMainImage(this, 'product-preview-showcase')">
-                    </li>
-                    {% endif %}
-                    {% if product.additional_image3 %}
-                    <li class="img-thumbs-showcase">
-                        <img src="{% static product.additional_image3.url %}" alt="Additional Image 3" onclick="changeMainImage(this, 'product-preview-showcase')">
-                    </li>
-                    {% endif %}
-                    {% if product.additional_image4 %}
-                    <li class="img-thumbs-showcase">
-                        <img src="{% static product.additional_image4.url %}" alt="Additional Image 4" onclick="changeMainImage(this, 'product-preview-showcase')">
-                    </li>
-                    {% endif %}
+            
+            <form method="POST" action="{% url 'add-to-cart' product.id %}">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="quantity" class="form-label">Quantity:</label>
+                    <input type="number" name="quantity" class="form-control" id="quantity" value="1" min="1" style="width: 80px;">
+                </div>
+                <button type="submit" class="btn btn-dark btn-lg mb-3 me-2">
+                    <i class="bi bi-cart-plus"></i> Add to Cart
+                </button>
+            </form>
+            
+          
+
+            <div class="mt-4">
+                <h5>Key Features:</h5>
+                <ul>
+                    <li>Industry-leading noise cancellation</li>
+                    <li>30-hour battery life</li>
+                    <li>Touch sensor controls</li>
+                    <li>Speak-to-chat technology</li>
                 </ul>
             </div>
         </div>
     </div>
-
-    <section class="products-section">
-        <div class="section-header">
-            <h2>Related Products</h2>
-            <a href="{% url 'all_products' %}" class="see-more">See All Products</a>
-        </div>
-    
-        {% for sub_category_id, products in sub_category_products.items %}
-        <div class="sub-category-container">
-
-            
-            <div class="product-slider-container">
-                <button class="slider-arrow left-arrow">&#10094;</button>
-                <div class="products-slider">
-                    {% for p in products %}
-                    <div class="product-item">
-                        <div class="product-image">
-                            <img src="{% static p.product_image.url %}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
-                        </div>
-                        <h3>{{ p.name }}</h3>
-                        <p>{{ p.price }} PKR</p>
-                        <p>{{ p.short_description }}</p>
-    
-                        <div class="product-actions">
-                            <!-- Pass both product_id and sub_category_id to the product-detail URL -->
-                            <a href="{% url 'product_detail' p.id sub_category_id %}" class="view-product-btn">View Product</a>
-                            <a href="{% url 'add-to-cart' p.id %}" class="add-to-cart-btn">
-                                <i class="fa fa-shopping-cart"></i> Add to Cart
-                            </a>
-                        </div>
+    <div class="mt-5">
+        <h3 class="mb-4">Related Products</h3>
+        <div class="carousel slide" id="relatedProductsCarousel" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row justify-content-center">
+                        {% for product in related_products %}
+                            <div class="col-lg-3 col-md-4 col-6 mb-4">
+                                <div class="card">
+                                    <img src="{% static product.product_image.url %}" class="card-img-top" alt="{{ product.name }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ product.name }}</h5>
+                                        <p class="card-text">
+                                            {% if product.discount %}
+                                                PKR {{ product.final_price }}
+                                            {% else %}
+                                                PKR {{ product.price }}
+                                            {% endif %}
+                                        </p>
+                                        <a href="{% url 'product-detail' product.id %}" class="btn btn-primary">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
-                <button class="slider-arrow right-arrow">&#10095;</button>
             </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#relatedProductsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon bg-dark" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#relatedProductsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon bg-dark" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-        {% endfor %}
-    </section>
+    </div>
     
     
-    <script>
-        function changeMainImage(element, targetId = "product-preview") {
-            const mainImage = document.getElementById(targetId);
-            mainImage.src = element.src;
-        }
+</div>
 
 
-// Get the input field for quantity
-const quantityInput = document.getElementById('quantity-input');
-    
-// Function to decrease quantity
-function decreaseQuantity() {
-    if (quantityInput.value > 1) {
-        quantityInput.value = parseInt(quantityInput.value) - 1;
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function changeImage(event, src) {
+        document.getElementById('mainImage').src = src;
+        document.querySelectorAll('.thumbnail').forEach(thumb => thumb.classList.remove('active'));
+        event.target.classList.add('active');
     }
-}
+</script>
 
-// Function to increase quantity
-function increaseQuantity() {
-    quantityInput.value = parseInt(quantityInput.value) + 1;
-}
-    </script>
-    
-
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    {% include "ecom/footer.html" %}
+ 
 </body>
 </html>

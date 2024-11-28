@@ -87,14 +87,23 @@
             <div class="mb-4">
                 <h5>Color:</h5>
                 <div class="btn-group" role="group" aria-label="Color selection">
-                    <input type="radio" class="btn-check" name="color" id="black" autocomplete="off" checked>
-                    <label class="btn btn-outline-dark" for="black">Black</label>
-                    <input type="radio" class="btn-check" name="color" id="silver" autocomplete="off">
-                    <label class="btn btn-outline-secondary" for="silver">Silver</label>
-                    <input type="radio" class="btn-check" name="color" id="blue" autocomplete="off">
-                    <label class="btn btn-outline-primary" for="blue">Blue</label>
+                    {% for color in product.colors.all %}
+                        <input 
+                            type="radio" 
+                            class="btn-check" 
+                            name="color" 
+                            id="{{ color.name|lower }}" 
+                            autocomplete="off" 
+                            {% if forloop.first %}checked{% endif %}>
+                        <label 
+                            class="btn btn-outline-{{ color.name|lower }}" 
+                            for="{{ color.name|lower }}">
+                            {{ color.name }}
+                        </label>
+                    {% endfor %}
                 </div>
             </div>
+            
             
             <form method="POST" action="{% url 'add-to-cart' product.id %}">
                 {% csrf_token %}

@@ -36,31 +36,38 @@ class Sub_category(models.Model):
     
 
 
+from django.db import models
+
+class Color(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+
+    def __str__(self):
+        return self.name
+
+
 class Product(models.Model):
-    name = models.CharField(max_length=100)  # Increased max length for longer product names
+    name = models.CharField(max_length=100)
     product_image = models.ImageField(upload_to='product_image/', null=True, blank=True, default="-")
-    additional_image1 = models.ImageField(upload_to='product_image/other/', null=True, blank=True, )
-    additional_image2 = models.ImageField(upload_to='product_image/other/', null=True, blank=True, )
-    additional_image3 = models.ImageField(upload_to='product_image/other/', null=True, blank=True, )
-    additional_image4 = models.ImageField(upload_to='product_image/other/', null=True, blank=True, )  # New field for additional images
+    additional_image1 = models.ImageField(upload_to='product_image/other/', null=True, blank=True)
+    additional_image2 = models.ImageField(upload_to='product_image/other/', null=True, blank=True)
+    additional_image3 = models.ImageField(upload_to='product_image/other/', null=True, blank=True)
+    additional_image4 = models.ImageField(upload_to='product_image/other/', null=True, blank=True)
     price = models.PositiveIntegerField()
-    discount = models.PositiveIntegerField(null=True, blank=True, help_text="Discount percentage")  # Discount percentage
-    description = models.TextField(max_length=1000)# Extended for detailed product descriptions
-    short_description = models.TextField(max_length=100, null=True)  
-    stock = models.PositiveIntegerField(default=0)  # New field to track stock quantity
-    colors = models.JSONField(default=list, blank=True, help_text="List of available colors")  # Store available colors as a list
+    discount = models.PositiveIntegerField(null=True, blank=True, help_text="Discount percentage")
+    description = models.TextField(max_length=1000)
+    short_description = models.TextField(max_length=100, null=True)
+    stock = models.PositiveIntegerField(default=0)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', default=1)
     sub_category = models.ForeignKey(Sub_category, on_delete=models.CASCADE, related_name='products', default=1)
     is_digital = models.BooleanField(default=False)
-    featured = models.BooleanField(default=False)  # Indicates featured Products
-    popular = models.BooleanField(default=False)  # Indicates Popular Products
-
-
+    featured = models.BooleanField(default=False)
+    popular = models.BooleanField(default=False)
+    colors = models.ManyToManyField(Color, blank=True, related_name='products')  # Added color options
 
     def final_price(self):
-        """Calculate final price after applying discount."""
         if self.discount:
-            return self.price - self.discount 
+            return self.price - self.discount
         return self.price
 
     def __str__(self):

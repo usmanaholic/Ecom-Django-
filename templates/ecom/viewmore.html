@@ -45,19 +45,19 @@
     <div class="row">
         <!-- Product Images -->
         <div class="col-md-6 mb-4">
-            <img src="{% static product.product_image.url %}" alt="{{ product.name }}" class="img-fluid rounded mb-3 product-image" id="mainImage">
+            <img src="{% static product.product_image.url %}" alt="{{ product.name }}" class="img-fluid rounded mb-3 product-image" id="mainImage" loading="lazy">
             <div class="d-flex justify-content-between">
                 {% if product.additional_image1 %}
-                    <img src="{% static product.additional_image1.url %}" alt="Additional Image 1" class="thumbnail rounded active" onclick="changeImage(event, this.src)">
+                    <img src="{% static product.additional_image1.url %}" alt="Additional Image 1" class="thumbnail rounded active" onclick="changeImage(event, this.src)" loading="lazy">
                 {% endif %}
                 {% if product.additional_image2 %}
-                    <img src="{% static product.additional_image2.url %}" alt="Additional Image 2" class="thumbnail rounded" onclick="changeImage(event, this.src)">
+                    <img src="{% static product.additional_image2.url %}" alt="Additional Image 2" class="thumbnail rounded" onclick="changeImage(event, this.src)" loading="lazy">
                 {% endif %}
                 {% if product.additional_image3 %}
-                    <img src="{% static product.additional_image3.url %}" alt="Additional Image 3" class="thumbnail rounded" onclick="changeImage(event, this.src)">
+                    <img src="{% static product.additional_image3.url %}" alt="Additional Image 3" class="thumbnail rounded" onclick="changeImage(event, this.src)" loading="lazy">
                 {% endif %}
                 {% if product.additional_image4 %}
-                    <img src="{% static product.additional_image4.url %}" alt="Additional Image 4" class="thumbnail rounded" onclick="changeImage(event, this.src)">
+                    <img src="{% static product.additional_image4.url %}" alt="Additional Image 4" class="thumbnail rounded" onclick="changeImage(event, this.src)" loading="lazy">
                 {% endif %}
             </div>
         </div>

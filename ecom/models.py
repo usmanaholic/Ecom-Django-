@@ -2,6 +2,15 @@ from django.db import models
 from django.contrib.auth.models import User
 import uuid
 # Create your models here.
+
+
+class banner(models.Model):
+    banner_msg = models.CharField(max_length=200, unique=True)
+
+    def __str__(self):
+        return self.banner_msg
+
+
 class Customer(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
     profile_pic= models.ImageField(upload_to='profile_pic/CustomerProfilePic/',null=True,blank=True, default="-")

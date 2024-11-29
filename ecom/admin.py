@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Customer, Order,Product,Orders,Feedback,Category, Sub_category, Color
+from .models import Customer, Order,Product,Orders,Feedback,Category, Sub_category, Color, banner
 from .models import Coupon
 # Register your models here.
 class CustomerAdmin(admin.ModelAdmin):
@@ -41,3 +41,5 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Order, OrderAdmin)
+
+admin.site.register(banner)

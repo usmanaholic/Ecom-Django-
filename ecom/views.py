@@ -896,3 +896,7 @@ def set_delivery_method(request):
         else:
             messages.error(request, "Please select a delivery method.")
     return redirect('cart')  # Redirect back to the cart page
+
+
+ 
+

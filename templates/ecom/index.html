@@ -491,6 +491,17 @@ body{
   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
 }
 
+.products-slider {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; /* Enables momentum scrolling on iOS */
+}
+
+.product-item {
+  flex: 0 0 auto;
+  margin-right: 20px;
+}
 
 
 
@@ -565,7 +576,7 @@ body{
                         <img src="{% static p.product_image.url %}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
                     </div>
                     <h3>{{ p.name }}</h3>
-                    <p>{{ p.price }} PKR</p>
+                    <p>{{ p.final_price }} PKR</p>
 
         
                     <div class="product-actions">
@@ -689,15 +700,16 @@ body{
         const leftArrow = document.querySelector(".left-arrow");
         const rightArrow = document.querySelector(".right-arrow");
     
-        const getVisibleCount = () => {
-            if (window.innerWidth <= 480) return 1; // 1 product for small screens
-            if (window.innerWidth <= 768) return 1; // 2 products for tablets
-            if (window.innerWidth <= 1200) return 1; // 3 products for medium screens
-            return 1; // 4 products for large screens
-        };
-    
         const slideWidth = document.querySelector(".product-item").offsetWidth + 20; // Includes gap
     
+        const getVisibleCount = () => {
+            if (window.innerWidth <= 480) return 1; // 1 product for small screens
+            if (window.innerWidth <= 768) return 2; // 2 products for tablets
+            if (window.innerWidth <= 1200) return 3; // 3 products for medium screens
+            return 4; // 4 products for large screens
+        };
+    
+        // Click Events for Arrows
         leftArrow.addEventListener("click", () => {
             slider.scrollBy({ left: -slideWidth * getVisibleCount(), behavior: "smooth" });
         });
@@ -706,12 +718,32 @@ body{
             slider.scrollBy({ left: slideWidth * getVisibleCount(), behavior: "smooth" });
         });
     
-        // Recalculate visible count on resize
+        // Touch Events for Swiping
+        let startX = 0;
+        let isDragging = false;
+    
+        slider.addEventListener("touchstart", (e) => {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+        });
+    
+        slider.addEventListener("touchmove", (e) => {
+            if (!isDragging) return;
+            const touchX = e.touches[0].clientX;
+            const deltaX = startX - touchX;
+            slider.scrollLeft += deltaX;
+            startX = touchX;
+        });
+    
+        slider.addEventListener("touchend", () => {
+            isDragging = false;
+        });
+    
+        // Reset scroll position on resize
         window.addEventListener("resize", () => {
             slider.scrollLeft = 0; // Reset scroll position on resize
         });
     });
-    
     
   </script>
 </body>

@@ -192,7 +192,7 @@
                         <figcaption class="order-info">
                             <p class="title">
                                 <strong>Name:</strong> {{ product.name }} <br>
-                                <strong>Description:</strong> {{ product.description }} <br>
+
                                 <strong>Price:</strong> {{ product.price }} PKR
                             </p>
                         </figcaption>
@@ -220,13 +220,7 @@
                         {% endif %}
                     </div>
                     <br>
-                    <h4>
-                        {% for product in products %}
-                        <a href="{% url 'download-invoice' order.id product.id %}">
-                            <button class="order-btn order-btn-danger btn-sm">Download Invoice</button>
-                        </a>
-                    {% endfor %}
-                    </h4>
+                  
                 </li>
             </ul>
 

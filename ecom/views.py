@@ -553,33 +553,18 @@ def customer_address_view(request):
 @login_required(login_url='customerlogin')
 def payment_success_view(request):
     customer = Customer.objects.get(user_id=request.user.id)
-    products = None
-    email = None
-    mobile = None
-    address = None
 
-    # Get products from cookies
-    if 'product_ids' in request.COOKIES:
-        product_ids = request.COOKIES['product_ids']
-        if product_ids:
-            product_id_in_cart = product_ids.split('|')
-            products = Product.objects.filter(id__in=product_id_in_cart)
+    cart = json.loads(request.COOKIES.get('cart', '{}'))
+    product_ids = list(cart.keys())
+    products = Product.objects.filter(id__in=product_ids)
 
-    # Get customer details from cookies
-    if 'email' in request.COOKIES:
-        email = request.COOKIES['email']
-    if 'mobile' in request.COOKIES:
-        mobile = request.COOKIES['mobile']
-    if 'address' in request.COOKIES:
-        address = request.COOKIES['address']
+    email = request.COOKIES.get('email')
+    mobile = request.COOKIES.get('mobile')
+    address = request.COOKIES.get('address')
 
     if products:
-        # Create a new order (group)
-        order = Order.objects.create(
-            customer=customer,
-        )
+        order = Order.objects.create(customer=customer)
 
-        # Create individual orders for each product
         for product in products:
             Orders.objects.create(
                 customer=customer,
@@ -591,17 +576,18 @@ def payment_success_view(request):
                 status='Pending',
             )
 
-        # Show the order number on the success page
-        response = render(request, 'ecom/payment_success.html', {'order_number': order.order_number})
+        response = render(request, 'ecom/payment_success.html', {
+            'order_number': order.order_number
+        })
 
-        # Clear the cookies
-        response.delete_cookie('product_ids')
+        response.delete_cookie('cart')
         response.delete_cookie('email')
         response.delete_cookie('mobile')
         response.delete_cookie('address')
         return response
 
     return render(request, 'ecom/payment_success.html', {'error': 'No products found in cart.'})
+
 
 
 

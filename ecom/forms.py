@@ -44,7 +44,7 @@ class FeedbackForm(forms.ModelForm):
 #for updating status of order
 class OrderForm(forms.ModelForm):
     class Meta:
-        model=models.Orders
+        model=models.Order
         fields=['status']
 
 #for contact us page

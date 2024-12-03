@@ -84,21 +84,34 @@ class Product(models.Model):
 
 
 
-class Orders(models.Model):
-    STATUS = (
+class Order(models.Model):
+    STATUS_CHOICES = (
         ('Pending', 'Pending'),
         ('Order Confirmed', 'Order Confirmed'),
         ('Out for Delivery', 'Out for Delivery'),
         ('Delivered', 'Delivered'),
     )
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
-    order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name='order_items', null=True, blank=True)
+    order_number = models.CharField(max_length=100, unique=True, editable=False)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
+    order_date = models.DateField(auto_now_add=True, null=True)
     email = models.CharField(max_length=50, null=True)
     address = models.CharField(max_length=500, null=True)
     mobile = models.CharField(max_length=20, null=True)
-    order_date = models.DateField(auto_now_add=True, null=True)
-    status = models.CharField(max_length=50, null=True, choices=STATUS)
+
+    def save(self, *args, **kwargs):
+        if not self.order_number:
+            self.order_number = str(uuid.uuid4()).replace('-', '').upper()[:4]  # Generate unique order number
+        super(Order, self).save(*args, **kwargs)
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    @property
+    def total_price(self):
+        return self.product.price * self.quantity
     
     
 
@@ -134,15 +147,6 @@ class CouponUsage(models.Model):
         return f"{self.user} used {self.coupon.code}"
 
 
-class Order(models.Model):
-    order_number = models.CharField(max_length=100, unique=True, editable=False)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    # other fields
-
-    def save(self, *args, **kwargs):
-        if not self.order_number:
-            self.order_number = str(uuid.uuid4()).replace('-', '').upper()[:5]  # Generate unique order number
-        super(Order, self).save(*args, **kwargs)
 
 
 

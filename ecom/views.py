@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib import messages
 from django.conf import settings
-from .models import Category, Product, Coupon, CouponUsage, Orders, Order, Customer, Sub_category
+from .models import Category, Product, Coupon, CouponUsage,  Order, Customer, Sub_category, OrderItem
 from django.utils import timezone
 from .forms import CouponApplyForm
 from decimal import Decimal
@@ -563,23 +563,31 @@ def payment_success_view(request):
     address = request.COOKIES.get('address')
 
     if products:
-        order = Order.objects.create(customer=customer)
+        # Create the main order
+        order = Order.objects.create(
+            customer=customer,
+            email=email,
+            address=address,
+            mobile=mobile,
+        )
 
+        # Create individual OrderItems for each product
         for product in products:
-            Orders.objects.create(
-                customer=customer,
-                product=product,
+            # Fetch the correct quantity from the cart
+            quantity_data = cart[str(product.id)]
+            quantity = quantity_data['quantity'] if isinstance(quantity_data, dict) else int(quantity_data)
+
+            OrderItem.objects.create(
                 order=order,
-                email=email,
-                mobile=mobile,
-                address=address,
-                status='Pending',
+                product=product,
+                quantity=quantity,
             )
 
         response = render(request, 'ecom/payment_success.html', {
             'order_number': order.order_number
         })
 
+        # Clear cart cookies
         response.delete_cookie('cart')
         response.delete_cookie('email')
         response.delete_cookie('mobile')
@@ -591,18 +599,23 @@ def payment_success_view(request):
 
 
 
+
+
+
 @login_required(login_url='customerlogin')
 @user_passes_test(is_customer)
 def my_order_view(request):
-    
-    customer=models.Customer.objects.get(user_id=request.user.id)
-    orders=models.Orders.objects.all().filter(customer_id = customer)
-    ordered_products=[]
-    for order in orders:
-        ordered_product=models.Product.objects.all().filter(id=order.product.id)
-        ordered_products.append(ordered_product)
+    customer = Customer.objects.get(user_id=request.user.id)
+    orders = Order.objects.filter(customer=customer)
 
-    return render(request,'ecom/my_order.html',{'data':zip(ordered_products,orders)})
+    order_data = []
+    for order in orders:
+        items = order.items.all()  # Fetch related OrderItems
+        order_data.append({'order': order, 'items': items})
+
+    return render(request, 'ecom/my_order.html', {'orders': order_data})
+
+
  
 
 

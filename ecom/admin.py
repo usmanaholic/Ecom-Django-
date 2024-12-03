@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Customer, Order,Product,Orders,Feedback,Category, Sub_category, Color, banner
+from .models import Customer, Order,Product,Feedback,Category, Sub_category, Color, banner
 from .models import Coupon
 # Register your models here.
 class CustomerAdmin(admin.ModelAdmin):
@@ -12,7 +12,7 @@ admin.site.register(Product, ProductAdmin)
 
 class OrderAdmin(admin.ModelAdmin):
     pass
-admin.site.register(Orders, OrderAdmin)
+admin.site.register(Order, OrderAdmin)
 
 class FeedbackAdmin(admin.ModelAdmin):
     pass
@@ -40,6 +40,6 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = ['order_number', 'customer__name']
 
 
-admin.site.register(Order, OrderAdmin)
+
 
 admin.site.register(banner)

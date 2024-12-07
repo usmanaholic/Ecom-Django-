@@ -504,6 +504,26 @@ body{
 }
 
 
+.product-image {
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #ff0000;
+  color: #fff;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 5px;
+  z-index: 0;
+  opacity: 80%;
+}
+
+
+
 
     </style>
     {% include "ecom/navbar.html" %}
@@ -563,37 +583,44 @@ body{
         <!-- Products Section -->
         <section class="products-section">
           <div class="section-header">
-            <h2>New Products</h2>
-            <a href="{% url 'all_products' %}" class="see-more">See All Products</a>
-        </div>
-        
-        <div class="product-slider-container">
-            <button class="slider-arrow left-arrow">&#10094;</button>
-            <div class="products-slider">
-                {% for p in products %}
-                <div class="product-item">
-                    <div class="product-image">
-                        <img src="{% static p.product_image.url %}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
-                    </div>
-                    <h3>{{ p.name }}</h3>
-                    <p>{{ p.final_price }} PKR</p>
-
-        
-                    <div class="product-actions">
-                        <a href="{% url 'product_detail' p.id p.sub_category.id %}" class="view-product-btn">View Product</a>
-                        <a href="{% url 'add-to-cart' p.id %}" class="add-to-cart-btn">
-                            <i class="fa fa-shopping-cart"></i> Add to Cart
-                        </a>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            <button class="slider-arrow right-arrow">&#10095;</button>
-        </div>
-        
+              <h2>New Products</h2>
+              <a href="{% url 'all_products' %}" class="see-more">See All Products</a>
+          </div>
           
-        
+          <div class="product-slider-container">
+              <button class="slider-arrow left-arrow">&#10094;</button>
+              <div class="products-slider">
+                  {% for p in products %}
+                  <div class="product-item">
+                      <div class="product-image">
+                          <!-- Badge -->
+                          {% if p.discount or p.free_delivery %}
+                              <div class="badge">
+                                  {% if p.discount %}
+                                     Save Rs.{{ p.discount }}
+                                  {% elif p.free_delivery %}
+                                      Free Delivery
+                                  {% endif %}
+                              </div>
+                          {% endif %}
+                          <img src="{% static p.product_image.url %}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
+                      </div>
+                      <h3>{{ p.name }}</h3>
+                      <p>{{ p.final_price }} PKR</p>
+                      
+                      <div class="product-actions">
+                          <a href="{% url 'product_detail' p.id p.sub_category.id %}" class="view-product-btn">View Product</a>
+                          <a href="{% url 'add-to-cart' p.id %}" class="add-to-cart-btn">
+                              <i class="fa fa-shopping-cart"></i> Add to Cart
+                          </a>
+                      </div>
+                  </div>
+                  {% endfor %}
+              </div>
+              <button class="slider-arrow right-arrow">&#10095;</button>
+          </div>
       </section>
+      
 
     <!-- Products Section -->
     <section class="products-section">

@@ -24,30 +24,26 @@
 
           </tr>
         </thead>
-        {% for product,customer,order in data %}
-        <tr>
-          {% for c in customer %}
-          <td> {{c.get_name}}</td>
-          <td>{{c.mobile}}</td>
-          <td>{{order.address}}</td>
-
-          {% endfor %}
-          {% for p in product %}
-          <td> {{p.name}}</td>
-          <td> <img src="{% static p.product_image.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
-
-          {% if order.status == 'Pending'%}
-          <td> <span class="label label-info">{{order.status}}</span></td>
-          {% elif order.status == 'Delivered' %}
-          <td> <span class="label label-success">{{order.status}}</span></td>
-          {% elif order.status == 'Out for Delivery' %}
-          <td> <span class="label label-warning">{{order.status}}</span></td>
-          {%else%}
-            <td> <span class="label label-primary">{{order.status}}</span></td>
-          {%endif%}
-          {% endfor %}
-        </tr>
+        {% for products, customer, order in data %}
+<tr>
+    <td>{{ customer.get_name }}</td>
+    <td>{{ customer.mobile }}</td>
+    <td>{{ order.address }}</td>
+    <td>
+        {% for product in products %}
+        {{ product.name }}<br>
         {% endfor %}
+    </td>
+    <td>
+        {% for product in products %}
+        <img src="{% static product.product_image.url %}" alt="{{ product.name }}" style="width: 50px; height: 50px;"><br>
+        {% endfor %}
+    </td>
+    <td>{{ order.status }}</td>
+</tr>
+{% endfor %}
+
+
 
 
 

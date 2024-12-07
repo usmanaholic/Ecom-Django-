@@ -63,7 +63,7 @@ class Product(models.Model):
     additional_image3 = models.ImageField(upload_to='product_image/other/', null=True, blank=True)
     additional_image4 = models.ImageField(upload_to='product_image/other/', null=True, blank=True)
     price = models.PositiveIntegerField()
-    discount = models.PositiveIntegerField(null=True, blank=True, help_text="Discount percentage")
+    discount = models.PositiveIntegerField(null=True, blank=True, help_text="Discount Price")
     description = models.TextField(max_length=1000)
     short_description = models.TextField(max_length=100, null=True)
     stock = models.PositiveIntegerField(default=0)
@@ -73,6 +73,7 @@ class Product(models.Model):
     featured = models.BooleanField(default=False)
     popular = models.BooleanField(default=False)
     colors = models.ManyToManyField(Color, blank=True, related_name='products')  # Added color options
+    free_delivery = models.BooleanField(default=False)
 
     def final_price(self):
         if self.discount:

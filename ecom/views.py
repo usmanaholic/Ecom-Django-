@@ -151,30 +151,35 @@ def afterlogin_view(request):
 #---------------------------------------------------------------------------------
 #------------------------ ADMIN RELATED VIEWS START ------------------------------
 #---------------------------------------------------------------------------------
+from django.db.models import Prefetch
+
 @login_required(login_url='adminlogin')
 def admin_dashboard_view(request):
-    # for cards on dashboard
-    customercount=models.Customer.objects.all().count()
-    productcount=models.Product.objects.all().count()
-    ordercount=models.Orders.objects.all().count()
+    # Counts for the dashboard cards
+    customercount = models.Customer.objects.count()
+    productcount = models.Product.objects.count()
+    ordercount = models.Order.objects.count()
 
-    # for recent order tables
-    orders=models.Orders.objects.all()
-    ordered_products=[]
-    ordered_bys=[]
+    # Fetch all orders with related order items and products
+    orders = models.Order.objects.prefetch_related(
+        Prefetch('items', queryset=models.OrderItem.objects.select_related('product'))
+    )
+
+    # Prepare data for the recent orders table
+    ordered_products = []
+    ordered_bys = []
     for order in orders:
-        ordered_product=models.Product.objects.all().filter(id=order.product.id)
-        ordered_by=models.Customer.objects.all().filter(id = order.customer.id)
+        ordered_product = [item.product for item in order.items.all()]  # Get all products in the order
         ordered_products.append(ordered_product)
-        ordered_bys.append(ordered_by)
+        ordered_bys.append(order.customer)  # Get the customer who placed the order
 
-    mydict={
-    'customercount':customercount,
-    'productcount':productcount,
-    'ordercount':ordercount,
-    'data':zip(ordered_products,ordered_bys,orders),
+    mydict = {
+        'customercount': customercount,
+        'productcount': productcount,
+        'ordercount': ordercount,
+        'data': zip(ordered_products, ordered_bys, orders),
     }
-    return render(request,'ecom/admin_dashboard.html',context=mydict)
+    return render(request, 'ecom/admin_dashboard.html', context=mydict)
 
 
 # admin view customer table
@@ -252,27 +257,36 @@ def update_product_view(request,pk):
 
 @login_required(login_url='adminlogin')
 def admin_view_booking_view(request):
-    orders=models.Orders.objects.all()
-    ordered_products=[]
-    ordered_bys=[]
+    orders = models.Order.objects.prefetch_related(
+        'items__product'
+    )  # Fetch orders with related items and products
+
+    ordered_products = []
+    ordered_bys = []
+
     for order in orders:
-        ordered_product=models.Product.objects.all().filter(id=order.product.id)
-        ordered_by=models.Customer.objects.all().filter(id = order.customer.id)
+        # Get all products in the current order
+        ordered_product = [item.product for item in order.items.all()]
+        # Get the customer who placed the order
+        ordered_by = order.customer
+
         ordered_products.append(ordered_product)
         ordered_bys.append(ordered_by)
-    return render(request,'ecom/admin_view_booking.html',{'data':zip(ordered_products,ordered_bys,orders)})
+
+    return render(request, 'ecom/admin_view_booking.html', {'data': zip(ordered_products, ordered_bys, orders)})
+
 
 
 @login_required(login_url='adminlogin')
 def delete_order_view(request,pk):
-    order=models.Orders.objects.get(id=pk)
+    order=models.Order.objects.get(id=pk)
     order.delete()
     return redirect('admin-view-booking')
 
 # for changing status of order (pending,delivered...)
 @login_required(login_url='adminlogin')
 def update_order_view(request,pk):
-    order=models.Orders.objects.get(id=pk)
+    order=models.Order.objects.get(id=pk)
     orderForm=forms.OrderForm(instance=order)
     if request.method=='POST':
         orderForm=forms.OrderForm(request.POST,instance=order)

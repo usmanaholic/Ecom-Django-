@@ -33,40 +33,55 @@ written By : Usman
       <h6 class="panel-title">Total Orders</h6>
     </div>
     <table class="table table-hover table-bordered" id="dev-table">
-      <thead>
+    <thead>
         <tr>
-          <th>Customer</th>
-          <th>Contact</th>
-          <th>Shipping Address</th>
-          <th>Product</th>
-          <th>Image</th>
-          <th>Status</th>
-          <th>Actions</th>
+            <th>Customer</th>
+            <th>Contact</th>
+            <th>Shipping Address</th>
+            <th>Product</th>
+            <th>Image</th>
+            <th>Status</th>
+            <th>Actions</th>
         </tr>
-      </thead>
-      <!-- p for product, c for customer-->
-      {% for product,customer,order in data %}
-      <tr>
-        {% for c in customer %}
-        <td> {{c.get_name}}</td>
-        <td>{{c.mobile}}</td>
-        <td>{{order.address}}</td>
+    </thead>
+    <tbody>
+        <!-- product: list of products, customer: single customer object, order: single order -->
+        {% for products, customer, order in data %}
+        <tr>
+            <!-- Customer Information -->
+            <td>{{ customer.get_name }}</td>
+            <td>{{ customer.mobile }}</td>
+            <td>{{ order.address }}</td>
 
+            <!-- Products Information -->
+            <td>
+                {% for p in products %}
+                {{ p.name }}<br>
+                {% endfor %}
+            </td>
+            <td>
+                {% for p in products %}
+                <img src="{% static p.product_image.url %}" alt="Product Image" height="40px" width="40px"><br>
+                {% endfor %}
+            </td>
+
+            <!-- Order Status -->
+            <td>{{ order.status }}</td>
+
+            <!-- Actions -->
+            <td>
+                <a class="btn btn-primary btn-xs" href="{% url 'update-order' order.id %}">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </a>
+                <a class="btn btn-danger btn-xs" href="{% url 'delete-order' order.id %}">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </a>
+            </td>
+        </tr>
         {% endfor %}
-        {% for p in product %}
-        <td> {{p.name}}</td>
-        <td> <img src="{% static p.product_image.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
-        <td>{{order.status}}</td>
-        <td><a class="btn btn-primary btn-xs" href="{% url 'update-order' order.id  %}"><span class="glyphicon glyphicon-edit"></span></a>
-        <a class="btn btn-danger btn-xs" href="{% url 'delete-order' order.id  %}"><span class="glyphicon glyphicon-trash"></span></a></td>
+    </tbody>
+</table>
 
-        {% endfor %}
-
-
-
-      </tr>
-      {% endfor %}
-    </table>
   </div>
 </div>
 <!--

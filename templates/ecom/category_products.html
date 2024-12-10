@@ -6,88 +6,277 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ category.name }} - Products</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-top: 20px;
-        }
-
-        .products {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 20px;
+        .products-section {
             max-width: 1200px;
             margin: 0 auto;
-        }
-
-        .product-item {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease;
-            padding: 15px;
-        }
-
-        .product-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-        }
-
-        .product-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px 8px 0 0;
-        }
-
-        .product-item h3 {
-            font-size: 1.2em;
-            color: #333;
-            margin: 10px 0 5px;
-        }
-
-        .product-item p {
-            font-size: 0.9em;
-            color: #666;
-            margin: 5px 0;
-        }
-
-        .product-item p:last-of-type {
-            font-weight: bold;
-            color: #333;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background-color: black;
-            color: #fff;
-            text-align: center;
+            padding: 20px;
+          }
+          
+          .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+          }
+          
+          .see-more {
+            font-size: 14px;
+            color: #007bff;
             text-decoration: none;
+          }
+          
+          .products-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+          }
+          
+          .product-item {
+            width: 23%; /* Default: 4 products per row */
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          }
+          
+          .product-item h3 {
+            font-size: 18px;
+            color: #333;
+          }
+          
+          .product-item p {
+            font-size: 14px;
+            color: #666;
+          }
+          
+          .product-actions {
+            margin-top: 10px;
+          }
+          
+          .view-product-btn,
+          .add-to-cart-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 8px 12px;
+            font-size: 14px;
+            color: white;
             border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .back-link:hover {
-            background-color: white;
-            color: black;
-        }
-
-        @media (max-width: 600px) {
-            .products {
-                grid-template-columns: 1fr;
+            text-decoration: none;
+          }
+          
+          .view-product-btn {
+            background-color: #007bff;
+          }
+          
+          .add-to-cart-btn {
+            background-color: #28a745;
+          }
+          
+          
+          /* General styling */
+          /* General styling */
+          .product-slider-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+          }
+          
+          .products-slider {
+            display: flex;
+            gap: 20px;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+          }
+          
+          .product-item {
+            flex: 0 0 calc(25% - 20px); /* Default: 4 items per row */
+            box-sizing: border-box;
+            background: #fff;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+          }
+          
+          /* Arrow styling */
+          .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+          }
+          
+          .left-arrow {
+            left: 10px;
+          }
+          
+          .right-arrow {
+            right: 10px;
+          }
+          
+          /* Responsive Design */
+          @media (max-width: 1200px) {
+            .product-item {
+              flex: 0 0 calc(25% - 20px); /* 3 items per row */
             }
-        }
+          }
+          
+          @media (max-width: 768px) {
+            .product-item {
+              flex: 0 0 calc(25% - 20px); /* 2 items per row */
+            }
+          }
+          
+          @media (max-width: 480px) {
+            .product-item {
+              flex: 0 0 calc(25% - 20px); /* 1 item per row */
+            }
+          }
+          
+          
+          /* Responsive Design - Adjust Grid for Smaller Screens */
+          @media (max-width: 768px) {
+            .products-grid {
+              /* 2 products per row on tablets and below */
+              grid-template-columns: repeat(2, 1fr); 
+            }
+          
+          
+          
+            .product-item {
+              width: 48%; /* Adjust the width for 2 items per row */
+            }
+          }
+          
+          @media (max-width: 480px) {
+            .products-grid {
+              /* 1 product per row on very small screens */
+              grid-template-columns: 2fr; 
+            }
+            
+          
+            .product-item {
+              width: 100%; /* Full width for each product on very small screens */
+            }
+           
+          }
+          
+          /* button shop now */
+          .btn-12 {
+            position: relative;
+            display: inline-block;
+            font-size: 1rem;
+            padding: 15px 30px;
+            color: #000;
+            background: #fff;
+            border: 2px solid #000;
+            cursor: pointer;
+            overflow: hidden;
+            transition: color 0.4s;
+            border-radius: 50px;
+            z-index: 1;
+          }
+          
+          .btn-12 span {
+            position: relative;
+            z-index: 1;
+          }
+          
+          .btn-12:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            transition: all 0.4s ease-in-out;
+            border-radius: 50px;
+          }
+          
+          .btn-12:hover:before {
+            left: 0;
+          }
+          
+          .btn-12:hover {
+            color: #fff;
+          }
+
+          .products-slider {
+            display: flex;
+            overflow-x: auto;
+            scrollbar-width: thin; /* For Firefox */
+            scrollbar-color: rgb(255, 255, 255) transparent; /* For Firefox */
+          }
+          
+          /* For webkit-based browsers (Chrome, Edge, Safari) */
+          .products-slider::-webkit-scrollbar {
+            height: 1px; /* Adjust thickness */
+            background-color: transparent;
+          }
+          
+          .products-slider::-webkit-scrollbar-thumb {
+            background-color: black; /* Color of the scrollbar */
+            border-radius: 5px; /* Rounded edges */
+          }
+          
+          .products-slider::-webkit-scrollbar-thumb:hover {
+            background-color: #333; /* Darker shade on hover */
+          }
+          
+          .product-item {
+            flex: 0 0 auto;
+            margin-right: 20px;
+          }
+          
+          
+          .product-image {
+            position: relative;
+          }
+          
+          .badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #ff0000;
+            color: #fff;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 5px;
+            z-index: 0;
+            opacity: 80%;
+          }
+          
+          
+          .final_price {
+            text-decoration: line-through;
+            font-weight: bold;
+            color: red;
+            display: inline;
+          }
+          
+          .price {
+            font-weight: bold;
+            color: green; /* Optional to differentiate it from the price */
+            display: inline;
+            margin-left: 10px; /* Adjust spacing between the two prices */
+          }
+
+          
+          
+          
     </style>
 </head>
 <body>
@@ -95,24 +284,113 @@
 
     <h1>Products in {{ category.name }}</h1>
 
-    <div class="products">
+    <section class="products-section">
+        <div class="section-header">
+            <h2>New Products</h2>
+            <a href="{% url 'all_products' %}" class="see-more">See All Products</a>
+        </div>
+        
         {% if products %}
-            {% for product in products %}
+        <div class="product-slider-container">
+            <button class="slider-arrow left-arrow">&#10094;</button>
+            <div class="products-slider">
+                {% for p in products %}
                 <div class="product-item">
-                    <img src="{% static product.product_image.url %}" alt="{{ product.name }}" height="200" width="200">
-                    <h3>{{ product.name }}</h3>
-
-                    <p>Price: {{ product.price }}Pkr</p>
+                    <div class="product-image">
+                        <!-- Badge -->
+                        {% if p.free_delivery or p.discount %}
+                            <div class="badge">
+                                {% if p.free_delivery %}
+                                    Free Delivery
+                                {% elif p.discount %}
+                                    Save Rs.{{ p.discount }}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                        <img src="{% static p.product_image.url %}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
+                    </div>
+                    <h3>{{ p.name }}</h3>
+                    <p class="price">{{ p.final_price }} PKR</p>
+                    <p class="final_price">{{ p.price }} PKR</p>
+                    
+                    <div class="product-actions">
+                        <a href="{% url 'product_detail' p.id p.sub_category.id %}" class="view-product-btn">View Product</a>
+                        <a href="{% url 'add-to-cart' p.id %}" class="add-to-cart-btn">
+                            <i class="fa fa-shopping-cart"></i> Add to Cart
+                        </a>
+                    </div>
                 </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
+            <button class="slider-arrow right-arrow">&#10095;</button>
+        </div>
         {% else %}
-            <p>No products available in this category.</p>
+        <p>No products available in this category.</p>
         {% endif %}
-    </div>
+    </section>
+    
 
     <div style="text-align: center; margin-top: 20px;">
         <a href="{% url 'home' %}" class="back-link">Back to Home</a>
     </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const productSections = document.querySelectorAll(".products-section"); // Select all product sections
+        
+            productSections.forEach((section) => {
+                const slider = section.querySelector(".products-slider");
+                const leftArrow = section.querySelector(".left-arrow");
+                const rightArrow = section.querySelector(".right-arrow");
+        
+                if (!slider || !leftArrow || !rightArrow) return; // Skip if elements are missing
+        
+                const slideWidth = section.querySelector(".product-item").offsetWidth + 20; // Includes gap
+        
+                const getVisibleCount = () => {
+                    if (window.innerWidth <= 480) return 1; // 1 product for small screens
+                    if (window.innerWidth <= 768) return 2; // 2 products for tablets
+                    if (window.innerWidth <= 1200) return 3; // 3 products for medium screens
+                    return 4; // 4 products for large screens
+                };
+        
+                // Click Events for Arrows
+                leftArrow.addEventListener("click", () => {
+                    slider.scrollBy({ left: -slideWidth * getVisibleCount(), behavior: "smooth" });
+                });
+        
+                rightArrow.addEventListener("click", () => {
+                    slider.scrollBy({ left: slideWidth * getVisibleCount(), behavior: "smooth" });
+                });
+        
+                // Touch Events for Swiping
+                let startX = 0;
+                let isDragging = false;
+        
+                slider.addEventListener("touchstart", (e) => {
+                    startX = e.touches[0].clientX;
+                    isDragging = true;
+                });
+        
+                slider.addEventListener("touchmove", (e) => {
+                    if (!isDragging) return;
+                    const touchX = e.touches[0].clientX;
+                    const deltaX = startX - touchX;
+                    slider.scrollLeft += deltaX;
+                    startX = touchX;
+                });
+        
+                slider.addEventListener("touchend", () => {
+                    isDragging = false;
+                });
+        
+                // Reset scroll position on resize
+                window.addEventListener("resize", () => {
+                    slider.scrollLeft = 0; // Reset scroll position on resize
+                });
+            });
+        });
+        
+    </script>
 </body>
 </html>

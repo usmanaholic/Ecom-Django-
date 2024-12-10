@@ -4,6 +4,23 @@ import uuid
 # Create your models here.
 
 
+class HeroSection(models.Model):
+    title = models.CharField(max_length=200, default="Discover Your Next Favorite Product")
+    description = models.TextField(default="Shop our latest collections and exclusive offers")
+    button_text = models.CharField(max_length=50, default="Shop Now")
+    background_image = models.ImageField(upload_to='hero_images/', blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+    
+
+class HeroSectionImage(models.Model):
+    hero_section = models.ForeignKey(HeroSection, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='hero_images/')
+
+
+
+
 class banner(models.Model):
     banner_msg = models.CharField(max_length=200, unique=True)
 
@@ -30,6 +47,7 @@ class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
     featured = models.BooleanField(default=False)  # New field to indicate featured categories
+    image = models.ImageField(upload_to='category_images/', blank=True, null=True)  # Add image field
 
     def __str__(self):
         return self.name
@@ -87,11 +105,12 @@ class Product(models.Model):
 
 class Order(models.Model):
     STATUS_CHOICES = (
-        ('Pending', 'Pending'),
-        ('Order Confirmed', 'Order Confirmed'),
-        ('Out for Delivery', 'Out for Delivery'),
-        ('Delivered', 'Delivered'),
-    )
+    ('Pending', 'Pending'),
+    ('Order Confirmed', 'Order Confirmed'),
+    ('Out for Delivery', 'Out for Delivery'),
+    ('Delivered', 'Delivered'),
+    ('Cancelled', 'Cancelled'),  # Add this status
+)
     order_number = models.CharField(max_length=100, unique=True, editable=False)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
@@ -102,8 +121,12 @@ class Order(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.order_number:
-            self.order_number = str(uuid.uuid4()).replace('-', '').upper()[:4]  # Generate unique order number
+            self.order_number = str(uuid.uuid4()).replace('-', '').upper()[:8]  # Generate unique order number
         super(Order, self).save(*args, **kwargs)
+ 
+    def can_cancel(self):
+        # Allow cancellation only if the status is not 'Out for Delivery' or beyond
+        return self.status not in ['Out for Delivery', 'Delivered', 'Cancelled']
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')

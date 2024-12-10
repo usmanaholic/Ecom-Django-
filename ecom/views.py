@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib import messages
 from django.conf import settings
-from .models import Category, Product, Coupon, CouponUsage,  Order, Customer, Sub_category, OrderItem
+from .models import Category, Product, Coupon, CouponUsage,  Order, Customer, Sub_category, OrderItem, HeroSection
 from django.utils import timezone
 from .forms import CouponApplyForm
 from decimal import Decimal
@@ -18,6 +18,9 @@ import json
 
 
 
+
+
+
 def home_view(request):
     products = models.Product.objects.all()  # Fetch all products
     popular_products = models.Product.objects.filter(popular=True)
@@ -25,6 +28,7 @@ def home_view(request):
     featured_categories = models.Category.objects.filter(featured=True)  # Only featured categories
     categories = models.Category.objects.all()  # All categories
     sub_categories = models.Sub_category.objects.all()
+    hero_section = HeroSection.objects.first()
 
     # Check if product_ids are stored in cookies (for cart count)
     if 'product_ids' in request.COOKIES:
@@ -47,6 +51,7 @@ def home_view(request):
         'product_count_in_cart': product_count_in_cart,
         'sub_categories': sub_categories,
         'featured_products': featured_products,
+        'hero_section': hero_section
     })
 
 #_______________________________________________
@@ -335,6 +340,7 @@ def add_to_cart_view(request, pk):
     popular_products = models.Product.objects.filter(featured=True)  # Only popular products
     featured_categories = models.Category.objects.filter(featured=True)  # Only featured categories
     categories = models.Category.objects.all()  # All categories
+    hero_section = HeroSection.objects.first()
 
     # Initialize cart
     if 'cart' in request.COOKIES:
@@ -360,6 +366,7 @@ def add_to_cart_view(request, pk):
         'popular_products': popular_products,
         'categories': categories,
         'featured_categories': featured_categories,
+        'hero_section': hero_section
     })
 
     # Save updated cart in cookies
@@ -373,13 +380,12 @@ def add_to_cart_view(request, pk):
 
 
 # for checkout of cart
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.contrib import messages
 from .models import Product, Coupon, CouponUsage
 import json
 from django.utils import timezone
 
-# Cart View
 def cart_view(request):
     # For cart counter
     if 'cart' in request.COOKIES:
@@ -393,25 +399,27 @@ def cart_view(request):
     products = []
     total = 0
     delivery_fee = 0  # Initialize delivery fee
+    delivery_fee_once = 250  # Delivery fee for the entire order (applied only once)
 
     if cart:
         product_ids_in_cart = cart.keys()  # Get all product IDs in cart
         products = Product.objects.filter(id__in=product_ids_in_cart)
 
-        has_physical_product = False  # Flag to check if there's at least one physical product
+        # Track if any product requires delivery fee
+        requires_delivery_fee = False
 
-        # Calculate total price of products in the cart and check for physical products
+        # Calculate total price of products in the cart
         for p in products:
             quantity = cart[str(p.id)]['quantity']
-            total += p.price * quantity
+            total += p.final_price() * quantity
 
-            # Check if the product is non-digital
-            if not p.is_digital:
-                has_physical_product = True
+            # If a product is not digital and does not have free delivery, mark it for delivery fee
+            if not p.is_digital and not p.free_delivery:
+                requires_delivery_fee = True
 
-        # Add delivery fee only if there's a physical product
-        if has_physical_product:
-            delivery_fee = 250  # Set your delivery fee value here
+        # Apply delivery fee only once if required
+        if requires_delivery_fee:
+            delivery_fee = delivery_fee_once
 
     # Coupon application logic
     coupon_discount = 0
@@ -622,13 +630,26 @@ def my_order_view(request):
     customer = Customer.objects.get(user_id=request.user.id)
     orders = Order.objects.filter(customer=customer)
 
+    # Check if cancel request is submitted
+    if request.method == "POST":
+        order_id = request.POST.get("order_id")
+        order = get_object_or_404(Order, id=order_id, customer=customer)
+        if order.can_cancel():
+            order.status = "Cancelled"
+            order.save()
+            messages.success(request, "Order canceled successfully!")
+        else:
+            messages.error(request, "Order cannot be canceled at this stage.")
+
+        return redirect("my_order_view")  # Refresh the page after canceling
+
+    # Preparing order data for rendering
     order_data = []
     for order in orders:
         items = order.items.all()  # Fetch related OrderItems
         order_data.append({'order': order, 'items': items})
 
     return render(request, 'ecom/my_order.html', {'orders': order_data})
-
 
  
 

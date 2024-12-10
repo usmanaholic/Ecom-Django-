@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Customer, Order,Product,Feedback,Category, Sub_category, Color, banner
+from .models import Customer, Order,Product,Feedback,Category, Sub_category, Color, banner, HeroSection, HeroSectionImage
 from .models import Coupon
 # Register your models here.
 class CustomerAdmin(admin.ModelAdmin):
@@ -19,7 +19,10 @@ class FeedbackAdmin(admin.ModelAdmin):
 admin.site.register(Feedback, FeedbackAdmin)
 # Register your models here.
 
-admin.site.register(Category)
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug', 'featured')
+    prepopulated_fields = {'slug': ('name',)}
 
 admin.site.register(Color)
 
@@ -43,3 +46,11 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 admin.site.register(banner)
+
+
+@admin.register(HeroSection)
+class HeroSectionAdmin(admin.ModelAdmin):
+    list_display = ('title', 'description', 'button_text')
+
+
+admin.site.register(HeroSectionImage)

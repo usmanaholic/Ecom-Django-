@@ -153,7 +153,7 @@
                         {% for item in data.items %}
                         <div class="row mb-2">
                           <div class="col-md-8">
-                            <p>{{ item.product.name }}  <img src="{% static item.product.product_image.url %}" class="img-sm border " style="width: 40px;"  /></p>
+                            <p>{{ item.product.name }}  <img src="{{ item.product.product_image.url }}" class="img-sm border " style="width: 40px;"  /></p>
                             
                           </div>
                           <div class="col-md-4 text-end">

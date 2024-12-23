@@ -5,7 +5,7 @@ import uuid
 
 
 class HeroSection(models.Model):
-    title = models.CharField(max_length=200, default="Discover Your Next Favorite Product")
+    title = models.CharField(max_length=500, default="Discover Your Next Favorite Product")
     description = models.TextField(default="Shop our latest collections and exclusive offers")
     button_text = models.CharField(max_length=50, default="Shop Now")
     background_image = models.ImageField(upload_to='hero_images/', blank=True, null=True)
@@ -31,7 +31,7 @@ class banner(models.Model):
 class Customer(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
     profile_pic= models.ImageField(upload_to='profile_pic/CustomerProfilePic/',null=True,blank=True, default="-")
-    address = models.CharField(max_length=40)
+    address = models.CharField(max_length=100)
     mobile = models.CharField(max_length=20,null=False)
     @property
     def get_name(self):
@@ -74,7 +74,7 @@ class Color(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=500)
     product_image = models.ImageField(upload_to='product_image/', null=True, blank=True, default="-")
     additional_image1 = models.ImageField(upload_to='product_image/other/', null=True, blank=True)
     additional_image2 = models.ImageField(upload_to='product_image/other/', null=True, blank=True)
@@ -82,8 +82,8 @@ class Product(models.Model):
     additional_image4 = models.ImageField(upload_to='product_image/other/', null=True, blank=True)
     price = models.PositiveIntegerField()
     discount = models.PositiveIntegerField(null=True, blank=True, help_text="Discount Price")
-    description = models.TextField(max_length=1000)
-    short_description = models.TextField(max_length=100, null=True)
+    description = models.TextField(max_length=5000)
+    short_description = models.TextField(max_length=500, null=True)
     stock = models.PositiveIntegerField(default=0)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', default=1)
     sub_category = models.ForeignKey(Sub_category, on_delete=models.CASCADE, related_name='products', default=1)
@@ -92,6 +92,9 @@ class Product(models.Model):
     popular = models.BooleanField(default=False)
     colors = models.ManyToManyField(Color, blank=True, related_name='products')  # Added color options
     free_delivery = models.BooleanField(default=False)
+    priority = models.IntegerField(default=1000)
+    popular_priority = models.IntegerField(default=1000)
+    feautered_priority = models.IntegerField(default=1000)
 
     def final_price(self):
         if self.discount:
@@ -169,9 +172,9 @@ class CouponUsage(models.Model):
 
     def __str__(self):
         return f"{self.user} used {self.coupon.code}"
+    
 
-
-
+#For payment intregation
 
 
 

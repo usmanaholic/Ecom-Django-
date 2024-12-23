@@ -1,6 +1,7 @@
 
 
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +33,7 @@ body{
 
 /* Hero Section */
 .hero-section {
-  background: url('{% static hero_section.background_image.url %}') no-repeat center center/cover;
+  background: url('{{ hero_section.background_image.url }}') no-repeat center center/cover;
   height: 60vh;
   display: flex;
   align-items: center;
@@ -611,11 +612,11 @@ body{
                                   {% endif %}
                               </div>
                           {% endif %}
-                          <img src="{% static p.product_image.url %}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
+                          <img src="{{ p.product_image.url }}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
                       </div>
                       <h3>{{ p.name }}</h3>
-                      <p class="price">{{ p.final_price }} PKR</p>
-                      <p class="final_price">{{ p.price }} PKR</p>
+                      <p class="price" style="font-size: larger; color: #ff0000;">{{ p.final_price }} PKR</p>
+                      <p class="final_price" >{{ p.price }} PKR</p>
                       
                       <div class="product-actions">
                           <a href="{% url 'product_detail' p.id p.sub_category.id %}" class="view-product-btn">View Product</a>
@@ -654,7 +655,7 @@ body{
                               {% endif %}
                           </div>
                       {% endif %}
-                      <img src="{% static p.product_image.url %}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
+                      <img src="{{ p.product_image.url }}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
                   </div>
                   <h3>{{ p.name }}</h3>
                   <p class="price">{{ p.final_price }} PKR</p>
@@ -697,7 +698,7 @@ body{
                           {% endif %}
                       </div>
                   {% endif %}
-                  <img src="{% static p.product_image.url %}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
+                  <img src="{{ p.product_image.url }}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
               </div>
               <h3>{{ p.name }}</h3>
               <p class="price">{{ p.final_price }} PKR</p>
@@ -725,7 +726,7 @@ body{
     <script>
       const images = [
       {% for image in hero_section.images.all %}
-        "{% static image.image.url %}",
+        "{{ image.image.url }}",
       {% endfor %}
   ];
       let currentIndex = 0;

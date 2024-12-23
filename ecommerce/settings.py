@@ -21,6 +21,11 @@ STATIC_URL = '/static/'
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [STATIC_DIR]
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = '/media/'  # URL to access uploaded files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -180,3 +185,12 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 #client secret = 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
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+PAYFAST_MERCHANT_ID = '24480'
+PAYFAST_MERCHANT_KEY = 'nb-EGJllKEBs4Xfg2psRUJYy'
+PAYFAST_URL = "https://www.payfast.co.za/eng/process"
+PAYFAST_RETURN_URL = 'http://127.0.0.1:8000//payment_success/'
+PAYFAST_CANCEL_URL = 'http://127.0.0.1:8000/payment_cancel/'
+PAYFAST_NOTIFY_URL = 'http://127.0.0.1:8000/payment_notify/'
+

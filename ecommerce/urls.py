@@ -80,6 +80,7 @@ urlpatterns = [
     path('cart/', views.cart_view, name='cart'),
     path('all-categories/', views.all_categories_view, name='all_categories'),
     path('all-products/', views.all_products_view, name='all_products'),
+ 
 
 
 
@@ -88,5 +89,5 @@ urlpatterns = [
 
 
 ]
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+if settings.DEBUG:  # Serve media files only during development
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

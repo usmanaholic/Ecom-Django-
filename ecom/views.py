@@ -21,10 +21,11 @@ import json
 
 
 
+
 def home_view(request):
-    products = models.Product.objects.all()  # Fetch all products
-    popular_products = models.Product.objects.filter(popular=True)
-    featured_products = models.Product.objects.filter(featured=True)  # Only popular products
+    products = models.Product.objects.all().order_by('priority')  # Fetch all products
+    popular_products = models.Product.objects.filter(popular=True).order_by('popular_priority')
+    featured_products = models.Product.objects.filter(featured=True).order_by('feautered_priority')  # Only popular products
     featured_categories = models.Category.objects.filter(featured=True)  # Only featured categories
     categories = models.Category.objects.all()  # All categories
     sub_categories = models.Sub_category.objects.all()
@@ -508,19 +509,32 @@ def send_feedback_view(request):
 #---------------------------------------------------------------------------------
 @login_required(login_url='customerlogin')
 @user_passes_test(is_customer)
-def customer_home_view(request):
-    products=models.Product.objects.all()
+def customer_home_view(request): 
+    products = models.Product.objects.all().order_by('priority')  # Fetch all products
+    popular_products = models.Product.objects.filter(popular=True).order_by('popular_priority')
+    featured_products = models.Product.objects.filter(featured=True).order_by('feautered_priority')  # Only popular products
     featured_categories = models.Category.objects.filter(featured=True)  # Only featured categories
-    popular_products = models.Product.objects.filter(featured=True)
-    categories = models.Category.objects.all()
+    categories = models.Category.objects.all()  # All categories
+    sub_categories = models.Sub_category.objects.all()
+    hero_section = HeroSection.objects.first()
+
+
     if 'product_ids' in request.COOKIES:
         product_ids = request.COOKIES['product_ids']
         counter=product_ids.split('|')
         product_count_in_cart=len(set(counter))
     else:
         product_count_in_cart=0
-    return render(request,'ecom/customer_home.html',{'products':products,'product_count_in_cart':product_count_in_cart,'categories': categories,
-        'featured_categories': featured_categories, 'popular_products': popular_products, })
+    return render(request, 'ecom/customer_home.html', {
+        'products': products,
+        'popular_products': popular_products,
+        'categories': categories,
+        'featured_categories': featured_categories,
+        'product_count_in_cart': product_count_in_cart,
+        'sub_categories': sub_categories,
+        'featured_products': featured_products,
+        'hero_section': hero_section
+    })
 
 
 

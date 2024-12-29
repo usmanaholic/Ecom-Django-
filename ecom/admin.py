@@ -1,13 +1,29 @@
 from django.contrib import admin
 from .models import Customer, Order,Product,Feedback,Category, Sub_category, Color, banner, HeroSection, HeroSectionImage
 from .models import Coupon
+from ckeditor.fields import RichTextField
+from ckeditor.widgets import CKEditorWidget
+from django import forms
+
+
 # Register your models here.
 class CustomerAdmin(admin.ModelAdmin):
     pass
 admin.site.register(Customer, CustomerAdmin)
 
+class ProductAdminForm(forms.ModelForm):
+    description = forms.CharField(widget=CKEditorWidget())
+    class Meta:
+        model = Product
+        fields = '__all__'
+
 class ProductAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'exclusive', 'featured', 'popular', 'price')
+    list_editable = ('exclusive',)
+    list_filter = ('exclusive', 'featured', 'popular')
+   
+
+
 admin.site.register(Product, ProductAdmin)
 
 class OrderAdmin(admin.ModelAdmin):

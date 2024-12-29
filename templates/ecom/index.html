@@ -1,7 +1,6 @@
 
 
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -218,11 +217,11 @@ body{
 }
 
 .view-product-btn {
-  background-color: #007bff;
+  background-color: #333;
 }
 
 .add-to-cart-btn {
-  background-color: #28a745;
+  background-color: #333;
 }
 
 
@@ -536,14 +535,80 @@ body{
 
 
 
+/* Add this CSS to your stylesheet or within a <style> tag */
+  .product-slider-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.product-item {
+    flex: 1 1 100%; /* Default to full width */
+}
+
+@media (max-width: 600px) {
+    .product-item {
+        flex: 1 1 50%; /* Two items per row on very small devices */
+    }
+}
+
+
+/* General styles for all <a> tags */
+  a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease, background-color 0.3s ease;
+  }
+  
+  a:hover {
+    color: white;
+    background-color: #333;
+  }
+  
+  /* Specific styles for the .see-more class */
+  .see-more {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333; /* Black background */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .see-more:hover {
+    background-color: white; /* White background on hover */
+    color: #333; /* Black text on hover */
+  }
+  
+  @media (max-width: 600px) {
+    .see-more {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+  }
+  
+  /* Styles for the product-item class to make it responsive */
+  .product-item {
+    flex: 1 1 100%; /* Default to full width */
+  }
+  
+  @media (max-width: 600px) {
+    .product-item {
+      flex: 1 1 50%; /* Two items per row on very small devices */
+    }
+  }
+
+
+
+  
     </style>
-    {% include "ecom/navbar.html" %}
+    {% include "ecom/customer_navbar.html" %}
 
 
 
     <div class="floating-profile">
 
-      <a href="/customerlogin">
+      <a href="/my-profile">
           <i class="fa-solid fa-user profile-icon"></i>
       </a>
   </div>
@@ -639,7 +704,7 @@ body{
           <a href="{% url 'all_products' %}" class="see-more">See All Products</a>
       </div>
       
-      <div class="product-slider-container">
+            <div class="product-slider-container">
           <button class="slider-arrow left-arrow">&#10094;</button>
           <div class="products-slider">
               {% for p in popular_products %}
@@ -658,7 +723,7 @@ body{
                       <img src="{{ p.product_image.url }}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
                   </div>
                   <h3>{{ p.name }}</h3>
-                  <p class="price">{{ p.final_price }} PKR</p>
+                  <p class="price" style="font-size: larger; color: #ff0000;">{{ p.final_price }} PKR</p>
                   <p class="final_price">{{ p.price }} PKR</p>
                   
                   <div class="product-actions">
@@ -672,6 +737,8 @@ body{
           </div>
           <button class="slider-arrow right-arrow">&#10095;</button>
       </div>
+      
+    
   </section>
   
 
@@ -701,8 +768,8 @@ body{
                   <img src="{{ p.product_image.url }}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
               </div>
               <h3>{{ p.name }}</h3>
-              <p class="price">{{ p.final_price }} PKR</p>
-              <p class="final_price">{{ p.price }} PKR</p>
+              <p class="price" style="font-size: larger; color: #ff0000;">{{ p.final_price }} PKR</p>
+                <p class="final_price" >{{ p.price }} PKR</p>
               
               <div class="product-actions">
                   <a href="{% url 'product_detail' p.id p.sub_category.id %}" class="view-product-btn">View Product</a>
@@ -716,6 +783,7 @@ body{
       <button class="slider-arrow right-arrow">&#10095;</button>
   </div>
 </section>
+
 
         
     </main>

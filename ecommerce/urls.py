@@ -66,7 +66,7 @@ urlpatterns = [
     path('add-to-cart/<int:pk>', views.add_to_cart_view,name='add-to-cart'),
     path('cart', views.cart_view,name='cart_view'),
     path('remove-from-cart/<int:pk>/', views.remove_from_cart_view, name='remove-from-cart'),
-    path('customer-address', views.customer_address_view,name='customer-address'),
+    path('customer-address', views.checkout,name='checkout'),
     path('payment-success', views.payment_success_view,name='payment-success'),
     path('privacy-policy/', views.privacy_policy, name='privacy_policy'),
     path('terms&conditions/', views.terms_conditions, name='terms_conditions'),
@@ -80,7 +80,8 @@ urlpatterns = [
     path('cart/', views.cart_view, name='cart'),
     path('all-categories/', views.all_categories_view, name='all_categories'),
     path('all-products/', views.all_products_view, name='all_products'),
- 
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('products/<int:product_id>/<int:sub_category_id>/', views.product_detail, name='product_detail'),
 
 
 

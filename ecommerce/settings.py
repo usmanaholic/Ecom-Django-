@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'ckeditor',
+    'ckeditor_uploader',
 
 
 
@@ -194,3 +196,12 @@ PAYFAST_RETURN_URL = 'http://127.0.0.1:8000//payment_success/'
 PAYFAST_CANCEL_URL = 'http://127.0.0.1:8000/payment_cancel/'
 PAYFAST_NOTIFY_URL = 'http://127.0.0.1:8000/payment_notify/'
 
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': '100%',
+    },
+}

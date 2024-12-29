@@ -19,522 +19,583 @@
 <body>
     <style>
 
-        /* Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-}
-body{
-  background-color: white;
-}
-
-/* Hero Section */
-.hero-section {
-  background: url('{{ hero_section.background_image.url }}') no-repeat center center/cover;
-  height: 60vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  text-align: center;
-  transition: background 1s ease-in-out;
-   /* Add a transition for smooth sliding */
-}
-
-.hero-content h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-}
-
-.hero-content p {
-    font-size: 1.2rem;
-}
-
-/* Section Headers */
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    margin-bottom: 1.5rem; /* Removed border-bottom property */
-}
-
-
-.section-header h2 {
-    font-size: 1.8rem;
-    color: #333;
-}
-
-.see-more {
-    color: #007BFF;
-    text-decoration: none;
-    font-size: 1rem;
-}
-
-.see-more:hover {
-    text-decoration: underline;
-}
-
-/* Categories Section */
-.categories-section {
-    width: 100%;
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 1.5rem;
-    background-color: #1a1a1a; /* Dark background */
-    border-radius: 8px;
-    color: #f0f0f0;
-}
-
-.categories-section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    padding: 0 1rem;
-}
-
-.categories-section-header h2 {
-    font-size: 1.8rem;
-    color: #f0f0f0; /* Light text */
-}
-
-.categories-see-more {
-    text-decoration: none;
-    color: #fff;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    border: 2px solid #f0f0f0;
-    border-radius: 20px;
-    transition: all 0.3s ease;
-}
-
-.categories-see-more:hover {
-    background-color: #f0f0f0;
-    color: #1a1a1a;
-}
-
-.categories-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 10px;
-  padding: 0 1rem;
-}
-
-/* Media query for mobile devices */
-@media (max-width: 768px) {
-  .categories-grid {
-      grid-template-columns: repeat(2, 1fr); /* 2 columns for mobile */
-  }
-}
-
-.categories-grid .category-item {
-    background-color: #333; /* Dark gray background */
-    border-radius: 8px;
-    padding: 1.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2rem;
-    color: #f0f0f0; /* Light text */
-    font-weight: bold;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.categories-grid .category-item:hover {
-    background-color: #f0f0f0;
-    color: #1a1a1a; /* Dark text on hover */
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-
-
-/* Products Section */
-/* General Products Section Styles */
-.products-section {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.see-more {
-  font-size: 14px;
-  color: #007bff;
-  text-decoration: none;
-}
-
-.products-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.product-item {
-  width: 23%; /* Default: 4 products per row */
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.product-item h3 {
-  font-size: 18px;
-  color: #333;
-}
-
-.product-item p {
-  font-size: 14px;
-  color: #666;
-}
-
-.product-actions {
-  margin-top: 10px;
-}
-
-.view-product-btn,
-.add-to-cart-btn {
-  display: inline-block;
-  margin: 5px;
-  padding: 8px 12px;
-  font-size: 14px;
-  color: white;
-  border-radius: 5px;
-  text-decoration: none;
-}
-
-.view-product-btn {
-  background-color: #007bff;
-}
-
-.add-to-cart-btn {
-  background-color: #28a745;
-}
-
-
-/* General styling */
-/* General styling */
-.product-slider-container {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
-
-.products-slider {
-  display: flex;
-  gap: 20px;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-}
-
-.product-item {
-  flex: 0 0 calc(25% - 20px); /* Default: 4 items per row */
-  box-sizing: border-box;
-  background: #fff;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  text-align: center;
-}
-
-/* Arrow styling */
-.slider-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.left-arrow {
-  left: 10px;
-}
-
-.right-arrow {
-  right: 10px;
-}
-
-/* Responsive Design */
-@media (max-width: 1200px) {
-  .product-item {
-    flex: 0 0 calc(25% - 20px); /* 3 items per row */
-  }
-}
-
-@media (max-width: 768px) {
-  .product-item {
-    flex: 0 0 calc(25% - 20px); /* 2 items per row */
-  }
-}
-
-@media (max-width: 480px) {
-  .product-item {
-    flex: 0 0 calc(25% - 20px); /* 1 item per row */
-  }
-}
-
-
-/* Responsive Design - Adjust Grid for Smaller Screens */
-@media (max-width: 768px) {
-  .products-grid {
-    /* 2 products per row on tablets and below */
-    grid-template-columns: repeat(2, 1fr); 
-  }
-
-
-
-  .product-item {
-    width: 48%; /* Adjust the width for 2 items per row */
-  }
-}
-
-@media (max-width: 480px) {
-  .products-grid {
-    /* 1 product per row on very small screens */
-    grid-template-columns: 2fr; 
-  }
-  
-
-  .product-item {
-    width: 100%; /* Full width for each product on very small screens */
-  }
- 
-}
-
-/* button shop now */
-.btn-12 {
-  position: relative;
-  display: inline-block;
-  font-size: 1rem;
-  padding: 15px 30px;
-  color: #000;
-  background: #fff;
-  border: 2px solid #000;
-  cursor: pointer;
-  overflow: hidden;
-  transition: color 0.4s;
-  border-radius: 50px;
-  z-index: 1;
-}
-
-.btn-12 span {
-  position: relative;
-  z-index: 1;
-}
-
-.btn-12:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: #000;
-  transition: all 0.4s ease-in-out;
-  border-radius: 50px;
-}
-
-.btn-12:hover:before {
-  left: 0;
-}
-
-.btn-12:hover {
-  color: #fff;
-}
-
-/* Floating Cart Icon Styling */
-.floating-cart {
-    position: fixed;
-    bottom: 30px;           /* Distance from the bottom */
-    right: 30px;            /* Distance from the right */
-    background-color: #000; /* Dark background for contrast */
-    color: #fff;            /* White icon color */
-    border-radius: 50%;     /* Circular icon */
-    width: 60px;            /* Icon width */
-    height: 60px;           /* Icon height */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-    cursor: pointer;
-    font-size: 30px;
-    transition: all 0.3s ease-in-out;  /* Smooth hover transition */
-    z-index: 1000;          /* Ensures it's on top of other elements */
-}
-
-/* Hover Effect */
-.floating-cart:hover {
-    transform: translateY(-5px); /* Slightly lift the cart on hover */
-    background-color: #333;      /* Darker background on hover */
-}
-
-/* Floating Cart Icon Link */
-.floating-cart a {
-    color: inherit;
-    text-decoration: none;
-    position: relative;
-}
-
-/* Cart Badge Styling */
-.cart-count {
-    position: absolute;
-    top: -8px;                 /* Position above the cart icon */
-    right: -8px;               /* Position to the right */
-    background-color: #e74c3c; /* Red badge for visibility */
-    color: white;
-    border-radius: 50%;
-    padding: 5px 8px;         /* Adjust padding for balance */
-    font-size: 10px;           /* Slightly smaller text */
-    font-weight: bold;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3); /* Slight shadow for depth */
-    transition: all 0.3s ease-in-out; /* Smooth transition for count changes */
-    min-width: 24px;           /* Minimum width for consistency */
-    min-height: 24px;          /* Minimum height for consistency */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Responsive Design for Small Screens */
-@media (max-width: 768px) {
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+    }
+    body{
+      background-color: white;
+    }
+    
+    /* Hero Section */
+    .hero-section {
+      background: url('{{ hero_section.background_image.url }}') no-repeat center center/cover;
+      height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      transition: background 1s ease-in-out;
+       /* Add a transition for smooth sliding */
+    }
+    
+    .hero-content h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+    
+    .hero-content p {
+        font-size: 1.2rem;
+    }
+    
+    /* Section Headers */
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        margin-bottom: 1.5rem; /* Removed border-bottom property */
+    }
+    
+    
+    .section-header h2 {
+        font-size: 1.8rem;
+        color: #333;
+    }
+    
+    .see-more {
+        color: #007BFF;
+        text-decoration: none;
+        font-size: 1rem;
+    }
+    
+    .see-more:hover {
+        text-decoration: underline;
+    }
+    
+    /* Categories Section */
+    .categories-section {
+        width: 100%;
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 1.5rem;
+        background-color: #1a1a1a; /* Dark background */
+        border-radius: 8px;
+        color: #f0f0f0;
+    }
+    
+    .categories-section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding: 0 1rem;
+    }
+    
+    .categories-section-header h2 {
+        font-size: 1.8rem;
+        color: #f0f0f0; /* Light text */
+    }
+    
+    .categories-see-more {
+        text-decoration: none;
+        color: #fff;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border: 2px solid #f0f0f0;
+        border-radius: 20px;
+        transition: all 0.3s ease;
+    }
+    
+    .categories-see-more:hover {
+        background-color: #f0f0f0;
+        color: #1a1a1a;
+    }
+    
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      padding: 0 1rem;
+    }
+    
+    /* Media query for mobile devices */
+    @media (max-width: 768px) {
+      .categories-grid {
+          grid-template-columns: repeat(2, 1fr); /* 2 columns for mobile */
+      }
+    }
+    
+    .categories-grid .category-item {
+        background-color: #333; /* Dark gray background */
+        border-radius: 8px;
+        padding: 1.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.2rem;
+        color: #f0f0f0; /* Light text */
+        font-weight: bold;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .categories-grid .category-item:hover {
+        background-color: #f0f0f0;
+        color: #1a1a1a; /* Dark text on hover */
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    
+    
+    /* Products Section */
+    /* General Products Section Styles */
+    .products-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .see-more {
+      font-size: 14px;
+      color: #007bff;
+      text-decoration: none;
+    }
+    
+    .products-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    
+    .product-item {
+      width: 23%; /* Default: 4 products per row */
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .product-item h3 {
+      font-size: 18px;
+      color: #333;
+    }
+    
+    .product-item p {
+      font-size: 14px;
+      color: #666;
+    }
+    
+    .product-actions {
+      margin-top: 10px;
+    }
+    
+    .view-product-btn,
+    .add-to-cart-btn {
+      display: inline-block;
+      margin: 5px;
+      padding: 8px 12px;
+      font-size: 14px;
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+    
+    .view-product-btn {
+      background-color: #333;
+    }
+    
+    .add-to-cart-btn {
+      background-color: #333;
+    }
+    
+    
+    /* General styling */
+    /* General styling */
+    .product-slider-container {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+    
+    .products-slider {
+      display: flex;
+      gap: 20px;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    
+    .product-item {
+      flex: 0 0 calc(25% - 20px); /* Default: 4 items per row */
+      box-sizing: border-box;
+      background: #fff;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      text-align: center;
+    }
+    
+    /* Arrow styling */
+    .slider-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    
+    .left-arrow {
+      left: 10px;
+    }
+    
+    .right-arrow {
+      right: 10px;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+      .product-item {
+        flex: 0 0 calc(25% - 20px); /* 3 items per row */
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .product-item {
+        flex: 0 0 calc(25% - 20px); /* 2 items per row */
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .product-item {
+        flex: 0 0 calc(25% - 20px); /* 1 item per row */
+      }
+    }
+    
+    
+    /* Responsive Design - Adjust Grid for Smaller Screens */
+    @media (max-width: 768px) {
+      .products-grid {
+        /* 2 products per row on tablets and below */
+        grid-template-columns: repeat(2, 1fr); 
+      }
+    
+    
+    
+      .product-item {
+        width: 48%; /* Adjust the width for 2 items per row */
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .products-grid {
+        /* 1 product per row on very small screens */
+        grid-template-columns: 2fr; 
+      }
+      
+    
+      .product-item {
+        width: 100%; /* Full width for each product on very small screens */
+      }
+     
+    }
+    
+    /* button shop now */
+    .btn-12 {
+      position: relative;
+      display: inline-block;
+      font-size: 1rem;
+      padding: 15px 30px;
+      color: #000;
+      background: #fff;
+      border: 2px solid #000;
+      cursor: pointer;
+      overflow: hidden;
+      transition: color 0.4s;
+      border-radius: 50px;
+      z-index: 1;
+    }
+    
+    .btn-12 span {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .btn-12:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      transition: all 0.4s ease-in-out;
+      border-radius: 50px;
+    }
+    
+    .btn-12:hover:before {
+      left: 0;
+    }
+    
+    .btn-12:hover {
+      color: #fff;
+    }
+    
+    /* Floating Cart Icon Styling */
     .floating-cart {
-        width: 50px;            /* Smaller icon on mobile */
-        height: 50px;
-        font-size: 24px;         /* Adjust icon size */
+        position: fixed;
+        bottom: 30px;           /* Distance from the bottom */
+        right: 30px;            /* Distance from the right */
+        background-color: #000; /* Dark background for contrast */
+        color: #fff;            /* White icon color */
+        border-radius: 50%;     /* Circular icon */
+        width: 60px;            /* Icon width */
+        height: 60px;           /* Icon height */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        cursor: pointer;
+        font-size: 30px;
+        transition: all 0.3s ease-in-out;  /* Smooth hover transition */
+        z-index: 1000;          /* Ensures it's on top of other elements */
     }
-
+    
+    /* Hover Effect */
+    .floating-cart:hover {
+        transform: translateY(-5px); /* Slightly lift the cart on hover */
+        background-color: #333;      /* Darker background on hover */
+    }
+    
+    /* Floating Cart Icon Link */
+    .floating-cart a {
+        color: inherit;
+        text-decoration: none;
+        position: relative;
+    }
+    
+    /* Cart Badge Styling */
     .cart-count {
-        padding: 4px 8px;       /* Smaller badge on mobile */
-        font-size: 12px;
-        min-width: 20px;         /* Smaller minimum width */
-        min-height: 20px;        /* Smaller minimum height */
+        position: absolute;
+        top: -8px;                 /* Position above the cart icon */
+        right: -8px;               /* Position to the right */
+        background-color: #e74c3c; /* Red badge for visibility */
+        color: white;
+        border-radius: 50%;
+        padding: 5px 8px;         /* Adjust padding for balance */
+        font-size: 10px;           /* Slightly smaller text */
+        font-weight: bold;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.3); /* Slight shadow for depth */
+        transition: all 0.3s ease-in-out; /* Smooth transition for count changes */
+        min-width: 24px;           /* Minimum width for consistency */
+        min-height: 24px;          /* Minimum height for consistency */
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-}
-
-/* user profile floating */
-.floating-profile {
-  position: fixed;
-  top: 95px; /* Adjusted to be below the navbar */
-  left: 10px;
-  z-index: 2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.profile-icon {
-  font-size: 25px; /* Icon size */
-  color: #fff;
-  background-color: #000000; /* Modern background color */
-  padding: 5px;
-  border-radius: 50%;
-  /* Border around the icon */
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3); /* Floating effect */
-  transition: all 0.3s ease;
-}
-
-.profile-icon:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
-}
-
-.floating-profile a {
-  display: block;
-  width: 50%;
-  height: 100%;
-  text-decoration: none;
-}
-
-.floating-profile a:hover .profile-icon {
-  transform: scale(1.1);
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
-}
- /* Slider */
-/* Style for the product slider */
-.products-slider {
-  display: flex;
-  overflow-x: auto;
-  scrollbar-width: thin; /* For Firefox */
-  scrollbar-color: rgb(255, 255, 255) transparent; /* For Firefox */
-}
-
-/* For webkit-based browsers (Chrome, Edge, Safari) */
-.products-slider::-webkit-scrollbar {
-  height: 1px; /* Adjust thickness */
-  background-color: transparent;
-}
-
-.products-slider::-webkit-scrollbar-thumb {
-  background-color: black; /* Color of the scrollbar */
-  border-radius: 5px; /* Rounded edges */
-}
-
-.products-slider::-webkit-scrollbar-thumb:hover {
-  background-color: #333; /* Darker shade on hover */
-}
-
-.product-item {
-  flex: 0 0 auto;
-  margin-right: 20px;
-}
-
-
-.product-image {
-  position: relative;
-}
-
-.badge {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background-color: #ff0000;
-  color: #fff;
-  padding: 5px 10px;
-  font-size: 12px;
-  font-weight: bold;
-  border-radius: 5px;
-  z-index: 0;
-  opacity: 80%;
-}
-
-
-.final_price {
-  text-decoration: line-through;
-  font-weight: bold;
-  color: red;
-  display: inline;
-}
-
-.price {
-  font-weight: bold;
-  color: green; /* Optional to differentiate it from the price */
-  display: inline;
-  margin-left: 10px; /* Adjust spacing between the two prices */
-}
-
-
-
+    
+    /* Responsive Design for Small Screens */
+    @media (max-width: 768px) {
+        .floating-cart {
+            width: 50px;            /* Smaller icon on mobile */
+            height: 50px;
+            font-size: 24px;         /* Adjust icon size */
+        }
+    
+        .cart-count {
+            padding: 4px 8px;       /* Smaller badge on mobile */
+            font-size: 12px;
+            min-width: 20px;         /* Smaller minimum width */
+            min-height: 20px;        /* Smaller minimum height */
+        }
+    }
+    
+    /* user profile floating */
+    .floating-profile {
+      position: fixed;
+      top: 95px; /* Adjusted to be below the navbar */
+      left: 10px;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .profile-icon {
+      font-size: 25px; /* Icon size */
+      color: #fff;
+      background-color: #000000; /* Modern background color */
+      padding: 5px;
+      border-radius: 50%;
+      /* Border around the icon */
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3); /* Floating effect */
+      transition: all 0.3s ease;
+    }
+    
+    .profile-icon:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+    }
+    
+    .floating-profile a {
+      display: block;
+      width: 50%;
+      height: 100%;
+      text-decoration: none;
+    }
+    
+    .floating-profile a:hover .profile-icon {
+      transform: scale(1.1);
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+    }
+     /* Slider */
+    /* Style for the product slider */
+    .products-slider {
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: thin; /* For Firefox */
+      scrollbar-color: rgb(255, 255, 255) transparent; /* For Firefox */
+    }
+    
+    /* For webkit-based browsers (Chrome, Edge, Safari) */
+    .products-slider::-webkit-scrollbar {
+      height: 1px; /* Adjust thickness */
+      background-color: transparent;
+    }
+    
+    .products-slider::-webkit-scrollbar-thumb {
+      background-color: black; /* Color of the scrollbar */
+      border-radius: 5px; /* Rounded edges */
+    }
+    
+    .products-slider::-webkit-scrollbar-thumb:hover {
+      background-color: #333; /* Darker shade on hover */
+    }
+    
+    .product-item {
+      flex: 0 0 auto;
+      margin-right: 20px;
+    }
+    
+    
+    .product-image {
+      position: relative;
+    }
+    
+    .badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: #ff0000;
+      color: #fff;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: bold;
+      border-radius: 5px;
+      z-index: 0;
+      opacity: 80%;
+    }
+    
+    
+    .final_price {
+      text-decoration: line-through;
+      font-weight: bold;
+      color: red;
+      display: inline;
+    }
+    
+    .price {
+      font-weight: bold;
+      color: green; /* Optional to differentiate it from the price */
+      display: inline;
+      margin-left: 10px; /* Adjust spacing between the two prices */
+    }
+    
+    
+    
+    /* Add this CSS to your stylesheet or within a <style> tag */
+      .product-slider-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .product-item {
+        flex: 1 1 100%; /* Default to full width */
+    }
+    
+    @media (max-width: 600px) {
+        .product-item {
+            flex: 1 1 50%; /* Two items per row on very small devices */
+        }
+    }
+    
+    
+    /* General styles for all <a> tags */
+      a {
+        color: #333;
+        text-decoration: none;
+        transition: color 0.3s ease, background-color 0.3s ease;
+      }
+      
+      a:hover {
+        color: white;
+        background-color: #333;
+      }
+      
+      /* Specific styles for the .see-more class */
+      .see-more {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #333; /* Black background */
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      
+      .see-more:hover {
+        background-color: white; /* White background on hover */
+        color: #333; /* Black text on hover */
+      }
+      
+      @media (max-width: 600px) {
+        .see-more {
+          padding: 8px 16px;
+          font-size: 14px;
+        }
+      }
+      
+      /* Styles for the product-item class to make it responsive */
+      .product-item {
+        flex: 1 1 100%; /* Default to full width */
+      }
+      
+      @media (max-width: 600px) {
+        .product-item {
+          flex: 1 1 50%; /* Two items per row on very small devices */
+        }
+      }
     </style>
     {% include "ecom/customer_navbar.html" %}
 
@@ -657,8 +718,8 @@ body{
                       <img src="{{ p.product_image.url }}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
                   </div>
                   <h3>{{ p.name }}</h3>
-                  <p class="price">{{ p.final_price }} PKR</p>
-                  <p class="final_price">{{ p.price }} PKR</p>
+                  <p class="price" style="font-size: larger; color: #ff0000;">{{ p.final_price }} PKR</p>
+                  <p class="final_price" >{{ p.price }} PKR</p>
                   
                   <div class="product-actions">
                       <a href="{% url 'product_detail' p.id p.sub_category.id %}" class="view-product-btn">View Product</a>
@@ -700,8 +761,8 @@ body{
                   <img src="{{ p.product_image.url }}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
               </div>
               <h3>{{ p.name }}</h3>
-              <p class="price">{{ p.final_price }} PKR</p>
-              <p class="final_price">{{ p.price }} PKR</p>
+              <p class="price" style="font-size: larger; color: #ff0000;">{{ p.final_price }} PKR</p>
+                <p class="final_price" >{{ p.price }} PKR</p>
               
               <div class="product-actions">
                   <a href="{% url 'product_detail' p.id p.sub_category.id %}" class="view-product-btn">View Product</a>

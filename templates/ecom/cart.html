@@ -139,8 +139,21 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Apply</button>
                   </form>
+                  {% if messages %}
+<div>
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+      {{ message }}
+    </div>
+  {% endfor %}
+</div>
+{% endif %}
 
                   <hr class="my-4">
+                  <div class="d-flex justify-content-between mb-5">
+                    <h5 class="text-uppercase">Total Discount</h5>
+                    <h5>{{ coupon_discount }}%</h5>
+                  </div>
                   <div class="d-flex justify-content-between mb-5">
                     <h5 class="text-uppercase">Total Price</h5>
                     <h5>{{ final_total }} Pkr</h5>

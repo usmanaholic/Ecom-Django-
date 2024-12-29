@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import uuid
+from ckeditor.fields import RichTextField
 # Create your models here.
 
 
@@ -82,8 +83,8 @@ class Product(models.Model):
     additional_image4 = models.ImageField(upload_to='product_image/other/', null=True, blank=True)
     price = models.PositiveIntegerField()
     discount = models.PositiveIntegerField(null=True, blank=True, help_text="Discount Price")
-    description = models.TextField(max_length=5000)
-    short_description = models.TextField(max_length=500, null=True)
+    description = RichTextField()
+    short_description = RichTextField(null=True, blank=True)
     stock = models.PositiveIntegerField(default=0)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', default=1)
     sub_category = models.ForeignKey(Sub_category, on_delete=models.CASCADE, related_name='products', default=1)
@@ -95,6 +96,8 @@ class Product(models.Model):
     priority = models.IntegerField(default=1000)
     popular_priority = models.IntegerField(default=1000)
     feautered_priority = models.IntegerField(default=1000)
+    exclusive = models.BooleanField(default=False, help_text="Select this product to display exclusively")
+
 
     def final_price(self):
         if self.discount:
@@ -103,24 +106,41 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
 
 
 
 class Order(models.Model):
     STATUS_CHOICES = (
-    ('Pending', 'Pending'),
-    ('Order Confirmed', 'Order Confirmed'),
-    ('Out for Delivery', 'Out for Delivery'),
-    ('Delivered', 'Delivered'),
-    ('Cancelled', 'Cancelled'),  # Add this status
-)
+        ('Pending', 'Pending'),
+        ('Order Confirmed', 'Order Confirmed'),
+        ('Out for Delivery', 'Out for Delivery'),
+        ('Delivered', 'Delivered'),
+        ('Cancelled', 'Cancelled'),
+    )
+    PAYMENT_STATUS_CHOICES = (
+        ('Pending', 'Pending'),
+        ('Completed', 'Completed'),
+    )
     order_number = models.CharField(max_length=100, unique=True, editable=False)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
+    payment_status = models.CharField(max_length=50, choices=PAYMENT_STATUS_CHOICES, default='Pending')
     order_date = models.DateField(auto_now_add=True, null=True)
     email = models.CharField(max_length=50, null=True)
     address = models.CharField(max_length=500, null=True)
     mobile = models.CharField(max_length=20, null=True)
+    first_name = models.CharField(max_length=100, null=True)
+    last_name = models.CharField(max_length=100, null=True)
+    address_line_1 = models.CharField(max_length=500, null=True)
+    address_line_2 = models.CharField(max_length=500, null=True, blank=True)
+    city = models.CharField(max_length=100, null=True)
+    state = models.CharField(max_length=100, null=True)
+    zip_code = models.CharField(max_length=20, null=True)
+    country = models.CharField(max_length=100, null=True)
+    notes = models.TextField(null=True, blank=True)
+    total = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    payment_method = models.CharField(max_length=50, null=True)
 
     def save(self, *args, **kwargs):
         if not self.order_number:

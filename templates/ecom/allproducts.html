@@ -8,98 +8,169 @@
 </head>
 <body>
     <style>
-        .products-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-          }
+      .products-section {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      
+      .see-more {
+        font-size: 14px;
+        color: #007bff;
+        text-decoration: none;
+      }
+      
+      .products-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); /* 4 items per row on desktop */
+        gap: 20px;
+      }
+      
+      .product-item {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        text-align: center;
+        padding: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .product-item h3 {
+        font-size: 18px;
+        color: #333;
+      }
+      
+      .product-item p {
+        font-size: 14px;
+        color: #666;
+      }
+      
+      .product-actions {
+        margin-top: 10px;
+      }
+      
+      .view-product-btn,
+      .add-to-cart-btn {
+        display: inline-block;
+        margin: 5px;
+        padding: 8px 12px;
+        font-size: 14px;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+      }
+      
+      .view-product-btn {
+        background-color: #333;
+      }
+      
+      .add-to-cart-btn {
+        background-color: #333;
+      }
+      
+      .badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: #ff0000;
+        color: #fff;
+        padding: 5px 10px;
+        font-size: 12px;
+        font-weight: bold;
+        border-radius: 5px;
+        opacity: 0.8;
+      }
+      
+      .final_price {
+        text-decoration: line-through;
+        font-weight: bold;
+        color: red;
+      }
+      
+      .price {
+        font-weight: bold;
+        color: green;
+        margin-left: 10px;
+      }
+      
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .products-container {
+          grid-template-columns: repeat(2, 1fr); /* 2 items per row on mobile */
+        }
+      }
+      
+      @media (max-width: 480px) {
+        .products-container {
+          grid-template-columns: 1fr; /* 1 item per row on very small screens */
+        }
+      }
+
+      
+.final_price {
+  text-decoration: line-through;
+  font-weight: bold;
+  color: red;
+  display: inline;
+}
+
+.price {
+  font-weight: bold;
+  color: green; /* Optional to differentiate it from the price */
+  display: inline;
+  margin-left: 10px; /* Adjust spacing between the two prices */
+}
+
+      
           
-          .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-          }
-          
-          .see-more {
-            font-size: 14px;
-            color: #007bff;
-            text-decoration: none;
-          }
-          
-          .products-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-          }
-          
-          .product-item {
-            width: 23%; /* Default: 4 products per row */
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-          }
-          
-          .product-item h3 {
-            font-size: 18px;
-            color: #333;
-          }
-          
-          .product-item p {
-            font-size: 14px;
-            color: #666;
-          }
-          
-          .product-actions {
-            margin-top: 10px;
-          }
-          
-          .view-product-btn,
-          .add-to-cart-btn {
-            display: inline-block;
-            margin: 5px;
-            padding: 8px 12px;
-            font-size: 14px;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-          }
-          
-          .view-product-btn {
-            background-color: #007bff;
-          }
-          
-          .add-to-cart-btn {
-            background-color: #28a745;
-          }
     </style>
     {% include "ecom/customer_navbar.html" %}
     <br><br><br><br>
-    <div class="products-grid">
-    {% for p in products %}
+    <section class="products-section">
+      <div class="section-header">
+        <h2>New Products</h2>
+        <a href="{% url 'all_products' %}" class="see-more">See All Products</a>
+      </div>
+    
+      {% if products %}
+      <div class="products-container">
+        {% for p in products %}
         <div class="product-item">
-            <div class="product-image">
-                <img src="{% static p.product_image.url %}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
+          <div class="product-image">
+            {% if p.free_delivery or p.discount %}
+            <div class="badge">
+              {% if p.free_delivery %}
+              Free Delivery
+              {% elif p.discount %}
+              Save Rs.{{ p.discount }}
+              {% endif %}
             </div>
-            <h3>{{ p.name }}</h3>
-            <p>{{ p.price }} PKR</p>
-            <p>{{ p.short_description }}</p>
-            
-            <div class="product-actions">
-                <a href="{% url 'product-detail' p.id %}" class="view-product-btn">View Product</a>
-                <a href="{% url 'add-to-cart' p.id %}" class="add-to-cart-btn">
-                    <i class="fa fa-shopping-cart"></i> Add to Cart
-                </a>
-            </div>
+            {% endif %}
+            <img src="{{ p.product_image.url }}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
+          </div>
+          <h3>{{ p.name }}</h3>
+          <p class="price" style="font-size: larger; color: #ff0000;">{{ p.final_price }} PKR</p>
+          <p class="final_price" >{{ p.price }} PKR</p>
+    
+          <div class="product-actions">
+            <a href="{% url 'product_detail' p.id p.sub_category.id %}" class="view-product-btn">View Product</a>
+            <a href="{% url 'add-to-cart' p.id %}" class="add-to-cart-btn">
+              <i class="fa fa-shopping-cart"></i> Add to Cart
+            </a>
+          </div>
         </div>
-
-        {% if forloop.counter|divisibleby:"4" %}
-    </div><div class="products-grid"> <!-- New row after every 4 items -->
-{% endif %}
-{% endfor %}
-</div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p>No products available in this category.</p>
+      {% endif %}
+    </section>
 
 </body>
 

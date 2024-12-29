@@ -36,6 +36,172 @@
             opacity: 1;
         }
 
+
+
+
+        .products-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+          }
+          
+          .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+          }
+          
+          .see-more {
+            font-size: 14px;
+            color: #007bff;
+            text-decoration: none;
+          }
+          
+          .products-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+          }
+          
+          .product-item {
+            width: 23%; /* Default: 4 products per row */
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          }
+          
+          .product-item h3 {
+            font-size: 18px;
+            color: #333;
+          }
+          
+          .product-item p {
+            font-size: 14px;
+            color: #666;
+          }
+          
+          .product-actions {
+            margin-top: 10px;
+          }
+          
+          .view-product-btn,
+          .add-to-cart-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 8px 12px;
+            font-size: 14px;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+          }
+          
+          .view-product-btn {
+            background-color: #333;
+          }
+          
+          .add-to-cart-btn {
+            background-color: #333;
+          }
+
+        .product-slider-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+          }
+          
+          .products-slider {
+            display: flex;
+            gap: 20px;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+          }
+          
+          .product-item {
+            flex: 0 0 calc(25% - 20px); /* Default: 4 items per row */
+            box-sizing: border-box;
+            background: #fff;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+          }
+          
+          /* Arrow styling */
+          .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+          }
+          
+          .left-arrow {
+            left: 10px;
+          }
+          
+          .right-arrow {
+            right: 10px;
+          }
+          
+          /* Responsive Design */
+          @media (max-width: 1200px) {
+            .product-item {
+              flex: 0 0 calc(25% - 20px); /* 3 items per row */
+            }
+          }
+          
+          @media (max-width: 768px) {
+            .product-item {
+              flex: 0 0 calc(25% - 20px); /* 2 items per row */
+            }
+          }
+          
+          @media (max-width: 480px) {
+            .product-item {
+              flex: 0 0 calc(25% - 20px); /* 1 item per row */
+            }
+          }
+          
+          
+          /* Responsive Design - Adjust Grid for Smaller Screens */
+          @media (max-width: 768px) {
+            .products-grid {
+              /* 2 products per row on tablets and below */
+              grid-template-columns: repeat(2, 1fr); 
+            }
+          
+          
+          
+            .product-item {
+              width: 48%; /* Adjust the width for 2 items per row */
+            }
+          }
+          
+          @media (max-width: 480px) {
+            .products-grid {
+              /* 1 product per row on very small screens */
+              grid-template-columns: 2fr; 
+            }
+            
+          
+            .product-item {
+              width: 100%; /* Full width for each product on very small screens */
+            }
+           
+          }
+          
         
 
 </style>
@@ -74,15 +240,11 @@
                     <span class="h4 me-2">PKR {{ product.price }}</span>
                 {% endif %}
             </div>
-            <div class="mb-3">
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-half text-warning"></i>
-                <span class="ms-2">4.5 (120 reviews)</span>
+            <div class="mb-3" id="review-container">
+                <span id="stars"></span>
+                <span class="ms-2" id="rating-text"></span>
             </div>
-            <p class="mb-4">{{ product.short_description|default:"No description available." }}</p>
+            <p class="mb-4">{{ product.short_description|safe|default:"No description available." }}</p>
 
             <div class="mb-4">
                 <h5>Color:</h5>
@@ -119,50 +281,56 @@
           
 
             <div class="mt-4">
-                <p class="mb-4">{{ product.description|default:"No description available." }}</p>
+                <p class="mb-4">{{ product.description|safe|default:"No description available." }}</p>
             </div>
         </div>
     </div>
-    <div class="mt-5">
-        <h3 class="mb-4">Related Products</h3>
-        <div class="carousel slide" id="relatedProductsCarousel" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="row justify-content-center">
-                        {% for product in related_products %}
-                            <div class="col-lg-3 col-md-4 col-6 mb-4">
-                                <div class="card">
-                                    <img src="{{ product.product_image.url }}" class="card-img-top" alt="{{ product.name }}">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ product.name }}</h5>
-                                        <p class="card-text">
-                                            {% if product.discount %}
-                                                PKR {{ product.final_price }}
-                                            {% else %}
-                                                PKR {{ product.price }}
-                                            {% endif %}
-                                        </p>
-                                        <div class="d-flex justify-content-between">
-                                            <a href="{% url 'product-detail' product.id %}" class="btn btn-primary">View Details</a>
-                                            <a href="{% url 'add-to-cart' product.id %}" class="btn btn-success">
-                                                <i class="fa fa-shopping-cart"></i> Add to Cart
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
+    <section class="products-section">
+        <div class="section-header">
+            <h2>Related Products</h2>
+            <a href="{% url 'all_products' %}" class="see-more">See All Products</a>
+        </div>
+    
+        <div class="product-slider-container">
+            <button class="slider-arrow left-arrow">&#10094;</button>
+            <div class="products-slider">
+                {% for product in related_products %}
+                <div class="product-item">
+                    <div class="product-image">
+                        {% if product.free_delivery or product.discount %}
+                            <div class="badge">
+                                {% if product.free_delivery %}
+                                    Free Delivery
+                                {% elif product.discount %}
+                                    Save Rs.{{ product.discount }}
+                                {% endif %}
                             </div>
-                        {% endfor %}
+                        {% endif %}
+                        <img src="{{ product.product_image.url }}" alt="{{ product.name }}" height="200" width="200" loading="lazy">
+                    </div>
+                    <h3>{{ product.name }}</h3>
+                    <p class="price" style="font-size: larger; color: #ff0000;">
+                        {% if product.discount %}
+                            PKR {{ product.final_price }}
+                        {% else %}
+                            PKR {{ product.price }}
+                        {% endif %}
+                    </p>
+    
+                    <div class="product-actions">
+                        <a href="{% url 'product_detail' product.id product.sub_category.id %}" class="view-product-btn">View Product</a>
+                        <a href="{% url 'add-to-cart' product.id %}" class="add-to-cart-btn">
+                            <i class="fa fa-shopping-cart"></i> Add to Cart
+                        </a>
                     </div>
                 </div>
+                {% endfor %}
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#relatedProductsCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon bg-dark" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#relatedProductsCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon bg-dark" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
+            <button class="slider-arrow right-arrow">&#10095;</button>
+        </div>
+    </section>
+    
+           
         </div>
     </div>
     
@@ -178,6 +346,97 @@
         document.querySelectorAll('.thumbnail').forEach(thumb => thumb.classList.remove('active'));
         event.target.classList.add('active');
     }
+
+        // Generate a random rating between 3.9 and 4.7
+        const rating = (Math.random() * (4.7 - 3.9) + 3.9).toFixed(1);
+
+        // Generate a random number of reviews
+        const reviewCount = Math.floor(Math.random() * 500) + 50;
+    
+        // Get the container elements
+        const starsContainer = document.getElementById("stars");
+        const ratingText = document.getElementById("rating-text");
+    
+        // Calculate the full stars, half star, and empty stars
+        const fullStars = Math.floor(rating);
+        const halfStar = rating - fullStars >= 0.5 ? 1 : 0;
+        const emptyStars = 5 - fullStars - halfStar;
+    
+        // Generate the star icons
+        let starsHTML = "";
+        for (let i = 0; i < fullStars; i++) {
+            starsHTML += '<i class="bi bi-star-fill text-warning"></i>';
+        }
+        if (halfStar) {
+            starsHTML += '<i class="bi bi-star-half text-warning"></i>';
+        }
+        for (let i = 0; i < emptyStars; i++) {
+            starsHTML += '<i class="bi bi-star text-warning"></i>';
+        }
+    
+        // Set the generated stars and rating text
+        starsContainer.innerHTML = starsHTML;
+        ratingText.textContent = `${rating} (${reviewCount} reviews)`;
+
+
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const productSections = document.querySelectorAll(".products-section"); // Select all product sections
+        
+            productSections.forEach((section) => {
+                const slider = section.querySelector(".products-slider");
+                const leftArrow = section.querySelector(".left-arrow");
+                const rightArrow = section.querySelector(".right-arrow");
+        
+                if (!slider || !leftArrow || !rightArrow) return; // Skip if elements are missing
+        
+                const slideWidth = section.querySelector(".product-item").offsetWidth + 20; // Includes gap
+        
+                const getVisibleCount = () => {
+                    if (window.innerWidth <= 480) return 1; // 1 product for small screens
+                    if (window.innerWidth <= 768) return 2; // 2 products for tablets
+                    if (window.innerWidth <= 1200) return 3; // 3 products for medium screens
+                    return 4; // 4 products for large screens
+                };
+        
+                // Click Events for Arrows
+                leftArrow.addEventListener("click", () => {
+                    slider.scrollBy({ left: -slideWidth * getVisibleCount(), behavior: "smooth" });
+                });
+        
+                rightArrow.addEventListener("click", () => {
+                    slider.scrollBy({ left: slideWidth * getVisibleCount(), behavior: "smooth" });
+                });
+        
+                // Touch Events for Swiping
+                let startX = 0;
+                let isDragging = false;
+        
+                slider.addEventListener("touchstart", (e) => {
+                    startX = e.touches[0].clientX;
+                    isDragging = true;
+                });
+        
+                slider.addEventListener("touchmove", (e) => {
+                    if (!isDragging) return;
+                    const touchX = e.touches[0].clientX;
+                    const deltaX = startX - touchX;
+                    slider.scrollLeft += deltaX;
+                    startX = touchX;
+                });
+        
+                slider.addEventListener("touchend", () => {
+                    isDragging = false;
+                });
+        
+                // Reset scroll position on resize
+                window.addEventListener("resize", () => {
+                    slider.scrollLeft = 0; // Reset scroll position on resize
+                });
+            });
+        });
+        
 </script>
 
  

@@ -24,6 +24,7 @@ import json
 
 def home_view(request):
     products = models.Product.objects.all().order_by('priority')  # Fetch all products
+    exclusive_product = Product.objects.filter(exclusive=True).first()
     popular_products = models.Product.objects.filter(popular=True).order_by('popular_priority')
     featured_products = models.Product.objects.filter(featured=True).order_by('feautered_priority')  # Only popular products
     featured_categories = models.Category.objects.filter(featured=True)  # Only featured categories
@@ -46,6 +47,7 @@ def home_view(request):
     # Pass products, categories, and featured categories to the template
     return render(request, 'ecom/index.html', {
         'products': products,
+        'exclusive_product': exclusive_product,
         'popular_products': popular_products,
         'categories': categories,
         'featured_categories': featured_categories,
@@ -53,6 +55,7 @@ def home_view(request):
         'sub_categories': sub_categories,
         'featured_products': featured_products,
         'hero_section': hero_section
+        
     })
 
 #_______________________________________________
@@ -540,17 +543,8 @@ def customer_home_view(request):
 
 # shipment address before placing order
 @login_required(login_url='customerlogin')
-def customer_address_view(request):
-    # Check if products are present in the cart
-    product_in_cart = False
-    cart = {}
-
-    if 'cart' in request.COOKIES:
-        cart = json.loads(request.COOKIES.get('cart', '{}'))
-        if cart:  # If the cart is not empty
-            product_in_cart = True
-
-    # Count total products in the cart
+def checkout(request):
+    cart = request.session.get('cart', {})
     product_count_in_cart = sum(item['quantity'] for item in cart.values()) if cart else 0
 
     addressForm = forms.AddressForm()
@@ -559,30 +553,65 @@ def customer_address_view(request):
         addressForm = forms.AddressForm(request.POST)
         if addressForm.is_valid():
             # Collecting form data
+            first_name = addressForm.cleaned_data['first_name']
+            last_name = addressForm.cleaned_data['last_name']
             email = addressForm.cleaned_data['email']
             mobile = addressForm.cleaned_data['mobile']
             address_line_1 = addressForm.cleaned_data['address_line_1']
+            address_line_2 = addressForm.cleaned_data['address_line_2']
+            city = addressForm.cleaned_data['city']
+            state = addressForm.cleaned_data['state']
+            zip_code = addressForm.cleaned_data['zip_code']
+            country = addressForm.cleaned_data['country']
+            notes = addressForm.cleaned_data['notes']
+            payment_method = addressForm.cleaned_data['payment_method']
+            total = sum(item['price'] * item['quantity'] for item in cart.values())
 
-            # Calculate the total price of products in the cart
-            total = 0
-            product_ids_in_cart = cart.keys()
-            products = models.Product.objects.filter(id__in=product_ids_in_cart)
+            # Get the customer instance
+            customer = models.Customer.objects.get(user_id=request.user.id)
 
-            for p in products:
-                total += p.price * cart[str(p.id)]['quantity']
+            # Create the order
+            order = models.Order.objects.create(
+                customer=customer,
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                mobile=mobile,
+                address_line_1=address_line_1,
+                address_line_2=address_line_2,
+                city=city,
+                state=state,
+                zip_code=zip_code,
+                country=country,
+                notes=notes,
+                total=total,
+                payment_method=payment_method
+            )
 
-            response = render(request, 'ecom/payment.html', {'total': total})
-            response.set_cookie('email', email)
-            response.set_cookie('mobile', mobile)
-            response.set_cookie('address', address_line_1)
-            return response
+            for p in cart.keys():
+                product = models.Product.objects.get(id=p)
+                models.OrderItem.objects.create(
+                    order=order,
+                    product=product,
+                    quantity=cart[p]['quantity'],
+                    price=product.price
+                )
+
+            # Clear the cart
+            request.session['cart'] = {}
+
+            if payment_method == 'online':
+                # Redirect to payment page
+                response = render(request, 'ecom/payment.html', {'total': total, 'order': order})
+                response.set_cookie('order_id', order.id)
+                return response
+            else:
+                return redirect('payment-success')  # Redirect to an order success page
 
     return render(request, 'ecom/customer_address.html', {
         'addressForm': addressForm,
-        'product_in_cart': product_in_cart,
         'product_count_in_cart': product_count_in_cart,
     })
-
 
 # here we are just directing to this view...actually we have to check whther payment is successful or not
 #then only this view should be accessed
@@ -889,6 +918,7 @@ def all_products_view(request):
 
 def product_detail(request, product_id, sub_category_id):
 
+    products = Product.objects.all() 
     product = get_object_or_404(Product, id=product_id)
     related_products = Product.objects.filter(sub_category=product.sub_category).exclude(id=product_id)[:4]  # Get related products
 
@@ -903,6 +933,7 @@ def product_detail(request, product_id, sub_category_id):
     context = {
         'product': product,
         'related_products': related_products,  # Include grouped products
+        'products' : products,
     }
     return render(request, 'ecom/viewmore.html', context)
 

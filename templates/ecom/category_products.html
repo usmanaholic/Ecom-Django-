@@ -109,6 +109,22 @@
           grid-template-columns: 1fr; /* 1 item per row on very small screens */
         }
       }
+
+      
+.final_price {
+  text-decoration: line-through;
+  font-weight: bold;
+  color: red;
+  display: inline;
+}
+
+.price {
+  font-weight: bold;
+  color: green; /* Optional to differentiate it from the price */
+  display: inline;
+  margin-left: 10px; /* Adjust spacing between the two prices */
+}
+
       
           
           
@@ -144,8 +160,8 @@
         <img src="{{ p.product_image.url }}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
       </div>
       <h3>{{ p.name }}</h3>
-      <p class="price">{{ p.final_price }} PKR</p>
-      <p class="final_price">{{ p.price }} PKR</p>
+      <p class="price" style="font-size: larger; color: #ff0000;">{{ p.final_price }} PKR</p>
+      <p class="final_price" >{{ p.price }} PKR</p>
 
       <div class="product-actions">
         <a href="{% url 'product_detail' p.id p.sub_category.id %}" class="view-product-btn">View Product</a>

@@ -455,6 +455,9 @@ def cart_view(request):
         except Coupon.DoesNotExist:
             messages.error(request, "This coupon is invalid or expired.")
 
+    # Save final_total in the session
+    request.session['final_total'] = final_total
+
     return render(request, 'ecom/cart.html', {
         'products': products,
         'total': total,
@@ -464,6 +467,7 @@ def cart_view(request):
         'coupon_discount': coupon_discount,
         'cart': cart,  # Passing the cart to template
     })
+
 
 # Remove from Cart View
 def remove_from_cart_view(request, pk):
@@ -565,7 +569,15 @@ def checkout(request):
             country = addressForm.cleaned_data['country']
             notes = addressForm.cleaned_data['notes']
             payment_method = addressForm.cleaned_data['payment_method']
-            total = sum(item['price'] * item['quantity'] for item in cart.values())
+            
+            # Get the final total from session
+            total = request.session.get('final_total', 0)
+
+            # Set the cookies for email, mobile, and address before redirecting
+            response = redirect('payment-success')
+            response.set_cookie('email', email)
+            response.set_cookie('mobile', mobile)
+            response.set_cookie('address', f"{address_line_1}, {address_line_2}, {city}, {state}, {zip_code}, {country}")
 
             # Get the customer instance
             customer = models.Customer.objects.get(user_id=request.user.id)
@@ -584,10 +596,12 @@ def checkout(request):
                 zip_code=zip_code,
                 country=country,
                 notes=notes,
-                total=total,
-                payment_method=payment_method
+                total=total,  # Use final_total from session here
+                payment_method=payment_method,
+                payment_status='Pending' if payment_method == 'online' else 'Completed'
             )
 
+            # Add the products to the order
             for p in cart.keys():
                 product = models.Product.objects.get(id=p)
                 models.OrderItem.objects.create(
@@ -600,18 +614,18 @@ def checkout(request):
             # Clear the cart
             request.session['cart'] = {}
 
-            if payment_method == 'online':
-                # Redirect to payment page
-                response = render(request, 'ecom/payment.html', {'total': total, 'order': order})
-                response.set_cookie('order_id', order.id)
-                return response
-            else:
-                return redirect('payment-success')  # Redirect to an order success page
+            # Set the final total and payment method in session
+            request.session['final_total'] = total
+            request.session['payment_method'] = payment_method
+
+            return response
 
     return render(request, 'ecom/customer_address.html', {
         'addressForm': addressForm,
         'product_count_in_cart': product_count_in_cart,
     })
+
+
 
 # here we are just directing to this view...actually we have to check whther payment is successful or not
 #then only this view should be accessed
@@ -619,13 +633,19 @@ def checkout(request):
 def payment_success_view(request):
     customer = Customer.objects.get(user_id=request.user.id)
 
+    # Retrieve the cart from cookies
     cart = json.loads(request.COOKIES.get('cart', '{}'))
     product_ids = list(cart.keys())
     products = Product.objects.filter(id__in=product_ids)
 
-    email = request.COOKIES.get('email')
-    mobile = request.COOKIES.get('mobile')
-    address = request.COOKIES.get('address')
+    # Retrieve values from cookies
+    email = request.COOKIES.get('email', 'Not Provided')
+    mobile = request.COOKIES.get('mobile', 'Not Provided')
+    address = request.COOKIES.get('address', 'Not Provided')
+
+    # Retrieve payment method and final_total from session
+    payment_method = request.session.get('payment_method', 'Not Selected')
+    final_total = request.session.get('final_total', 0)
 
     if products:
         # Create the main order
@@ -634,32 +654,38 @@ def payment_success_view(request):
             email=email,
             address=address,
             mobile=mobile,
+            payment_method=payment_method  # Save the selected payment method
         )
 
-        # Create individual OrderItems for each product
+        cart_details = {}
         for product in products:
-            # Fetch the correct quantity from the cart
-            quantity_data = cart[str(product.id)]
-            quantity = quantity_data['quantity'] if isinstance(quantity_data, dict) else int(quantity_data)
-
-            OrderItem.objects.create(
-                order=order,
-                product=product,
-                quantity=quantity,
-            )
+            product_id = str(product.id)
+            quantity = cart[product_id]['quantity']
+            cart_details[product_id] = {'name': product.name, 'quantity': quantity, 'price': product.final_price()}
 
         response = render(request, 'ecom/payment_success.html', {
-            'order_number': order.order_number
+            'order_number': order.order_number,
+            'email': email,
+            'mobile': mobile,
+            'address': address,
+            'cart_details': cart_details,
+            'final_total': final_total,  # Use final_total from session
+            'payment_method': payment_method,  # Pass payment method to the template
         })
 
-        # Clear cart cookies
+        # Clear cart cookies and session data
         response.delete_cookie('cart')
         response.delete_cookie('email')
         response.delete_cookie('mobile')
         response.delete_cookie('address')
+        request.session.pop('final_total', None)  # Remove final_total from session
+        request.session.pop('payment_method', None)  # Remove payment method from session
         return response
 
     return render(request, 'ecom/payment_success.html', {'error': 'No products found in cart.'})
+
+
+
 
 
 
@@ -671,7 +697,7 @@ def payment_success_view(request):
 @user_passes_test(is_customer)
 def my_order_view(request):
     customer = Customer.objects.get(user_id=request.user.id)
-    orders = Order.objects.filter(customer=customer)
+    orders = Order.objects.filter(customer=customer).order_by('-order_date')  # Order by most recent first
 
     # Check if cancel request is submitted
     if request.method == "POST":
@@ -686,13 +712,20 @@ def my_order_view(request):
 
         return redirect("my_order_view")  # Refresh the page after canceling
 
-    # Preparing order data for rendering
+    # Prepare data for rendering
     order_data = []
     for order in orders:
         items = order.items.all()  # Fetch related OrderItems
-        order_data.append({'order': order, 'items': items})
+        order_data.append({
+            'order': order,
+            'items': items,
+            'total_price': sum(item.total_price for item in items)  # Calculate total price for display
+        })
 
-    return render(request, 'ecom/my_order.html', {'orders': order_data})
+    return render(request, 'ecom/my_order.html', {'order_data': order_data})
+
+
+
 
  
 

@@ -1,91 +1,67 @@
+{% load custom_filters %}
 
-{% load static %}
-{% include "ecom/customer_navbar.html" %}
-<br><br><br><br><br><br><br>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #121212;
-    color: #fff;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
 
-.success-page {
-    text-align: center;
-    padding: 2rem 1rem;
-    margin: 0 auto;
-}
-
-.success-page img {
-    max-width: 100px;
-    margin: 0 auto 1rem;
-}
-
-.success-page h2 {
-    font-size: 1.8rem;
-    margin: 0.5rem 0;
-}
-
-.success-page p {
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 1rem;
-}
-
-.success-page a {
-    display: inline-block;
-    margin: 0.5rem;
-    padding: 0.8rem 1.2rem;
-    font-size: 1rem;
-    color: #fff;
-    background-color: #000;
-    border: 2px solid #fff;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.success-page a:hover {
-    background-color: #fff;
-    color: #000;
-}
-
-.btn-success {
-    border-color: #4caf50;
-}
-
-.btn-success:hover {
-    background-color: #4caf50;
-    color: #fff;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .success-page {
-        padding: 1.5rem;
-    }
-    .success-page h2 {
-        font-size: 1.5rem;
-    }
-    .success-page a {
-        padding: 0.6rem 1rem;
-        font-size: 0.9rem;
-    }
-}
-
-</style>
-<div class="success-page">
+    <!-- Add your CSS or Bootstrap links here -->
+</head>
+<body>
+    <div class="container">
+        {% if error %}
+            <div class="alert alert-danger">
+                <p>{{ error }}</p>
+            </div>
+        {% else %}
+            <div class="success-message">
+                <h1>Thank you for your order!</h1>
+                <p>Your order has been successfully placed.</p>
+                <p><strong>Order Number:</strong> {{ order_number }}</p>
+            </div>
     
-    <h2>Payment Successful!</h2>
-    <p>We are delighted to inform you that we received your payment.</p>
-    <br>
-    <h2>Thank you for your order!</h2>
-    <p>Order Number: <strong>{{ order_number }}</strong></p>
-    <div>
-        <a href="/my-order" class="btn btn-success">View Orders/Track Orders</a>
-        <a href="/customer-home">Continue Shopping</a>
+            <div class="order-details">
+                <h2>Order Details</h2>
+                <p><strong>Email:</strong> {{ email }}</p>
+                <p><strong>Mobile:</strong> {{ mobile }}</p>
+                <p><strong>Address:</strong> {{ address }}</p>
+                <p><strong>Payment Method:</strong> {{ payment_method }}</p> <!-- Display the payment method -->
+            </div>
+    
+            <div class="cart-summary">
+                <h2>Cart Summary</h2>
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product_id, details in cart_details.items %}
+                            <tr>
+                                <td>{{ details.name }}</td>
+                                <td>{{ details.quantity }}</td>
+                                <td>{{ details.price }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+    
+            <div class="final-total">
+                <h3><strong>Total Amount:</strong> {{ final_total }}</h3>
+            </div>
+    
+            <div class="footer">
+                <a href="/my-order" class="btn btn-primary">Track Your Order</a>
+                <a href="/customer-home" class="btn btn-secondary">Continue Shopping</a>
+            </div>
+        {% endif %}
     </div>
-</div>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-{% include "ecom/footer.html" %}
+    
+</body>
+</html>

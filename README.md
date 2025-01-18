@@ -86,3 +86,5 @@ If you'd like to contribute to the project, please fork the repository and creat
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 Feel free to modify any sections depending on your project specifics and features!
+
+![Homepage](/homepage.PNG)

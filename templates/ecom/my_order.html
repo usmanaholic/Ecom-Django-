@@ -1,27 +1,108 @@
-<h2>My Orders</h2>
-{% for data in order_data %}
-    <div class="order">
-        <h3>Order #{{ data.order.order_number }}</h3>
-        <p>Status: {{ data.order.status }}</p>
-        <p>Order Date: {{ data.order.order_date }}</p>
-        <p>Total Price: {{ data.total_price }}</p>
-        <h4>Items:</h4>
-        <ul>
-            {% for item in data.items %}
-                <li>
-                    {{ item.product.name }} - Quantity: {{ item.quantity }} - Price: {{ item.price }} - 
-                    Total: {{ item.total_price }}
-                </li>
-            {% endfor %}
-        </ul>
-        {% if data.order.can_cancel %}
-            <form method="POST" action="{% url 'my_order_view' %}">
-                {% csrf_token %}
-                <input type="hidden" name="order_id" value="{{ data.order.id }}">
-                <button type="submit">Cancel Order</button>
-            </form>
-        {% endif %}
-    </div>
-{% empty %}
-    <p>You have no orders.</p>
-{% endfor %}
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>My Orders</title>
+  </head>
+  <body>
+    <style>
+        .card {
+            border-radius: 10px;
+          }
+          
+          .modal-content {
+            border-radius: 10px;
+          }
+          
+          .horizontal-timeline .items-list {
+            display: inline-block;
+            margin: 0;
+            padding: 5px;
+          }
+
+          @media (min-width: 1025px) {
+            .h-custom {
+            height: 100vh !important;
+            }
+            }
+            
+            .horizontal-timeline .items {
+            border-top: 2px solid #ddd;
+            }
+            
+            .horizontal-timeline .items .items-list {
+            position: relative;
+            margin-right: 0;
+            }
+            
+            .horizontal-timeline .items .items-list:before {
+            content: "";
+            position: absolute;
+            height: 8px;
+            width: 8px;
+            border-radius: 50%;
+            background-color: #ddd;
+            top: 0;
+            margin-top: -5px;
+            }
+            
+            .horizontal-timeline .items .items-list {
+            padding-top: 15px;
+            }
+          
+    </style>
+    {% include "ecom/customer_navbar.html" %}
+    <div class="container py-5">
+        <header class="mb-4">
+          <h2 class="text-center">My Orders</h2>
+        </header>
+
+        <h2>My Orders</h2>
+        {% for data in order_data %}
+        <div class="order">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body text-center">
+                    <h3>Order #{{ data.order.order_number }}</h3>
+                    <p><strong>Status:</strong> {{ data.order.status }}</p>
+                    <p><strong>Order Date:</strong> {{ data.order.order_date }}</p>
+                    <p><strong>Total Price:</strong> {{ data.total_price }}</p>
+
+                    <h4>Items:</h4>
+                    <ul>
+                        {% for item in data.items %}
+                        <li>
+                            {{ item.product.name }} - Quantity: {{ item.quantity }} - Price: {{ item.price }} - 
+                            Total: {{ item.total_price }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                    {% if data.order.can_cancel %}
+                    <form method="POST" action="{% url 'my_order_view' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="order_id" value="{{ data.order.id }}">
+                        <button type="submit" class="btn btn-danger btn-sm">Cancel Order</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>You have no orders.</p>
+        {% endfor %}
+      </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
+</html>
+{% include "ecom/footer.html" %}
+
+

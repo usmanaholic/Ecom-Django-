@@ -599,6 +599,15 @@ body{
   }
 
 
+  .product-name {
+    white-space: nowrap; /* Ensure text stays in one line */
+    overflow: hidden; /* Hide the overflowing text */
+    text-overflow: ellipsis; /* Add ellipsis (...) */
+    cursor: pointer; /* Show pointer to indicate interactivity */
+    max-width: 100%; /* Adjust based on your container width */
+    display: block;
+}
+
 
   
     </style>
@@ -660,7 +669,7 @@ body{
               <h2>New Products</h2>
               <a href="{% url 'all_products' %}" class="see-more">See All Products</a>
           </div>
-          
+      
           <div class="product-slider-container">
               <button class="slider-arrow left-arrow">&#10094;</button>
               <div class="products-slider">
@@ -669,20 +678,20 @@ body{
                       <div class="product-image">
                           <!-- Badge -->
                           {% if p.free_delivery or p.discount %}
-                              <div class="badge">
-                                  {% if p.free_delivery %}
-                                      Free Delivery
-                                  {% elif p.discount %}
-                                      Save Rs.{{ p.discount }}
-                                  {% endif %}
-                              </div>
+                          <div class="badge">
+                              {% if p.free_delivery %}
+                              Free Delivery
+                              {% elif p.discount %}
+                              Save Rs.{{ p.discount }}
+                              {% endif %}
+                          </div>
                           {% endif %}
                           <img src="{{ p.product_image.url }}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
                       </div>
-                      <h3>{{ p.name }}</h3>
+                      <h3 class="product-name" title="{{ p.name }}">{{ p.name }}</h3>
                       <p class="price" style="font-size: larger; color: #ff0000;">{{ p.final_price }} PKR</p>
-                      <p class="final_price" >{{ p.price }} PKR</p>
-                      
+                      <p class="final_price">{{ p.price }} PKR</p>
+      
                       <div class="product-actions">
                           <a href="{% url 'product_detail' p.id p.sub_category.id %}" class="view-product-btn">View Product</a>
                           <a href="{% url 'add-to-cart' p.id %}" class="add-to-cart-btn">
@@ -695,6 +704,7 @@ body{
               <button class="slider-arrow right-arrow">&#10095;</button>
           </div>
       </section>
+      
       
 
     <!-- Products Section -->
@@ -722,7 +732,7 @@ body{
                       {% endif %}
                       <img src="{{ p.product_image.url }}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
                   </div>
-                  <h3>{{ p.name }}</h3>
+                  <h3 class="product-name" title="{{ p.name }}">{{ p.name }}</h3>
                   <p class="price" style="font-size: larger; color: #ff0000;">{{ p.final_price }} PKR</p>
                   <p class="final_price">{{ p.price }} PKR</p>
                   
@@ -767,7 +777,7 @@ body{
                   {% endif %}
                   <img src="{{ p.product_image.url }}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
               </div>
-              <h3>{{ p.name }}</h3>
+              <h3 class="product-name" title="{{ p.name }}">{{ p.name }}</h3>
               <p class="price" style="font-size: larger; color: #ff0000;">{{ p.final_price }} PKR</p>
                 <p class="final_price" >{{ p.price }} PKR</p>
               
@@ -874,6 +884,25 @@ body{
         });
     });
     
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const productNames = document.querySelectorAll(".product-name");
+  
+      productNames.forEach(name => {
+          name.addEventListener("click", function () {
+              if (this.style.whiteSpace === "nowrap") {
+                  this.style.whiteSpace = "normal"; // Allow multiple lines
+                  this.style.overflow = "visible"; // Show full text
+                  this.style.textOverflow = "unset"; // Remove ellipsis
+              } else {
+                  this.style.whiteSpace = "nowrap"; // Reset to original state
+                  this.style.overflow = "hidden";
+                  this.style.textOverflow = "ellipsis";
+              }
+          });
+      });
+  });
+  
     
   </script>
 </body>

@@ -596,6 +596,16 @@
           flex: 1 1 50%; /* Two items per row on very small devices */
         }
       }
+
+
+      .product-name {
+        white-space: nowrap; /* Ensure text stays in one line */
+        overflow: hidden; /* Hide the overflowing text */
+        text-overflow: ellipsis; /* Add ellipsis (...) */
+        cursor: pointer; /* Show pointer to indicate interactivity */
+        max-width: 100%; /* Adjust based on your container width */
+        display: block;
+    }
     </style>
     {% include "ecom/customer_navbar.html" %}
 
@@ -674,7 +684,7 @@
                           {% endif %}
                           <img src="{{ p.product_image.url }}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
                       </div>
-                      <h3>{{ p.name }}</h3>
+                      <h3 class="product-name" title="{{ p.name }}">{{ p.name }}</h3>
                       <p class="price" style="font-size: larger; color: #ff0000;">{{ p.final_price }} PKR</p>
                       <p class="final_price" >{{ p.price }} PKR</p>
                       
@@ -717,7 +727,7 @@
                       {% endif %}
                       <img src="{{ p.product_image.url }}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
                   </div>
-                  <h3>{{ p.name }}</h3>
+                  <h3 class="product-name" title="{{ p.name }}">{{ p.name }}</h3>
                   <p class="price" style="font-size: larger; color: #ff0000;">{{ p.final_price }} PKR</p>
                   <p class="final_price" >{{ p.price }} PKR</p>
                   
@@ -760,7 +770,7 @@
                   {% endif %}
                   <img src="{{ p.product_image.url }}" alt="{{ p.name }}" height="200" width="200" loading="lazy">
               </div>
-              <h3>{{ p.name }}</h3>
+              <h3 class="product-name" title="{{ p.name }}">{{ p.name }}</h3>
               <p class="price" style="font-size: larger; color: #ff0000;">{{ p.final_price }} PKR</p>
                 <p class="final_price" >{{ p.price }} PKR</p>
               
@@ -866,6 +876,26 @@
             });
         });
     });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const productNames = document.querySelectorAll(".product-name");
+  
+      productNames.forEach(name => {
+          name.addEventListener("click", function () {
+              if (this.style.whiteSpace === "nowrap") {
+                  this.style.whiteSpace = "normal"; // Allow multiple lines
+                  this.style.overflow = "visible"; // Show full text
+                  this.style.textOverflow = "unset"; // Remove ellipsis
+              } else {
+                  this.style.whiteSpace = "nowrap"; // Reset to original state
+                  this.style.overflow = "hidden";
+                  this.style.textOverflow = "ellipsis";
+              }
+          });
+      });
+  });
+  
+    
     
     
   </script>

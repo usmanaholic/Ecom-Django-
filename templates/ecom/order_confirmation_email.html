@@ -1,0 +1,46 @@
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+</head>
+<body>
+    <h1>New Order: {{ order.order_number }}</h1>
+    <p><strong>Customer:</strong> {{ order.first_name }} {{ order.last_name }}</p>
+    <p><strong>Email:</strong> {{ order.email }}</p>
+    <p><strong>Mobile:</strong> {{ order.mobile }}</p>
+    <p><strong>Address:</strong> {{ order.address_line_1 }}, {{ order.address_line_2 }}, {{ order.city }}, {{ order.state }}, {{ order.zip_code }}, {{ order.country }}</p>
+    <p><strong>Notes:</strong> {{ order.notes }}</p>
+    <p><strong>Total:</strong> {{ order.total }} PKR</p>
+    <p><strong>Payment Method:</strong> {{ order.payment_method }}</p>
+    <p><strong>Payment Status:</strong> {{ order.payment_status }}</p>
+
+    <h2>Ordered Items</h2>
+    <table border="1" cellpadding="5" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order_items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ item.quantity|floatformat:2|add:item.price }}</td> <!-- Assuming quantity and price are numeric -->
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No items found in this order.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib import messages
 from django.conf import settings
-from .models import Category, Product, Coupon, CouponUsage,  Order, Customer, Sub_category, OrderItem, HeroSection
+from .models import Category, Product, Coupon, CouponUsage,  Order, Customer, Sub_category, HeroSection
 from django.utils import timezone
 from .forms import CouponApplyForm
 from decimal import Decimal
@@ -569,15 +569,7 @@ def checkout(request):
             country = addressForm.cleaned_data['country']
             notes = addressForm.cleaned_data['notes']
             payment_method = addressForm.cleaned_data['payment_method']
-            
-            # Get the final total from session
-            total = request.session.get('final_total', 0)
-
-            # Set the cookies for email, mobile, and address before redirecting
-            response = redirect('payment-success')
-            response.set_cookie('email', email)
-            response.set_cookie('mobile', mobile)
-            response.set_cookie('address', f"{address_line_1}, {address_line_2}, {city}, {state}, {zip_code}, {country}")
+            total = sum(item['price'] * item['quantity'] for item in cart.values())
 
             # Get the customer instance
             customer = models.Customer.objects.get(user_id=request.user.id)
@@ -596,7 +588,7 @@ def checkout(request):
                 zip_code=zip_code,
                 country=country,
                 notes=notes,
-                total=total,  # Use final_total from session here
+                total=total,
                 payment_method=payment_method,
                 payment_status='Pending' if payment_method == 'online' else 'Completed'
             )
@@ -614,10 +606,12 @@ def checkout(request):
             # Clear the cart
             request.session['cart'] = {}
 
-            # Set the final total and payment method in session
-            request.session['final_total'] = total
-            request.session['payment_method'] = payment_method
+            # Send order confirmation email
+            send_order_confirmation_email(order)
 
+            # Redirect to payment success page
+            response = redirect('payment-success')
+            response.set_cookie('order_id', order.id)
             return response
 
     return render(request, 'ecom/customer_address.html', {
@@ -662,6 +656,16 @@ def payment_success_view(request):
             product_id = str(product.id)
             quantity = cart[product_id]['quantity']
             cart_details[product_id] = {'name': product.name, 'quantity': quantity, 'price': product.final_price()}
+
+        for p in cart.keys():
+                product = models.Product.objects.get(id=p)
+                models.OrderItem.objects.create(
+                    order=order,
+                    product=product,
+                    quantity=cart[p]['quantity'],
+                    price=product.price
+                )
+
 
         response = render(request, 'ecom/payment_success.html', {
             'order_number': order.order_number,
@@ -1011,4 +1015,30 @@ def set_delivery_method(request):
 
 
  
+from django.core.mail import send_mail 
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
+def send_order_confirmation_email(order):
+    subject = f"New Order: {order.order_number}"
+    
+    # Ensure the order and its items are correctly fetched
+    order_items = order.items.all()  # Fetch related OrderItems
+    
+    # Render the email template with the necessary context
+    html_message = render_to_string(
+        'ecom/order_confirmation_email.html',
+        {'order': order, 'order_items': order_items}
+    )
+    plain_message = strip_tags(html_message)
+    from_email = 'usmansinghi786@gmail.com'
+    to = 'lumber.samsung@gmail.com'
+
+    # Send the email
+    send_mail(
+        subject,
+        plain_message,
+        from_email,
+        [to],
+        html_message=html_message
+    )

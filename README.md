@@ -8,6 +8,7 @@ TrickStoree is an online shopping platform built using Django. It provides a use
 - **Search Functionality**: Users can search for products using a search bar.
 - **User Authentication**: Sign up, log in, and manage user profiles.
 - **Cart System**: Users can add items to their cart and proceed to checkout.
+- **coupon System**: Admin can add coupon and user can avail it.
 - **Order Management**: Users can view their order history and order details.
 - **Payment Integration**: Users can pay for their orders online (if integrated).
 - **Admin Panel**: Admin can manage products, categories, and user orders.
